@@ -530,13 +530,11 @@ class HTML_Table extends HTML_Common {
                 } else {
                     $contents = "";
                 }
-                $flagCloseTable = false;
                 $strHtml .= $tabs . "\t\t<$type" . $this->_getAttrString($attr) . ">";
                 if (is_object($contents)) {
                     if (is_subclass_of($contents, "html_common")) {
                         $contents->setTabOffset($this->_tabOffset + 3);
                         $contents->_nestLevel = $this->_nestLevel + 1;
-                        $flagCloseTable = true;
                     }
                     if (method_exists($contents, "toHtml")) {
                         $contents = $contents->toHtml();
@@ -549,7 +547,6 @@ class HTML_Table extends HTML_Common {
                 if (isset($this->_autoFill) && $contents == "")
                     $contents = $this->_autoFill;
                 $strHtml .= $contents;
-                $strHtml .= (isset($flagCloseTable)) ? "\t\t" : '';
                 $strHtml .= "</$type>\n";
             }
             $strHtml .= $tabs ."\t</tr>\n";
@@ -595,7 +592,6 @@ class HTML_Table extends HTML_Common {
 
     /**
     * Adjusts ends (total number of rows and columns)
-<<<<<<< Table.php
     * @param    int     $row        Row index
     * @param    int     $col        Column index
     * @param    string  $method     Method name of caller
@@ -604,17 +600,6 @@ class HTML_Table extends HTML_Common {
     *                               Default is an empty array.
     * @access   private
     * @throws   PEAR_Error
-=======
-    *
-    * @param    int     $row        Row index
-    * @param    int     $col        Column index
-    * @param    string  $method     Method name of caller
-    *                               Used to populate PEAR_Error if thrown.
-    * @param    array   $attributes Assoc array of attributes
-    *                               Default is an empty array.
-    * @access   private
-    * @throws   PEAR_Error
->>>>>>> 1.14
     */
     function _adjustEnds($row, $col, $method, $attributes = array())
     {
