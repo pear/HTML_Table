@@ -617,7 +617,7 @@ class HTML_Table extends HTML_Common {
                 if (is_array($contents)) {
                     $contents = implode(", ",$contents);
                 }
-                if (isset($this->_autoFill) && $contents == "") {
+                if (isset($this->_autoFill) && $contents === '') {
                     $contents = $this->_autoFill;
                 }
                 $strHtml .= $contents;
