@@ -16,6 +16,7 @@ $notes = <<<EOT
 - Added the possibility to specify on which row the cols should be counted. (Bertrand)
 - #786, if the value was a zero, the cell content was converted to the autofill value. (Bertrand)
 - #1734, _adjustEnd added a extra empty column if there was only one column being processed
+- setHeaderContents can now accept attributes, but it's optional. request #2030
 EOT;
 
 $description = <<<EOT
