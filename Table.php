@@ -335,11 +335,15 @@ class HTML_Table extends HTML_Common {
      * @param    int     $row
      * @param    int     $col
      * @param    mixed   $contents
+     * @param   mixed  $attributes Associative array or string of table row attributes
      * @access   public
      */
-    function setHeaderContents($row, $col, $contents)
+    function setHeaderContents($row, $col, $contents, $attributes = null)
     {
         $this->setCellContents($row, $col, $contents, 'TH');
+        if (!is_null($attributes)) {
+            $this->updateCellAttributes($row, $col, $attributes);
+        }
     }
 
     /**
