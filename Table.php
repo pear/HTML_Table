@@ -587,7 +587,7 @@ class HTML_Table extends HTML_Common {
                     continue;
                 }
                 if (isset($this->_structure[$i][$j]['type'])) {
-                    $type = (strtolowerr($this->_structure[$i][$j]['type']) == 'th' ? 'th' : 'td');
+                    $type = (strtolower($this->_structure[$i][$j]['type']) == 'th' ? 'th' : 'td');
                 } else {
                     $type = 'td';
                 }
