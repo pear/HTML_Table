@@ -542,6 +542,7 @@ class HTML_Table extends HTML_Common {
      */
     function toHtml()
     {
+        $strHtml = '';
         $tabs = $this->_getTabs();
         if ($this->_comment) {
             $strHtml .= $tabs . "<!-- $this->_comment -->\n";
