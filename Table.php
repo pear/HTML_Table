@@ -182,12 +182,26 @@ class HTML_Table extends HTML_Common {
     } // end func getRowCount
 
     /**
-     * Sets the number of columns in the table
+     * Gets the number of columns in the table
+     *
+     * If a row index is specified, the count will not take
+     * the spanned cells into account in the return value.
+     *
+     * @param	 int 	Row index to serve for cols count
      * @access   public
      * @return   int
      */
-    function getColCount()
+    function getColCount($row = null)
     {
+        if (!is_null($row)) {
+            $count = 0;
+            foreach ($this->_structure[$row] as $cell) {
+                if (is_array($cell)) {
+                    $count++;   
+                }
+            }
+            return $count;
+        }
         return $this->_cols;
     } // end func getColCount
 
