@@ -54,7 +54,7 @@ if (PEAR::isError($result)) {
 
 $package->addMaintainer('mansion',  'lead',        'Bertrand Mansion',      'bmansion@mamasam.com');
 $package->addMaintainer('thesaur',  'lead',        'Klaus Guenther',   'thesaur@php.net');
-$package->addMaintainer('dufuz',   'developer',   'Helgi &#x00DE;ormar',      'dufuz@php.net');
+$package->addMaintainer('dufuz',   'developer',   'Helgi Þormar',      'dufuz@php.net');
 
 $package->addDependency('PEAR',      false,   'has', 'pkg', false);
 $package->addDependency('HTML_Common',       '1.2.0',   'ge',  'pkg', false);

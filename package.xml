@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="ISO-8859-1" ?>
 <!DOCTYPE package SYSTEM "http://pear.php.net/dtd/package-1.0">
 <package version="1.0" packagerversion="1.4.0a1">
- <name>HTML_Table</name>       
+ <name>HTML_Table</name>
  <summary>PEAR::HTML_Table makes the design of HTML tables easy, flexible, reusable and efficient.</summary>
  <description>The PEAR::HTML_Table package provides methods for easy and efficient design of HTML tables.
 * Lots of customization options.
@@ -26,14 +26,14 @@
   </maintainer>
   <maintainer>
    <user>dufuz</user>
-   <name>Helgi &amp;#x00DE;ormar</name>
+   <name>Helgi &THORN;ormar</name>
    <email>dufuz@php.net</email>
    <role>developer</role>
   </maintainer>
   </maintainers>
  <release>
   <version>1.5.1</version>
-  <date>2005-02-26</date>
+  <date>2005-02-27</date>
   <license>PHP_License</license>
   <state>stable</state>
   <notes>- td/th aren't longer case sensetive in addRow() and relative functions
@@ -59,7 +59,7 @@
  <changelog>
    <release>
     <version>1.5.1</version>
-    <date>2005-02-26</date>
+    <date>2005-02-27</date>
     <license>PHP_License</license>
     <state>stable</state>
     <notes>- td/th aren't longer case sensetive in addRow() and relative functions
