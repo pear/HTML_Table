@@ -12,7 +12,9 @@ require_once 'Console/Getopt.php';
 $version = '1.5.1';
 
 $notes = <<<EOT
-- td/th aren't longer case sensetive in addRow() and reletive functions
+- td/th aren't longer case sensetive in addRow() and relative functions
+- Added the possibility to specify on which row the cols should be counted. (Bertrand)
+- #786, if the value was a zero, the cell content was converted to the autofill value. (Bertrand)
 EOT;
 
 $description = <<<EOT
