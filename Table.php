@@ -363,9 +363,11 @@ class HTML_Table extends HTML_Common {
         if (isset($contents) && !is_array($contents)) {
             return PEAR::raiseError('First parameter to HTML_Table::addRow must be an array');
         }
+
         $type = strtolower($type);
         $row = $this->_rows++;
-        for ($counter = 0; $counter < count($contents); $counter++) {
+        $contentCount = count($contents);
+        for ($counter = 0; $counter < $contentCount; $counter++) {
             if ($type == 'td') {
                 $this->setCellContents($row, $counter, $contents[$counter]);
             } elseif ($type == 'th') {
@@ -486,7 +488,8 @@ class HTML_Table extends HTML_Common {
         }
         $type = strtolower($type);
         $col = $this->_cols++;
-        for ($counter = 0; $counter < count($contents); $counter++) {
+        $contentCount = count($contents);
+        for ($counter = 0; $counter < $contentCount; $counter++) {
             $this->setCellContents($counter, $col, $contents[$counter], $type);
         }
         $this->setColAttributes($col, $attributes);
