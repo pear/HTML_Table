@@ -65,7 +65,7 @@ class HTML_Table extends HTML_Common {
      * @access  private
      */
     var $_cols = 0;
-    
+
     /**
      * Tracks the level of nested tables
      * @var    int
@@ -221,8 +221,8 @@ class HTML_Table extends HTML_Common {
     /**
      * Sets the cell attributes for an existing cell.
      *
-     * If the given indices do not exist and autoGrow is true then the given 
-     * row and/or col is automatically added.  If autoGrow is false then an 
+     * If the given indices do not exist and autoGrow is true then the given
+     * row and/or col is automatically added.  If autoGrow is false then an
      * error is returned.
      * @param    int        $row         Row index
      * @param    int        $col         Column index
@@ -260,7 +260,7 @@ class HTML_Table extends HTML_Common {
         $this->_updateAttrArray($this->_structure[$row][$col]["attr"], $attributes);
         $this->_updateSpanGrid($row, $col);
     } // end func updateCellAttributes
-    
+
     /**
      * Returns the attributes for a given cell
      * @param    int     $row         Row index
@@ -282,8 +282,8 @@ class HTML_Table extends HTML_Common {
     /**
      * Sets the cell contents for an existing cell
      *
-     * If the given indices do not exist and autoGrow is true then the given 
-     * row and/or col is automatically added.  If autoGrow is false then an 
+     * If the given indices do not exist and autoGrow is true then the given
+     * row and/or col is automatically added.  If autoGrow is false then an
      * error is returned.
      * @param    int      $row        Row index
      * @param    int      $col        Column index
@@ -311,7 +311,7 @@ class HTML_Table extends HTML_Common {
      * @return   mixed
      */
     function getCellContents($row, $col)
-    {        
+    {
         if (isset($this->_structure[$row][$col]) && $this->_structure[$row][$col] == "__SPANNED__") return;
         return $this->_structure[$row][$col]["contents"];
     } // end func getCellContents
@@ -340,7 +340,7 @@ class HTML_Table extends HTML_Common {
      * @return   int
      * @access   public
      */
-    function addRow($contents = null, $attributes = null, $type = 'TD', $inTR = false) 
+    function addRow($contents = null, $attributes = null, $type = 'TD', $inTR = false)
     {
         if (isset($contents) && !is_array($contents)) {
             return $this->raiseError("First parameter to HTML_Table::addRow must be an array");
@@ -374,7 +374,7 @@ class HTML_Table extends HTML_Common {
         if (!$inTR) {
             for ($i = 0; $i < $this->_cols; $i++) {
                 if ($multiAttr) {
-                    $this->setCellAttributes($row, $i, 
+                    $this->setCellAttributes($row, $i,
                         $attributes[$i - ((ceil(($i+1) / count($attributes)))-1) * count($attributes)]);
                 } else {
                     $this->setCellAttributes($row, $i, $attributes);
@@ -405,7 +405,7 @@ class HTML_Table extends HTML_Common {
         if (!$inTR) {
             for ($i = 0; $i < $this->_cols; $i++) {
                 if ($multiAttr) {
-                    $this->updateCellAttributes($row, $i, 
+                    $this->updateCellAttributes($row, $i,
                         $attributes[$i - ((ceil(($i+1) / count($attributes)))-1) * count($attributes)]);
                 } else {
                     $this->updateCellAttributes($row, $i, $attributes);
@@ -418,7 +418,7 @@ class HTML_Table extends HTML_Common {
                 return $err;
             }
             $this->_updateAttrArray($this->_structure[$row]['attr'], $attributes);
-        }       
+        }
     } // end func updateRowAttributes
 
     /**
@@ -444,7 +444,7 @@ class HTML_Table extends HTML_Common {
      *                                    true if attributes are to be applied in TR tag
      * @access   public
      */
-    function altRowAttributes($start, $attributes1, $attributes2, $inTR = false) 
+    function altRowAttributes($start, $attributes1, $attributes2, $inTR = false)
     {
         for ($row = $start ; $row < $this->_rows ; $row++) {
             $attributes = ( ($row+$start)%2 == 0 ) ? $attributes1 : $attributes2;
@@ -484,7 +484,7 @@ class HTML_Table extends HTML_Common {
         $multiAttr = $this->_isAttributesArray($attributes);
         for ($i = 0; $i < $this->_rows; $i++) {
             if ($multiAttr) {
-                $this->setCellAttributes($i, $col, 
+                $this->setCellAttributes($i, $col,
                     $attributes[$i - ((ceil(($i+1) / count($attributes)))-1) * count($attributes)]);
             } else {
                 $this->setCellAttributes($i, $col, $attributes);
@@ -503,7 +503,7 @@ class HTML_Table extends HTML_Common {
         $multiAttr = $this->_isAttributesArray($attributes);
         for ($i = 0; $i < $this->_rows; $i++) {
             if ($multiAttr) {
-                $this->updateCellAttributes($i, $col, 
+                $this->updateCellAttributes($i, $col,
                     $attributes[$i - ((ceil(($i+1) / count($attributes)))-1) * count($attributes)]);
             } else {
                 $this->updateCellAttributes($i, $col, $attributes);
@@ -539,14 +539,14 @@ class HTML_Table extends HTML_Common {
      * Returns the table structure as HTML
      * @access  public
      * @return  string
-     */      
+     */
     function toHtml()
     {
         $tabs = $this->_getTabs();
         if ($this->_comment) {
             $strHtml .= $tabs . "<!-- $this->_comment -->\n";
         }
-        $strHtml .= 
+        $strHtml .=
             $tabs . "<table" . $this->_getAttrString($this->_attributes) . ">\n";
         if (!empty($this->_structure["caption"])) {
             $attr = $this->_structure["caption"]["attr"];
@@ -682,7 +682,7 @@ class HTML_Table extends HTML_Common {
     function _isAttributesArray($attributes)
     {
         if (is_array($attributes[0]) || (is_string($attributes[0]) && count($attributes) > 1)) {
-            return true;    
+            return true;
         }
         return false;
     } // end func _isAttributesArray
