@@ -3,7 +3,7 @@
 // +----------------------------------------------------------------------+
 // | PHP Version 4                                                        |
 // +----------------------------------------------------------------------+
-// | Copyright (c) 1997, 1998, 1999, 2000, 2001 The PHP Group             |
+// | Copyright (c) 1997 - 2005 The PHP Group                              |
 // +----------------------------------------------------------------------+
 // | This source file is subject to version 2.0 of the PHP license,       |
 // | that is bundled with this package in the file LICENSE, and is        |
@@ -394,7 +394,7 @@ class HTML_Table extends HTML_Common {
             for ($i = 0; $i < $this->_cols; $i++) {
                 if ($multiAttr) {
                     $this->setCellAttributes($row, $i,
-                        $attributes[$i - ((ceil(($i+1) / count($attributes)))-1) * count($attributes)]);
+                        $attributes[$i - ((ceil(($i + 1) / count($attributes))) - 1) * count($attributes)]);
                 } else {
                     $this->setCellAttributes($row, $i, $attributes);
                 }
@@ -425,7 +425,7 @@ class HTML_Table extends HTML_Common {
             for ($i = 0; $i < $this->_cols; $i++) {
                 if ($multiAttr) {
                     $this->updateCellAttributes($row, $i,
-                        $attributes[$i - ((ceil(($i+1) / count($attributes)))-1) * count($attributes)]);
+                        $attributes[$i - ((ceil(($i + 1) / count($attributes))) - 1) * count($attributes)]);
                 } else {
                     $this->updateCellAttributes($row, $i, $attributes);
                 }
@@ -466,7 +466,7 @@ class HTML_Table extends HTML_Common {
     function altRowAttributes($start, $attributes1, $attributes2, $inTR = false)
     {
         for ($row = $start ; $row < $this->_rows ; $row++) {
-            $attributes = ( ($row+$start)%2 == 0 ) ? $attributes1 : $attributes2;
+            $attributes = ( ($row + $start) % 2 == 0 ) ? $attributes1 : $attributes2;
             $this->updateRowAttributes($row, $attributes, $inTR);
         }
     }
@@ -505,7 +505,7 @@ class HTML_Table extends HTML_Common {
         for ($i = 0; $i < $this->_rows; $i++) {
             if ($multiAttr) {
                 $this->setCellAttributes($i, $col,
-                    $attributes[$i - ((ceil(($i+1) / count($attributes)))-1) * count($attributes)]);
+                    $attributes[$i - ((ceil(($i + 1) / count($attributes))) - 1) * count($attributes)]);
             } else {
                 $this->setCellAttributes($i, $col, $attributes);
             }
@@ -524,7 +524,7 @@ class HTML_Table extends HTML_Common {
         for ($i = 0; $i < $this->_rows; $i++) {
             if ($multiAttr) {
                 $this->updateCellAttributes($i, $col,
-                    $attributes[$i - ((ceil(($i+1) / count($attributes)))-1) * count($attributes)]);
+                    $attributes[$i - ((ceil(($i + 1) / count($attributes))) - 1) * count($attributes)]);
             } else {
                 $this->updateCellAttributes($i, $col, $attributes);
             }
@@ -591,7 +591,7 @@ class HTML_Table extends HTML_Common {
                 $attr     = '';
                 $contents = '';
                 $type     = 'td';
-                if (isset($this -> _structure[$i][$j]) && $this->_structure[$i][$j] == '__SPANNED__') {
+                if (isset($this->_structure[$i][$j]) && $this->_structure[$i][$j] == '__SPANNED__') {
                     $strHtml .= $tabs . $tab . $tab .'<!-- span -->' . $lnEnd;
                     continue;
                 }
@@ -620,7 +620,7 @@ class HTML_Table extends HTML_Common {
                     }
                 }
                 if (is_array($contents)) {
-                    $contents = implode(', ',$contents);
+                    $contents = implode(', ', $contents);
                 }
                 if (isset($this->_autoFill) && $contents === '') {
                     $contents = $this->_autoFill;
@@ -645,22 +645,26 @@ class HTML_Table extends HTML_Common {
         if (isset($this->_structure[$row][$col]['attr']['colspan'])) {
             $colspan = $this->_structure[$row][$col]['attr']['colspan'];
         }
+
         if (isset($this->_structure[$row][$col]['attr']['rowspan'])) {
             $rowspan = $this->_structure[$row][$col]['attr']['rowspan'];
         }
+
         if (isset($colspan)) {
-            for ($j = $col+1; (($j < $this->_cols) && ($j <= ($col + $colspan - 1))); $j++) {
+            for ($j = $col + 1; (($j < $this->_cols) && ($j <= ($col + $colspan - 1))); $j++) {
                 $this->_structure[$row][$j] = '__SPANNED__';
             }
         }
+
         if (isset($rowspan)) {
-            for ($i = $row+1; (($i < $this->_rows) && ($i <= ($row + $rowspan - 1))); $i++) {
+            for ($i = $row + 1; (($i < $this->_rows) && ($i <= ($row + $rowspan - 1))); $i++) {
                 $this->_structure[$i][$col] = '__SPANNED__';
             }
         }
+
         if (isset($colspan) && isset($rowspan)) {
-            for ($i = $row+1; (($i < $this->_rows) && ($i <= ($row + $rowspan - 1))); $i++) {
-                for ($j = $col+1; (($j <= $this->_cols) && ($j <= ($col + $colspan - 1))); $j++) {
+            for ($i = $row + 1; (($i < $this->_rows) && ($i <= ($row + $rowspan - 1))); $i++) {
+                for ($j = $col + 1; (($j <= $this->_cols) && ($j <= ($col + $colspan - 1))); $j++) {
                     $this->_structure[$i][$j] = '__SPANNED__';
                 }
             }
@@ -690,6 +694,7 @@ class HTML_Table extends HTML_Common {
                     $row . '] in HTML_Table::' . $method);
             }
         }
+
         if (($col + $colspan - 1) >= $this->_cols) {
             if ($this->_autoGrow) {
                 if ($col == '1') {
