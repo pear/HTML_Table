@@ -588,9 +588,9 @@ class HTML_Table extends HTML_Common {
             }
             $strHtml .= $tabs .$tab . '<tr'.$attr.'>' . $lnEnd;
             for ($j = 0 ; $j < $this->_cols ; $j++) {
-                $attr        = '';
+                $attr     = '';
                 $contents = '';
-                $type       = 'td';
+                $type     = 'td';
                 if (isset($this -> _structure[$i][$j]) && $this->_structure[$i][$j] == '__SPANNED__') {
                     $strHtml .= $tabs . $tab . $tab .'<!-- span -->' . $lnEnd;
                     continue;
