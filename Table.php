@@ -271,12 +271,12 @@ class HTML_Table extends HTML_Common {
     function getCellAttributes($row, $col)
     {
         if (isset($this->_structure[$row][$col]) && $this->_structure[$row][$col] != '__SPANNED__') {
-	        return $this->_structure[$row][$col]['attr'];
+            return $this->_structure[$row][$col]['attr'];
         } elseif (!isset($this->_structure[$row][$col])) {
             return $this->raiseError('Invalid table cell reference[' .
                 $row . '][' . $col . '] in HTML_Table::getCellAttributes');
         }
-	    return;
+        return;
     } // end func getCellAttributes
 
     /**
@@ -332,11 +332,11 @@ class HTML_Table extends HTML_Common {
      * Adds a table row and returns the row identifier
      * @param    array    $contents   (optional) Must be a indexed array of valid cell contents
      * @param    mixed    $attributes (optional) Associative array or string of table row attributes
-     *								  This can also be an array of attributes, in which case the attributes
-     *								  will be repeated in a loop.
+     *                                This can also be an array of attributes, in which case the attributes
+     *                                will be repeated in a loop.
      * @param    string   $type       (optional) Cell type either 'TH' or 'TD'
-     * @param    bool     $inTR     	  false if attributes are to be applied in TD tags
-     *									  true if attributes are to be applied in TR tag
+     * @param    bool     $inTR           false if attributes are to be applied in TD tags
+     *                                    true if attributes are to be applied in TR tag
      * @return   int
      * @access   public
      */
@@ -353,7 +353,7 @@ class HTML_Table extends HTML_Common {
                 $this->setHeaderContents($row, $counter, $contents[$counter]);
             }
         }
-	   	$this->setRowAttributes($row, $attributes, $inTR);
+        $this->setRowAttributes($row, $attributes, $inTR);
         return $row;
     } // end func addRow
 
@@ -361,64 +361,64 @@ class HTML_Table extends HTML_Common {
      * Sets the row attributes for an existing row
      * @param    int      $row            Row index
      * @param    mixed    $attributes     Associative array or string of table row attributes
-     *								  	  This can also be an array of attributes, in which case the attributes
-     *								  	  will be repeated in a loop.
-     * @param    bool     $inTR     	  false if attributes are to be applied in TD tags
-     *									  true if attributes are to be applied in TR tag
+     *                                    This can also be an array of attributes, in which case the attributes
+     *                                    will be repeated in a loop.
+     * @param    bool     $inTR           false if attributes are to be applied in TD tags
+     *                                    true if attributes are to be applied in TR tag
      * @access   public
      * @throws   PEAR_Error
      */
     function setRowAttributes($row, $attributes, $inTR = false)
     {
-    	$multiAttr = $this->_isAttributesArray($attributes);
-    	if (!$inTR) {
-	        for ($i = 0; $i < $this->_cols; $i++) {
-    	    	if ($multiAttr) {
-    	       	    $this->setCellAttributes($row, $i, 
-    	        	   	$attributes[$i - ((ceil(($i+1) / count($attributes)))-1) * count($attributes)]);
-				} else {
-    	        	$this->setCellAttributes($row, $i, $attributes);
-				}
-    	    }
-    	} else {
-	        $attributes = $this->_parseAttributes($attributes);
-	        $err = $this->_adjustEnds($row, 1, 'setRowAttributes', $attributes);
-    	    if (PEAR::isError($err)) {
-    	        return $err;
-    	    }
-    	    $this->_structure[$row]['attr'] = $attributes;
-    	}
+        $multiAttr = $this->_isAttributesArray($attributes);
+        if (!$inTR) {
+            for ($i = 0; $i < $this->_cols; $i++) {
+                if ($multiAttr) {
+                    $this->setCellAttributes($row, $i, 
+                        $attributes[$i - ((ceil(($i+1) / count($attributes)))-1) * count($attributes)]);
+                } else {
+                    $this->setCellAttributes($row, $i, $attributes);
+                }
+            }
+        } else {
+            $attributes = $this->_parseAttributes($attributes);
+            $err = $this->_adjustEnds($row, 1, 'setRowAttributes', $attributes);
+            if (PEAR::isError($err)) {
+                return $err;
+            }
+            $this->_structure[$row]['attr'] = $attributes;
+        }
     } // end func setRowAttributes
 
     /**
      * Updates the row attributes for an existing row
      * @param    int      $row            Row index
      * @param    mixed    $attributes     Associative array or string of table row attributes
-     * @param    bool     $inTR     	  false if attributes are to be applied in TD tags
-     *									  true if attributes are to be applied in TR tag
+     * @param    bool     $inTR           false if attributes are to be applied in TD tags
+     *                                    true if attributes are to be applied in TR tag
      * @access   public
      * @throws   PEAR_Error
      */
     function updateRowAttributes($row, $attributes = null, $inTR = false)
     {
-    	$multiAttr = $this->_isAttributesArray($attributes);
-    	if (!$inTR) {
-	        for ($i = 0; $i < $this->_cols; $i++) {
-    	    	if ($multiAttr) {
-    	       	    $this->updateCellAttributes($row, $i, 
-    	        	   	$attributes[$i - ((ceil(($i+1) / count($attributes)))-1) * count($attributes)]);
-				} else {
-    	        	$this->updateCellAttributes($row, $i, $attributes);
-				}
-    	    }
-    	} else {
-	        $attributes = $this->_parseAttributes($attributes);
-	        $err = $this->_adjustEnds($row, 1, 'updateRowAttributes', $attributes);
-    	    if (PEAR::isError($err)) {
-    	        return $err;
-    	    }
-	        $this->_updateAttrArray($this->_structure[$row]['attr'], $attributes);
-    	}    	
+        $multiAttr = $this->_isAttributesArray($attributes);
+        if (!$inTR) {
+            for ($i = 0; $i < $this->_cols; $i++) {
+                if ($multiAttr) {
+                    $this->updateCellAttributes($row, $i, 
+                        $attributes[$i - ((ceil(($i+1) / count($attributes)))-1) * count($attributes)]);
+                } else {
+                    $this->updateCellAttributes($row, $i, $attributes);
+                }
+            }
+        } else {
+            $attributes = $this->_parseAttributes($attributes);
+            $err = $this->_adjustEnds($row, 1, 'updateRowAttributes', $attributes);
+            if (PEAR::isError($err)) {
+                return $err;
+            }
+            $this->_updateAttrArray($this->_structure[$row]['attr'], $attributes);
+        }       
     } // end func updateRowAttributes
 
     /**
@@ -430,9 +430,9 @@ class HTML_Table extends HTML_Common {
     function getRowAttributes($row)
     {
         if (isset($this->_structure[$row]['attr'])) {
-	        return $this->_structure[$row]['attr'];
+            return $this->_structure[$row]['attr'];
         }
-	    return;
+        return;
     } // end func getRowAttributes
 
     /**
@@ -440,16 +440,16 @@ class HTML_Table extends HTML_Common {
      * @param    int      $start          Row index of row in which alternating begins
      * @param    mixed    $attributes1    Associative array or string of table row attributes
      * @param    mixed    $attributes2    Associative array or string of table row attributes
-     * @param    bool     $inTR     	  false if attributes are to be applied in TD tags
-     *									  true if attributes are to be applied in TR tag
+     * @param    bool     $inTR           false if attributes are to be applied in TD tags
+     *                                    true if attributes are to be applied in TR tag
      * @access   public
      */
     function altRowAttributes($start, $attributes1, $attributes2, $inTR = false) 
     {
-		for ($row = $start ; $row < $this->_rows ; $row++) {
-			$attributes = ( ($row+$start)%2 == 0 ) ? $attributes1 : $attributes2;
-			$this->updateRowAttributes($row, $attributes, $inTR);
-		}
+        for ($row = $start ; $row < $this->_rows ; $row++) {
+            $attributes = ( ($row+$start)%2 == 0 ) ? $attributes1 : $attributes2;
+            $this->updateRowAttributes($row, $attributes, $inTR);
+        }
     } // end func altRowAttributes
 
     /**
@@ -481,14 +481,14 @@ class HTML_Table extends HTML_Common {
      */
     function setColAttributes($col, $attributes = null)
     {
-    	$multiAttr = $this->_isAttributesArray($attributes);
-	    for ($i = 0; $i < $this->_rows; $i++) {
-   	    	if ($multiAttr) {
-           	    $this->setCellAttributes($i, $col, 
-            	   	$attributes[$i - ((ceil(($i+1) / count($attributes)))-1) * count($attributes)]);
-			} else {
-            	$this->setCellAttributes($i, $col, $attributes);
-			}
+        $multiAttr = $this->_isAttributesArray($attributes);
+        for ($i = 0; $i < $this->_rows; $i++) {
+            if ($multiAttr) {
+                $this->setCellAttributes($i, $col, 
+                    $attributes[$i - ((ceil(($i+1) / count($attributes)))-1) * count($attributes)]);
+            } else {
+                $this->setCellAttributes($i, $col, $attributes);
+            }
         }
     } // end func setColAttributes
 
@@ -502,12 +502,12 @@ class HTML_Table extends HTML_Common {
     {
         $multiAttr = $this->_isAttributesArray($attributes);
         for ($i = 0; $i < $this->_rows; $i++) {
-   	    	if ($multiAttr) {
-           	    $this->updateCellAttributes($i, $col, 
-            	   	$attributes[$i - ((ceil(($i+1) / count($attributes)))-1) * count($attributes)]);
-			} else {
-            	$this->updateCellAttributes($i, $col, $attributes);
-			}
+            if ($multiAttr) {
+                $this->updateCellAttributes($i, $col, 
+                    $attributes[$i - ((ceil(($i+1) / count($attributes)))-1) * count($attributes)]);
+            } else {
+                $this->updateCellAttributes($i, $col, $attributes);
+            }
         }
     } // end func updateColAttributes
 
@@ -557,11 +557,11 @@ class HTML_Table extends HTML_Common {
             $strHtml .= "</caption>\n";
         }
         for ($i = 0 ; $i < $this->_rows ; $i++) {
-        	if (isset($this->_structure[$i]['attr'])) {
-        		$strHtml .= $tabs ."\t<tr".$this->_getAttrString($this->_structure[$i]['attr']).">\n";
-        	} else {
-	            $strHtml .= $tabs ."\t<tr>\n";
-	        }
+            if (isset($this->_structure[$i]['attr'])) {
+                $strHtml .= $tabs ."\t<tr".$this->_getAttrString($this->_structure[$i]['attr']).">\n";
+            } else {
+                $strHtml .= $tabs ."\t<tr>\n";
+            }
             for ($j = 0 ; $j < $this->_cols ; $j++) {
                 if (isset($this -> _structure[$i][$j]) && $this->_structure[$i][$j] == "__SPANNED__") {
                     $strHtml .= $tabs ."\t\t<!-- span -->\n";
@@ -681,10 +681,10 @@ class HTML_Table extends HTML_Common {
     */
     function _isAttributesArray($attributes)
     {
-    	if (is_array($attributes[0]) || (is_string($attributes[0]) && count($attributes) > 1)) {
-    		return true;	
-    	}
-    	return false;
+        if (is_array($attributes[0]) || (is_string($attributes[0]) && count($attributes) > 1)) {
+            return true;    
+        }
+        return false;
     } // end func _isAttributesArray
 } // end class HTML_Table
 ?>
