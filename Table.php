@@ -83,7 +83,7 @@ class HTML_Table extends HTML_Common {
     {
         $commonVersion = 1.3;
         if (HTML_Common::apiVersion() < $commonVersion) {
-            return $this->raiseError("HTML_Table version " . $this->apiVersion() . " requires " .
+            return PEAR::raiseError("HTML_Table version " . $this->apiVersion() . " requires " .
                 "HTML_Common version $commonVersion or greater.", 0, PEAR_ERROR_TRIGGER);
         }
         HTML_Common::HTML_Common($attributes, $tabOffset);
@@ -273,7 +273,7 @@ class HTML_Table extends HTML_Common {
         if (isset($this->_structure[$row][$col]) && $this->_structure[$row][$col] != '__SPANNED__') {
             return $this->_structure[$row][$col]['attr'];
         } elseif (!isset($this->_structure[$row][$col])) {
-            return $this->raiseError('Invalid table cell reference[' .
+            return PEAR::raiseError('Invalid table cell reference[' .
                 $row . '][' . $col . '] in HTML_Table::getCellAttributes');
         }
         return;
@@ -343,7 +343,7 @@ class HTML_Table extends HTML_Common {
     function addRow($contents = null, $attributes = null, $type = 'TD', $inTR = false)
     {
         if (isset($contents) && !is_array($contents)) {
-            return $this->raiseError("First parameter to HTML_Table::addRow must be an array");
+            return PEAR::raiseError("First parameter to HTML_Table::addRow must be an array");
         }
         $row = $this->_rows++;
         for ($counter = 0; $counter < count($contents); $counter++) {
@@ -463,7 +463,7 @@ class HTML_Table extends HTML_Common {
     function addCol($contents = null, $attributes = null, $type = 'TD')
     {
         if (isset($contents) && !is_array($contents)) {
-            return $this->raiseError("First parameter to HTML_Table::addCol must be an array");
+            return PEAR::raiseError("First parameter to HTML_Table::addCol must be an array");
         }
         $col = $this->_cols++;
         for ($counter = 0; $counter < count($contents); $counter++) {
@@ -660,7 +660,7 @@ class HTML_Table extends HTML_Common {
             if ($this->_autoGrow) {
                 $this->_rows = $row + $rowspan;
             } else {
-                return $this->raiseError('Invalid table row reference[' .
+                return PEAR::raiseError('Invalid table row reference[' .
                     $row . '] in HTML_Table::' . $method);
             }
         }
@@ -668,7 +668,7 @@ class HTML_Table extends HTML_Common {
             if ($this->_autoGrow) {
                 $this->_cols = $col + $colspan;
             } else {
-                return $this->raiseError('Invalid table column reference[' .
+                return PEAR::raiseError('Invalid table column reference[' .
                     $col . '] in HTML_Table::' . $method);
             }
         }
