@@ -48,7 +48,7 @@ if (PEAR::isError($result)) {
     echo $result->getMessage();
 }
 
-$package->addMaintainer('manison',  'lead',        'Bertrand Mansion',      'bmansion@mamasam.com');
+$package->addMaintainer('mansion',  'lead',        'Bertrand Mansion',      'bmansion@mamasam.com');
 $package->addMaintainer('thesaur',  'lead',        'Klaus Guenther',   'thesaur@php.net');
 $package->addMaintainer('dufuz',   'developer',   'Helgi Þormar',      'dufuz@php.net');
 
