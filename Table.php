@@ -575,35 +575,34 @@ class HTML_Table extends HTML_Common {
             $attr = $this->_structure['caption']['attr'];
             $contents = $this->_structure['caption']['contents'];
             $strHtml .= $tabs . $tab . '<caption' . $this->_getAttrString($attr) . '>';
-            if (is_array($contents)) $contents = implode(', ', $contents);
+            if (is_array($contents)) {
+                $contents = implode(', ', $contents);
+            }
             $strHtml .= $contents;
             $strHtml .= '</caption>' . $lnEnd;
         }
         for ($i = 0 ; $i < $this->_rows ; $i++) {
+            $attr = '';
             if (isset($this->_structure[$i]['attr'])) {
-                $strHtml .= $tabs . $tab . '<tr'.$this->_getAttrString($this->_structure[$i]['attr']).'>' . $lnEnd;
-            } else {
-                $strHtml .= $tabs .$tab . '<tr>' . $lnEnd;
+                $attr = $this->_getAttrString($this->_structure[$i]['attr']);
             }
+            $strHtml .= $tabs .$tab . '<tr'.$attr.'>' . $lnEnd;
             for ($j = 0 ; $j < $this->_cols ; $j++) {
+                $attr        = '';
+                $contents = '';
+                $type       = 'td';
                 if (isset($this -> _structure[$i][$j]) && $this->_structure[$i][$j] == '__SPANNED__') {
                     $strHtml .= $tabs . $tab . $tab .'<!-- span -->' . $lnEnd;
                     continue;
                 }
                 if (isset($this->_structure[$i][$j]['type'])) {
                     $type = (strtolower($this->_structure[$i][$j]['type']) == 'th' ? 'th' : 'td');
-                } else {
-                    $type = 'td';
                 }
                 if (isset($this->_structure[$i][$j]['attr'])) {
                     $attr = $this->_structure[$i][$j]['attr'];
-                } else {
-                    $attr = '';
                 }
                 if (isset($this->_structure[$i][$j]['contents'])) {
                     $contents = $this->_structure[$i][$j]['contents'];
-                } else {
-                    $contents = '';
                 }
                 $strHtml .= $tabs . $tab . $tab . "<$type" . $this->_getAttrString($attr) . '>';
                 if (is_object($contents)) {
