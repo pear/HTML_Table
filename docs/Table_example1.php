@@ -6,8 +6,8 @@
 */
 // $Id$
 
-require_once('HTML/Table.php');
-$table =new HTML_Table('width=400');
+require_once 'HTML/Table.php';
+$table =& new HTML_Table('width = "400"');
 
 $data[0][] = 'i am';
 $data[0][] = 'i think';
@@ -25,23 +25,25 @@ $data[2][] = 'i think';
 $data[2][] = 'i think';
 
 foreach($data as $key => $value) {
-	$table->addRow($data[$key], array(array('bgcolor' =>'blue', 'align' => 'center'), array('bgcolor' => 'green'), array('bgcolor' => 'red')) );
+	$table->addRow($data[$key], array(array('bgcolor' => 'blue', 'align' => 'center'), 
+                                                           array('bgcolor' => 'green'), 
+                                                           array('bgcolor' => 'red')));
 }
 
 foreach($data as $key => $value) {
-	$table->addRow($data[$key], array('bgcolor=blue','bgcolor=green','bgcolor=red') );
+	$table->addRow($data[$key], array('bgcolor = "blue"','bgcolor = "green"','bgcolor = "red"'));
 }
 
 foreach($data as $key => $value) {
-	$table->addRow($data[$key], 'bgcolor=yellow align=right', 'TD', true );
+	$table->addRow($data[$key], 'bgcolor = "yellow" align = "right"', 'TD', true);
 }
 
 foreach($data as $key => $value) {
-	$table->addRow($data[$key], array('bgcolor' => 'pink', 'align' => 'center') );
+	$table->addRow($data[$key], array('bgcolor' => 'pink', 'align' => 'center'));
 }
 
-$table->setColAttributes(1, 'bgcolor=purple');
-$table->updateColAttributes(2, array('bgcolor=blue','bgcolor=green','bgcolor=red'));
+$table->setColAttributes(1, 'bgcolor = "purple"');
+$table->updateColAttributes(2, array('bgcolor = "blue"','bgcolor = "green"','bgcolor = "red"'));
 
 echo '<pre>';
 var_dump($table->getCellAttributes(2, 2));

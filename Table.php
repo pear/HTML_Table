@@ -19,8 +19,8 @@
 //
 // $Id$
 
-require_once "PEAR.php";
-require_once "HTML/Common.php";
+require_once 'PEAR.php';
+require_once 'HTML/Common.php';
 
 /**
  * Builds an HTML table
@@ -43,7 +43,7 @@ class HTML_Table extends HTML_Common {
      * @var    string
      * @access private
      */
-    var $_autoFill = "&nbsp;";
+    var $_autoFill = '&nbsp;';
 
     /**
      * Array containing the table structure
@@ -83,11 +83,11 @@ class HTML_Table extends HTML_Common {
     {
         $commonVersion = 1.7;
         if (HTML_Common::apiVersion() < $commonVersion) {
-            return PEAR::raiseError("HTML_Table version " . $this->apiVersion() . " requires " .
+            return PEAR::raiseError('HTML_Table version ' . $this->apiVersion() . ' requires ' .
                 "HTML_Common version $commonVersion or greater.", 0, PEAR_ERROR_TRIGGER);
         }
         HTML_Common::HTML_Common($attributes, $tabOffset);
-    } // end constructor
+    }
 
     /**
      * Returns the API version
@@ -97,7 +97,7 @@ class HTML_Table extends HTML_Common {
     function apiVersion()
     {
         return 1.7;
-    } // end func apiVersion
+    }
 
     /**
      * Sets the table caption
@@ -108,8 +108,8 @@ class HTML_Table extends HTML_Common {
     function setCaption($caption, $attributes = null)
     {
         $attributes = $this->_parseAttributes($attributes);
-        $this->_structure["caption"] = array("attr" => $attributes, "contents" => $caption);
-    } // end func setCaption
+        $this->_structure['caption'] = array('attr' => $attributes, 'contents' => $caption);
+    }
 
     /**
      * Sets the autoFill value
@@ -119,7 +119,7 @@ class HTML_Table extends HTML_Common {
     function setAutoFill($fill)
     {
         $this->_autoFill = $fill;
-    } // end func setAutoFill
+    }
 
     /**
      * Returns the autoFill value
@@ -129,7 +129,7 @@ class HTML_Table extends HTML_Common {
     function getAutoFill()
     {
         return $this->_autoFill;
-    } // end func getAutoFill
+    }
 
     /**
      * Sets the autoGrow value
@@ -139,7 +139,7 @@ class HTML_Table extends HTML_Common {
     function setAutoGrow($grow)
     {
         $this->_autoGrow = $grow;
-    } // end func setAutoGrow
+    }
 
     /**
      * Returns the autoGrow value
@@ -149,7 +149,7 @@ class HTML_Table extends HTML_Common {
     function getAutoGrow()
     {
         return $this->_autoGrow;
-    } // end func getAutoGrow
+    }
 
     /**
      * Sets the number of rows in the table
@@ -159,7 +159,7 @@ class HTML_Table extends HTML_Common {
     function setRowCount($rows)
     {
         $this->_rows = $rows;
-    } // end func setRowCount
+    }
 
     /**
      * Sets the number of columns in the table
@@ -169,7 +169,7 @@ class HTML_Table extends HTML_Common {
     function setColCount($cols)
     {
         $this->_cols = $cols;
-    } // end func setColCount
+    }
 
     /**
      * Returns the number of rows in the table
@@ -179,7 +179,7 @@ class HTML_Table extends HTML_Common {
     function getRowCount()
     {
         return $this->_rows;
-    } // end func getRowCount
+    }
 
     /**
      * Gets the number of columns in the table
@@ -203,7 +203,7 @@ class HTML_Table extends HTML_Common {
             return $count;
         }
         return $this->_cols;
-    } // end func getColCount
+    }
 
     /**
      * Sets a rows type 'TH' or 'TD'
@@ -215,9 +215,9 @@ class HTML_Table extends HTML_Common {
     function setRowType($row, $type)
     {
         for ($counter = 0; $counter < $this->_cols; $counter++) {
-            $this->_structure[$row][$counter]["type"] = $type;
+            $this->_structure[$row][$counter]['type'] = $type;
         }
-    } // end func setRowType
+    }
 
     /**
      * Sets a columns type 'TH' or 'TD'
@@ -228,9 +228,9 @@ class HTML_Table extends HTML_Common {
     function setColType($col, $type)
     {
         for ($counter = 0; $counter < $this->_rows; $counter++) {
-            $this->_structure[$counter][$col]["type"] = $type;
+            $this->_structure[$counter][$col]['type'] = $type;
         }
-    } // end func setColType
+    }
 
     /**
      * Sets the cell attributes for an existing cell.
@@ -246,15 +246,15 @@ class HTML_Table extends HTML_Common {
      */
     function setCellAttributes($row, $col, $attributes)
     {
-        if (isset($this->_structure[$row][$col]) && $this->_structure[$row][$col] == "__SPANNED__") return;
+        if (isset($this->_structure[$row][$col]) && $this->_structure[$row][$col] == '__SPANNED__') return;
         $attributes = $this->_parseAttributes($attributes);
         $err = $this->_adjustEnds($row, $col, 'setCellAttributes', $attributes);
         if (PEAR::isError($err)) {
             return $err;
         }
-        $this->_structure[$row][$col]["attr"] = $attributes;
+        $this->_structure[$row][$col]['attr'] = $attributes;
         $this->_updateSpanGrid($row, $col);
-    } // end func setCellAttributes
+    }
 
     /**
      * Updates the cell attributes passed but leaves other existing attributes in tact
@@ -265,15 +265,15 @@ class HTML_Table extends HTML_Common {
      */
     function updateCellAttributes($row, $col, $attributes)
     {
-        if (isset($this->_structure[$row][$col]) && $this->_structure[$row][$col] == "__SPANNED__") return;
+        if (isset($this->_structure[$row][$col]) && $this->_structure[$row][$col] == '__SPANNED__') return;
         $attributes = $this->_parseAttributes($attributes);
         $err = $this->_adjustEnds($row, $col, 'updateCellAttributes', $attributes);
         if (PEAR::isError($err)) {
             return $err;
         }
-        $this->_updateAttrArray($this->_structure[$row][$col]["attr"], $attributes);
+        $this->_updateAttrArray($this->_structure[$row][$col]['attr'], $attributes);
         $this->_updateSpanGrid($row, $col);
-    } // end func updateCellAttributes
+    }
 
     /**
      * Returns the attributes for a given cell
@@ -291,7 +291,7 @@ class HTML_Table extends HTML_Common {
                 $row . '][' . $col . '] in HTML_Table::getCellAttributes');
         }
         return;
-    } // end func getCellAttributes
+    }
 
     /**
      * Sets the cell contents for an existing cell
@@ -308,14 +308,14 @@ class HTML_Table extends HTML_Common {
      */
     function setCellContents($row, $col, $contents, $type = 'TD')
     {
-        if(isset($this->_structure[$row][$col]) && $this->_structure[$row][$col] == "__SPANNED__") return;
+        if(isset($this->_structure[$row][$col]) && $this->_structure[$row][$col] == '__SPANNED__') return;
         $err = $this->_adjustEnds($row, $col, 'setCellContents');
         if (PEAR::isError($err)) {
             return $err;
         }
         $this->_structure[$row][$col]['contents'] = $contents;
         $this->_structure[$row][$col]['type'] = $type;
-    } // end func setCellContents
+    }
 
     /**
      * Returns the cell contents for an existing cell
@@ -326,9 +326,9 @@ class HTML_Table extends HTML_Common {
      */
     function getCellContents($row, $col)
     {
-        if (isset($this->_structure[$row][$col]) && $this->_structure[$row][$col] == "__SPANNED__") return;
-        return $this->_structure[$row][$col]["contents"];
-    } // end func getCellContents
+        if (isset($this->_structure[$row][$col]) && $this->_structure[$row][$col] == '__SPANNED__') return;
+        return $this->_structure[$row][$col]['contents'];
+    }
 
     /**
      * Sets the contents of a header cell
@@ -340,7 +340,7 @@ class HTML_Table extends HTML_Common {
     function setHeaderContents($row, $col, $contents)
     {
         $this->setCellContents($row, $col, $contents, 'TH');
-    } // end func setHeaderContents
+    }
 
     /**
      * Adds a table row and returns the row identifier
@@ -348,28 +348,29 @@ class HTML_Table extends HTML_Common {
      * @param    mixed    $attributes (optional) Associative array or string of table row attributes
      *                                This can also be an array of attributes, in which case the attributes
      *                                will be repeated in a loop.
-     * @param    string   $type       (optional) Cell type either 'TH' or 'TD'
+     * @param    string   $type       (optional) Cell type either 'th' or 'td'
      * @param    bool     $inTR           false if attributes are to be applied in TD tags
      *                                    true if attributes are to be applied in TR tag
      * @return   int
      * @access   public
      */
-    function addRow($contents = null, $attributes = null, $type = 'TD', $inTR = false)
+    function addRow($contents = null, $attributes = null, $type = 'td', $inTR = false)
     {
         if (isset($contents) && !is_array($contents)) {
-            return PEAR::raiseError("First parameter to HTML_Table::addRow must be an array");
+            return PEAR::raiseError('First parameter to HTML_Table::addRow must be an array');
         }
+        $type = strtolower($type);
         $row = $this->_rows++;
         for ($counter = 0; $counter < count($contents); $counter++) {
-            if ($type == 'TD') {
+            if ($type == 'td') {
                 $this->setCellContents($row, $counter, $contents[$counter]);
-            } elseif ($type == 'TH') {
+            } elseif ($type == 'th') {
                 $this->setHeaderContents($row, $counter, $contents[$counter]);
             }
         }
         $this->setRowAttributes($row, $attributes, $inTR);
         return $row;
-    } // end func addRow
+    }
 
     /**
      * Sets the row attributes for an existing row
@@ -402,7 +403,7 @@ class HTML_Table extends HTML_Common {
             }
             $this->_structure[$row]['attr'] = $attributes;
         }
-    } // end func setRowAttributes
+    }
 
     /**
      * Updates the row attributes for an existing row
@@ -433,7 +434,7 @@ class HTML_Table extends HTML_Common {
             }
             $this->_updateAttrArray($this->_structure[$row]['attr'], $attributes);
         }
-    } // end func updateRowAttributes
+    }
 
     /**
      * Returns the attributes for a given row as contained in the TR tag
@@ -447,7 +448,7 @@ class HTML_Table extends HTML_Common {
             return $this->_structure[$row]['attr'];
         }
         return;
-    } // end func getRowAttributes
+    }
 
     /**
      * Alternates the row attributes starting at $start
@@ -464,28 +465,29 @@ class HTML_Table extends HTML_Common {
             $attributes = ( ($row+$start)%2 == 0 ) ? $attributes1 : $attributes2;
             $this->updateRowAttributes($row, $attributes, $inTR);
         }
-    } // end func altRowAttributes
+    }
 
     /**
      * Adds a table column and returns the column identifier
      * @param    array    $contents   (optional) Must be a indexed array of valid cell contents
      * @param    mixed    $attributes (optional) Associative array or string of table row attributes
-     * @param    string   $type       (optional) Cell type either 'TH' or 'TD'
+     * @param    string   $type       (optional) Cell type either 'th' or 'td'
      * @return   int
      * @access   public
      */
-    function addCol($contents = null, $attributes = null, $type = 'TD')
+    function addCol($contents = null, $attributes = null, $type = 'td')
     {
         if (isset($contents) && !is_array($contents)) {
-            return PEAR::raiseError("First parameter to HTML_Table::addCol must be an array");
+            return PEAR::raiseError('First parameter to HTML_Table::addCol must be an array');
         }
+        $type = strtolower($type);
         $col = $this->_cols++;
         for ($counter = 0; $counter < count($contents); $counter++) {
             $this->setCellContents($counter, $col, $contents[$counter], $type);
         }
         $this->setColAttributes($col, $attributes);
         return $col;
-    } // end func addCol
+    }
 
     /**
      * Sets the column attributes for an existing column
@@ -504,7 +506,7 @@ class HTML_Table extends HTML_Common {
                 $this->setCellAttributes($i, $col, $attributes);
             }
         }
-    } // end func setColAttributes
+    }
 
     /**
      * Updates the column attributes for an existing column
@@ -523,7 +525,7 @@ class HTML_Table extends HTML_Common {
                 $this->updateCellAttributes($i, $col, $attributes);
             }
         }
-    } // end func updateColAttributes
+    }
 
     /**
      * Sets the attributes for all cells
@@ -535,7 +537,7 @@ class HTML_Table extends HTML_Common {
         for ($i = 0; $i < $this->_rows; $i++) {
             $this->setRowAttributes($i, $attributes);
         }
-    } // end func setAllAttributes
+    }
 
     /**
      * Updates the attributes for all cells
@@ -547,7 +549,7 @@ class HTML_Table extends HTML_Common {
         for ($i = 0; $i < $this->_rows; $i++) {
             $this->updateRowAttributes($i, $attributes);
         }
-    } // end func updateAllAttributes
+    }
 
     /**
      * Returns the table structure as HTML
@@ -564,58 +566,58 @@ class HTML_Table extends HTML_Common {
             $strHtml .= $tabs . "<!-- $this->_comment -->" . $lnEnd;
         }
         $strHtml .=
-            $tabs . "<table" . $this->_getAttrString($this->_attributes) . ">" . $lnEnd;
-        if (!empty($this->_structure["caption"])) {
-            $attr = $this->_structure["caption"]["attr"];
-            $contents = $this->_structure["caption"]["contents"];
-            $strHtml .= $tabs . $tab . "<caption" . $this->_getAttrString($attr) . ">";
-            if (is_array($contents)) $contents = implode(", ", $contents);
+            $tabs . '<table' . $this->_getAttrString($this->_attributes) . '>' . $lnEnd;
+        if (!empty($this->_structure['caption'])) {
+            $attr = $this->_structure['caption']['attr'];
+            $contents = $this->_structure['caption']['contents'];
+            $strHtml .= $tabs . $tab . '<caption' . $this->_getAttrString($attr) . '>';
+            if (is_array($contents)) $contents = implode(', ', $contents);
             $strHtml .= $contents;
-            $strHtml .= "</caption>" . $lnEnd;
+            $strHtml .= '</caption>' . $lnEnd;
         }
         for ($i = 0 ; $i < $this->_rows ; $i++) {
             if (isset($this->_structure[$i]['attr'])) {
-                $strHtml .= $tabs . $tab . "<tr".$this->_getAttrString($this->_structure[$i]['attr']).">" . $lnEnd;
+                $strHtml .= $tabs . $tab . '<tr'.$this->_getAttrString($this->_structure[$i]['attr']).'>' . $lnEnd;
             } else {
-                $strHtml .= $tabs .$tab . "<tr>" . $lnEnd;
+                $strHtml .= $tabs .$tab . '<tr>' . $lnEnd;
             }
             for ($j = 0 ; $j < $this->_cols ; $j++) {
-                if (isset($this -> _structure[$i][$j]) && $this->_structure[$i][$j] == "__SPANNED__") {
-                    $strHtml .= $tabs . $tab . $tab ."<!-- span -->" . $lnEnd;
+                if (isset($this -> _structure[$i][$j]) && $this->_structure[$i][$j] == '__SPANNED__') {
+                    $strHtml .= $tabs . $tab . $tab .'<!-- span -->' . $lnEnd;
                     continue;
                 }
-                if (isset($this->_structure[$i][$j]["type"])) {
-                    $type = (strtoupper($this->_structure[$i][$j]["type"]) == "TH" ? "th" : "td");
+                if (isset($this->_structure[$i][$j]['type'])) {
+                    $type = (strtolowerr($this->_structure[$i][$j]['type']) == 'th' ? 'th' : 'td');
                 } else {
-                    $type = "td";
+                    $type = 'td';
                 }
-                if (isset($this->_structure[$i][$j]["attr"])) {
-                    $attr = $this->_structure[$i][$j]["attr"];
+                if (isset($this->_structure[$i][$j]['attr'])) {
+                    $attr = $this->_structure[$i][$j]['attr'];
                 } else {
-                    $attr = "";
+                    $attr = '';
                 }
-                if (isset($this->_structure[$i][$j]["contents"])) {
-                    $contents = $this->_structure[$i][$j]["contents"];
+                if (isset($this->_structure[$i][$j]['contents'])) {
+                    $contents = $this->_structure[$i][$j]['contents'];
                 } else {
-                    $contents = "";
+                    $contents = '';
                 }
-                $strHtml .= $tabs . $tab . $tab . "<$type" . $this->_getAttrString($attr) . ">";
+                $strHtml .= $tabs . $tab . $tab . "<$type" . $this->_getAttrString($attr) . '>';
                 if (is_object($contents)) {
                     // changes indent and line end settings on nested tables
-                    if (is_subclass_of($contents, "html_common")) {
+                    if (is_subclass_of($contents, 'html_common')) {
                         $contents->setTab($tab);
                         $contents->setTabOffset($this->_tabOffset + 3);
                         $contents->_nestLevel = $this->_nestLevel + 1;
                         $contents->setLineEnd($this->_getLineEnd());
                     }
-                    if (method_exists($contents, "toHtml")) {
+                    if (method_exists($contents, 'toHtml')) {
                         $contents = $contents->toHtml();
-                    } elseif (method_exists($contents, "toString")) {
+                    } elseif (method_exists($contents, 'toString')) {
                         $contents = $contents->toString();
                     }
                 }
                 if (is_array($contents)) {
-                    $contents = implode(", ",$contents);
+                    $contents = implode(', ',$contents);
                 }
                 if (isset($this->_autoFill) && $contents === '') {
                     $contents = $this->_autoFill;
@@ -623,11 +625,11 @@ class HTML_Table extends HTML_Common {
                 $strHtml .= $contents;
                 $strHtml .= "</$type>" . $lnEnd;
             }
-            $strHtml .= $tabs . $tab . "</tr>" . $lnEnd;
+            $strHtml .= $tabs . $tab . '</tr>' . $lnEnd;
         }
-        $strHtml .= $tabs . "</table>" . $lnEnd;
+        $strHtml .= $tabs . '</table>' . $lnEnd;
         return $strHtml;
-    } // end func toHtml
+    }
 
     /**
      * Checks if rows or columns are spanned
@@ -637,30 +639,30 @@ class HTML_Table extends HTML_Common {
      */
     function _updateSpanGrid($row, $col)
     {
-        if (isset($this->_structure[$row][$col]["attr"]["colspan"])) {
-            $colspan = $this->_structure[$row][$col]["attr"]["colspan"];
+        if (isset($this->_structure[$row][$col]['attr']['colspan'])) {
+            $colspan = $this->_structure[$row][$col]['attr']['colspan'];
         }
-        if (isset($this->_structure[$row][$col]["attr"]["rowspan"])) {
-            $rowspan = $this->_structure[$row][$col]["attr"]["rowspan"];
+        if (isset($this->_structure[$row][$col]['attr']['rowspan'])) {
+            $rowspan = $this->_structure[$row][$col]['attr']['rowspan'];
         }
         if (isset($colspan)) {
             for ($j = $col+1; (($j < $this->_cols) && ($j <= ($col + $colspan - 1))); $j++) {
-                $this->_structure[$row][$j] = "__SPANNED__";
+                $this->_structure[$row][$j] = '__SPANNED__';
             }
         }
         if (isset($rowspan)) {
             for ($i = $row+1; (($i < $this->_rows) && ($i <= ($row + $rowspan - 1))); $i++) {
-                $this->_structure[$i][$col] = "__SPANNED__";
+                $this->_structure[$i][$col] = '__SPANNED__';
             }
         }
         if (isset($colspan) && isset($rowspan)) {
             for ($i = $row+1; (($i < $this->_rows) && ($i <= ($row + $rowspan - 1))); $i++) {
                 for ($j = $col+1; (($j <= $this->_cols) && ($j <= ($col + $colspan - 1))); $j++) {
-                    $this->_structure[$i][$j] = "__SPANNED__";
+                    $this->_structure[$i][$j] = '__SPANNED__';
                 }
             }
         }
-    } // end func _updateSpanGrid
+    }
 
     /**
     * Adjusts ends (total number of rows and columns)
@@ -693,7 +695,7 @@ class HTML_Table extends HTML_Common {
                     $col . '] in HTML_Table::' . $method);
             }
         }
-    } // end func _adjustEnds
+    }
 
     /**
     * Tells if the parameter is an array of attribute arrays/strings
@@ -709,6 +711,6 @@ class HTML_Table extends HTML_Common {
             }
         }
         return false;
-    } // end func _isAttributesArray
-} // end class HTML_Table
+    }
+}
 ?>
