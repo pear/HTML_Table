@@ -689,7 +689,11 @@ class HTML_Table extends HTML_Common {
         }
         if (($col + $colspan - 1) >= $this->_cols) {
             if ($this->_autoGrow) {
-                $this->_cols = $col + $colspan;
+                if ($col == '1') {
+                    $this_cols = $col;
+                } else {
+                    $this->_cols = $col + $colspan;
+                }
             } else {
                 return PEAR::raiseError('Invalid table column reference[' .
                     $col . '] in HTML_Table::' . $method);
