@@ -389,8 +389,8 @@ class HTML_Table extends HTML_Common {
      */
     function setRowAttributes($row, $attributes, $inTR = false)
     {
-        $multiAttr = $this->_isAttributesArray($attributes);
         if (!$inTR) {
+            $multiAttr = $this->_isAttributesArray($attributes);
             for ($i = 0; $i < $this->_cols; $i++) {
                 if ($multiAttr) {
                     $this->setCellAttributes($row, $i,
@@ -420,8 +420,8 @@ class HTML_Table extends HTML_Common {
      */
     function updateRowAttributes($row, $attributes = null, $inTR = false)
     {
-        $multiAttr = $this->_isAttributesArray($attributes);
         if (!$inTR) {
+            $multiAttr = $this->_isAttributesArray($attributes);
             for ($i = 0; $i < $this->_cols; $i++) {
                 if ($multiAttr) {
                     $this->updateCellAttributes($row, $i,
