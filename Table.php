@@ -24,7 +24,6 @@ require_once "HTML/Common.php";
 
 /**
  * Builds an HTML table
- *
  * @author        Adam Daniel <adaniel1@eesus.jnj.com>
  * @author        Bertrand Mansion <bmansion@mamasam.com>
  * @version       1.6
@@ -34,7 +33,6 @@ class HTML_Table extends HTML_Common {
 
     /**
      * Automatically adds a new row or column if a given row or column index does not exist
-     *
      * @var    bool
      * @access private
      */
@@ -42,7 +40,6 @@ class HTML_Table extends HTML_Common {
 
     /**
      * Value to insert into empty cells
-     *
      * @var    string
      * @access private
      */
@@ -50,7 +47,6 @@ class HTML_Table extends HTML_Common {
 
     /**
      * Array containing the table structure
-     *
      * @var     array
      * @access  private
      */
@@ -58,7 +54,6 @@ class HTML_Table extends HTML_Common {
 
     /**
      * Number of rows composing in the table
-     *
      * @var     int
      * @access  private
      */
@@ -66,7 +61,6 @@ class HTML_Table extends HTML_Common {
 
     /**
      * Number of column composing the table
-     *
      * @var     int
      * @access  private
      */
@@ -74,16 +68,13 @@ class HTML_Table extends HTML_Common {
     
     /**
      * Tracks the level of nested tables
-     *
      * @var    int
-     * @since  1.5
      * @access private
      */
     var $_nestLevel = 0;
 
     /**
      * Class constructor
-     *
      * @param    array    $attributes        Associative array of table tag attributes
      * @param    int      $tabOffset
      * @access   public
@@ -100,7 +91,6 @@ class HTML_Table extends HTML_Common {
 
     /**
      * Returns the API version
-     *
      * @access  public
      * @return  double
      */
@@ -111,7 +101,6 @@ class HTML_Table extends HTML_Common {
 
     /**
      * Sets the table caption
-     *
      * @param   string    $caption
      * @param   mixed     $attributes        Associative array or string of table row attributes
      * @access  public
@@ -124,7 +113,6 @@ class HTML_Table extends HTML_Common {
 
     /**
      * Sets the autoFill value
-     *
      * @param   mixed   $fill
      * @access  public
      */
@@ -135,7 +123,6 @@ class HTML_Table extends HTML_Common {
 
     /**
      * Returns the autoFill value
-     *
      * @access   public
      * @return   mixed
      */
@@ -146,7 +133,6 @@ class HTML_Table extends HTML_Common {
 
     /**
      * Sets the autoGrow value
-     *
      * @param    bool   $fill
      * @access   public
      */
@@ -157,7 +143,6 @@ class HTML_Table extends HTML_Common {
 
     /**
      * Returns the autoGrow value
-     *
      * @access   public
      * @return   mixed
      */
@@ -168,7 +153,6 @@ class HTML_Table extends HTML_Common {
 
     /**
      * Sets the number of rows in the table
-     *
      * @param    int     $rows
      * @access   public
      */
@@ -179,7 +163,6 @@ class HTML_Table extends HTML_Common {
 
     /**
      * Sets the number of columns in the table
-     *
      * @param    int     $cols
      * @access   public
      */
@@ -190,7 +173,6 @@ class HTML_Table extends HTML_Common {
 
     /**
      * Returns the number of rows in the table
-     *
      * @access   public
      * @return   int
      */
@@ -201,7 +183,6 @@ class HTML_Table extends HTML_Common {
 
     /**
      * Sets the number of columns in the table
-     *
      * @access   public
      * @return   int
      */
@@ -212,7 +193,6 @@ class HTML_Table extends HTML_Common {
 
     /**
      * Sets a rows type 'TH' or 'TD'
-     *
      * @param    int         $row    Row index
      * @param    string      $type   'TH' or 'TD'
      * @access   public
@@ -227,7 +207,6 @@ class HTML_Table extends HTML_Common {
 
     /**
      * Sets a columns type 'TH' or 'TD'
-     *
      * @param    int         $col    Column index
      * @param    string      $type   'TH' or 'TD'
      * @access   public
@@ -245,11 +224,10 @@ class HTML_Table extends HTML_Common {
      * If the given indices do not exist and autoGrow is true then the given 
      * row and/or col is automatically added.  If autoGrow is false then an 
      * error is returned.
-     *
      * @param    int        $row         Row index
      * @param    int        $col         Column index
      * @param    mixed      $attributes  Associative array or string of table row attributes
-     * @access    public
+     * @access   public
      * @throws   PEAR_Error
      */
     function setCellAttributes($row, $col, $attributes)
@@ -266,7 +244,6 @@ class HTML_Table extends HTML_Common {
 
     /**
      * Updates the cell attributes passed but leaves other existing attributes in tact
-     *
      * @param    int     $row         Row index
      * @param    int     $col         Column index
      * @param    mixed   $attributes  Associative array or string of table row attributes
@@ -283,6 +260,24 @@ class HTML_Table extends HTML_Common {
         $this->_updateAttrArray($this->_structure[$row][$col]["attr"], $attributes);
         $this->_updateSpanGrid($row, $col);
     } // end func updateCellAttributes
+    
+    /**
+     * Returns the attributes for a given cell
+     * @param    int     $row         Row index
+     * @param    int     $col         Column index
+     * @return   array
+     * @access   public
+     */
+    function getCellAttributes($row, $col)
+    {
+        if (isset($this->_structure[$row][$col]) && $this->_structure[$row][$col] != '__SPANNED__') {
+	        return $this->_structure[$row][$col]['attr'];
+        } elseif (!isset($this->_structure[$row][$col])) {
+            return $this->raiseError('Invalid table cell reference[' .
+                $row . '][' . $col . '] in HTML_Table::getCellAttributes');
+        }
+	    return;
+    } // end func getCellAttributes
 
     /**
      * Sets the cell contents for an existing cell
@@ -290,7 +285,6 @@ class HTML_Table extends HTML_Common {
      * If the given indices do not exist and autoGrow is true then the given 
      * row and/or col is automatically added.  If autoGrow is false then an 
      * error is returned.
-     *
      * @param    int      $row        Row index
      * @param    int      $col        Column index
      * @param    mixed    $contents   May contain html or any object with a toHTML method
@@ -305,13 +299,12 @@ class HTML_Table extends HTML_Common {
         if (PEAR::isError($err)) {
             return $err;
         }
-        $this->_structure[$row][$col]["contents"] = $contents;
-        $this->_structure[$row][$col]["type"] = $type;
+        $this->_structure[$row][$col]['contents'] = $contents;
+        $this->_structure[$row][$col]['type'] = $type;
     } // end func setCellContents
 
     /**
      * Returns the cell contents for an existing cell
-     *
      * @param    int        $row    Row index
      * @param    int        $col    Column index
      * @access   public
@@ -325,7 +318,6 @@ class HTML_Table extends HTML_Common {
 
     /**
      * Sets the contents of a header cell
-     *
      * @param    int     $row
      * @param    int     $col
      * @param    mixed   $contents
@@ -338,17 +330,20 @@ class HTML_Table extends HTML_Common {
 
     /**
      * Adds a table row and returns the row identifier
-     *
      * @param    array    $contents   (optional) Must be a indexed array of valid cell contents
      * @param    mixed    $attributes (optional) Associative array or string of table row attributes
+     *								  This can also be an array of attributes, in which case the attributes
+     *								  will be repeated in a loop.
      * @param    string   $type       (optional) Cell type either 'TH' or 'TD'
+     * @param    bool     $inTR     	  false if attributes are to be applied in TD tags
+     *									  true if attributes are to be applied in TR tag
      * @return   int
      * @access   public
      */
-    function addRow($contents = null, $attributes = null, $type = 'TD') 
+    function addRow($contents = null, $attributes = null, $type = 'TD', $inTR = false) 
     {
         if (isset($contents) && !is_array($contents)) {
-            return new PEAR_Error("First parameter to HTML_Table::addRow must be an array");
+            return $this->raiseError("First parameter to HTML_Table::addRow must be an array");
         }
         $row = $this->_rows++;
         for ($counter = 0; $counter < count($contents); $counter++) {
@@ -358,57 +353,107 @@ class HTML_Table extends HTML_Common {
                 $this->setHeaderContents($row, $counter, $contents[$counter]);
             }
         }
-        $this->setRowAttributes($row, $attributes);
+	   	$this->setRowAttributes($row, $attributes, $inTR);
         return $row;
     } // end func addRow
 
     /**
      * Sets the row attributes for an existing row
-     *
      * @param    int      $row            Row index
      * @param    mixed    $attributes     Associative array or string of table row attributes
+     *								  	  This can also be an array of attributes, in which case the attributes
+     *								  	  will be repeated in a loop.
+     * @param    bool     $inTR     	  false if attributes are to be applied in TD tags
+     *									  true if attributes are to be applied in TR tag
      * @access   public
+     * @throws   PEAR_Error
      */
-    function setRowAttributes($row, $attributes)
+    function setRowAttributes($row, $attributes, $inTR = false)
     {
-        for ($i = 0; $i < $this->_cols; $i++) {
-            $this->setCellAttributes($row, $i, $attributes);
-        }
+    	$multiAttr = $this->_isAttributesArray($attributes);
+    	if (!$inTR) {
+	        for ($i = 0; $i < $this->_cols; $i++) {
+    	    	if ($multiAttr) {
+    	       	    $this->setCellAttributes($row, $i, 
+    	        	   	$attributes[$i - ((ceil(($i+1) / count($attributes)))-1) * count($attributes)]);
+				} else {
+    	        	$this->setCellAttributes($row, $i, $attributes);
+				}
+    	    }
+    	} else {
+	        $attributes = $this->_parseAttributes($attributes);
+	        $err = $this->_adjustEnds($row, 1, 'setRowAttributes', $attributes);
+    	    if (PEAR::isError($err)) {
+    	        return $err;
+    	    }
+    	    $this->_structure[$row]['attr'] = $attributes;
+    	}
     } // end func setRowAttributes
 
     /**
      * Updates the row attributes for an existing row
-     *
      * @param    int      $row            Row index
      * @param    mixed    $attributes     Associative array or string of table row attributes
+     * @param    bool     $inTR     	  false if attributes are to be applied in TD tags
+     *									  true if attributes are to be applied in TR tag
      * @access   public
+     * @throws   PEAR_Error
      */
-    function updateRowAttributes($row, $attributes = null)
+    function updateRowAttributes($row, $attributes = null, $inTR = false)
     {
-        for ($i = 0; $i < $this->_cols; $i++) {
-            $this->updateCellAttributes($row, $i, $attributes);
-        }
+    	$multiAttr = $this->_isAttributesArray($attributes);
+    	if (!$inTR) {
+	        for ($i = 0; $i < $this->_cols; $i++) {
+    	    	if ($multiAttr) {
+    	       	    $this->updateCellAttributes($row, $i, 
+    	        	   	$attributes[$i - ((ceil(($i+1) / count($attributes)))-1) * count($attributes)]);
+				} else {
+    	        	$this->updateCellAttributes($row, $i, $attributes);
+				}
+    	    }
+    	} else {
+	        $attributes = $this->_parseAttributes($attributes);
+	        $err = $this->_adjustEnds($row, 1, 'updateRowAttributes', $attributes);
+    	    if (PEAR::isError($err)) {
+    	        return $err;
+    	    }
+	        $this->_updateAttrArray($this->_structure[$row]['attr'], $attributes);
+    	}    	
     } // end func updateRowAttributes
 
     /**
-     * Alternates the row attributes starting at $start
-     *
-     * @param    int      $start          Row index of row in which alternating begins
-     * @param    mixed    $attributes1    Associative array or string of table row attributes
-     * @param    mixed    $attribute2     Associative array or string of table row attributes
+     * Returns the attributes for a given row as contained in the TR tag
+     * @param    int     $row         Row index
+     * @return   array
      * @access   public
      */
-    function altRowAttributes($start, $attributes1, $attributes2) 
+    function getRowAttributes($row)
     {
-        for ($row = $start ; $row < $this->_rows ; $row++) {
-            $attributes = ( ($row+$start)%2 == 0 ) ? $attributes1 : $attributes2;
-            $this->updateRowAttributes($row, $attributes);
+        if (isset($this->_structure[$row]['attr'])) {
+	        return $this->_structure[$row]['attr'];
         }
+	    return;
+    } // end func getRowAttributes
+
+    /**
+     * Alternates the row attributes starting at $start
+     * @param    int      $start          Row index of row in which alternating begins
+     * @param    mixed    $attributes1    Associative array or string of table row attributes
+     * @param    mixed    $attributes2    Associative array or string of table row attributes
+     * @param    bool     $inTR     	  false if attributes are to be applied in TD tags
+     *									  true if attributes are to be applied in TR tag
+     * @access   public
+     */
+    function altRowAttributes($start, $attributes1, $attributes2, $inTR = false) 
+    {
+		for ($row = $start ; $row < $this->_rows ; $row++) {
+			$attributes = ( ($row+$start)%2 == 0 ) ? $attributes1 : $attributes2;
+			$this->updateRowAttributes($row, $attributes, $inTR);
+		}
     } // end func altRowAttributes
 
     /**
      * Adds a table column and returns the column identifier
-     *
      * @param    array    $contents   (optional) Must be a indexed array of valid cell contents
      * @param    mixed    $attributes (optional) Associative array or string of table row attributes
      * @param    string   $type       (optional) Cell type either 'TH' or 'TD'
@@ -430,37 +475,45 @@ class HTML_Table extends HTML_Common {
 
     /**
      * Sets the column attributes for an existing column
-     *
      * @param    int      $col            Column index
      * @param    mixed    $attributes     (optional) Associative array or string of table row attributes
      * @access   public
      */
     function setColAttributes($col, $attributes = null)
     {
-        for ($i = 0; $i < $this->_rows; $i++) {
-            $this->setCellAttributes($i,$col,$attributes);
+    	$multiAttr = $this->_isAttributesArray($attributes);
+	    for ($i = 0; $i < $this->_rows; $i++) {
+   	    	if ($multiAttr) {
+           	    $this->setCellAttributes($i, $col, 
+            	   	$attributes[$i - ((ceil(($i+1) / count($attributes)))-1) * count($attributes)]);
+			} else {
+            	$this->setCellAttributes($i, $col, $attributes);
+			}
         }
     } // end func setColAttributes
 
     /**
      * Updates the column attributes for an existing column
-     *
      * @param    int      $col            Column index
      * @param    mixed    $attributes     (optional) Associative array or string of table row attributes
      * @access   public
      */
     function updateColAttributes($col, $attributes = null)
     {
+        $multiAttr = $this->_isAttributesArray($attributes);
         for ($i = 0; $i < $this->_rows; $i++) {
-            $this->updateCellAttributes($i, $col, $attributes);
+   	    	if ($multiAttr) {
+           	    $this->updateCellAttributes($i, $col, 
+            	   	$attributes[$i - ((ceil(($i+1) / count($attributes)))-1) * count($attributes)]);
+			} else {
+            	$this->updateCellAttributes($i, $col, $attributes);
+			}
         }
     } // end func updateColAttributes
 
     /**
      * Sets the attributes for all cells
-     *
      * @param    mixed    $attributes        (optional) Associative array or string of table row attributes
-     * @since    1.6
      * @access   public
      */
     function setAllAttributes($attributes = null)
@@ -472,9 +525,7 @@ class HTML_Table extends HTML_Common {
 
     /**
      * Updates the attributes for all cells
-     *
      * @param    mixed    $attributes        (optional) Associative array or string of table row attributes
-     * @since    1.6
      * @access   public
      */
     function updateAllAttributes($attributes = null)
@@ -486,15 +537,12 @@ class HTML_Table extends HTML_Common {
 
     /**
      * Returns the table structure as HTML
-     *
      * @access  public
      * @return  string
      */      
     function toHtml()
     {
         $tabs = $this->_getTabs();
-        $strHtml =
-            "\n" . $tabs . "<!-- BEGIN TABLE LEVEL: $this->_nestLevel -->\n";
         if ($this->_comment) {
             $strHtml .= $tabs . "<!-- $this->_comment -->\n";
         }
@@ -509,7 +557,11 @@ class HTML_Table extends HTML_Common {
             $strHtml .= "</caption>\n";
         }
         for ($i = 0 ; $i < $this->_rows ; $i++) {
-            $strHtml .= $tabs ."\t<tr>\n";
+        	if (isset($this->_structure[$i]['attr'])) {
+        		$strHtml .= $tabs ."\t<tr".$this->_getAttrString($this->_structure[$i]['attr']).">\n";
+        	} else {
+	            $strHtml .= $tabs ."\t<tr>\n";
+	        }
             for ($j = 0 ; $j < $this->_cols ; $j++) {
                 if (isset($this -> _structure[$i][$j]) && $this->_structure[$i][$j] == "__SPANNED__") {
                     $strHtml .= $tabs ."\t\t<!-- span -->\n";
@@ -551,14 +603,12 @@ class HTML_Table extends HTML_Common {
             }
             $strHtml .= $tabs ."\t</tr>\n";
         }
-        $strHtml .= 
-            $tabs . "</table>\n". $tabs . "<!-- END TABLE LEVEL: $this->_nestLevel -->\n";
+        $strHtml .= $tabs . "</table>\n";
         return $strHtml;
     } // end func toHtml
 
     /**
      * Checks if rows or columns are spanned
-     *
      * @param    int        $row            Row index
      * @param    int        $col            Column index
      * @access   private
@@ -621,7 +671,20 @@ class HTML_Table extends HTML_Common {
                     $col . '] in HTML_Table::' . $method);
             }
         }
-    }
+    } // end func _adjustEnds
 
+    /**
+    * Tells if the parameter is an array of attribute arrays/strings
+    * @param    mixed   $attributes Variable to test
+    * @access   private
+    * @return   bool
+    */
+    function _isAttributesArray($attributes)
+    {
+    	if (is_array($attributes[0]) || (is_string($attributes[0]) && count($attributes) > 1)) {
+    		return true;	
+    	}
+    	return false;
+    } // end func _isAttributesArray
 } // end class HTML_Table
 ?>
