@@ -28,11 +28,16 @@ The PEAR::HTML_Table package provides methods for easy and efficient design of H
     </maintainer>
   </maintainers>
   <release>
-    <version>1.0</version>
-    <date>2002-05-28</date>
+    <version>1.1</version>
+    <date>2002-07-21</date>
     <state>stable</state>
     <notes>
-First release.
+Added new most-wanted features:
+* Accept TR tags attributes
+* Accept alternatives for cell attributes in rows and columns
+* Can get cell attributes
+* Can get row attributes
+* RaiseError fixes.
     </notes>
     <filelist>
       <dir name="/" baseinstalldir="HTML">
@@ -43,4 +48,14 @@ First release.
       <dep type="pkg" rel="ge" version="1.0">HTML_Common</dep>
     </deps>
   </release>
+  <changelog>
+    <release>
+      <version>1.0</version>
+      <date>2002-05-28</date>
+      <state>stable</state>
+      <notes>
+First release.
+      </notes>
+    </release>
+  </changelog>
 </package>
