@@ -92,7 +92,7 @@ class HTML_Table extends HTML_Common {
     {
         $commonVersion = 1.3;
         if (HTML_Common::apiVersion() < $commonVersion) {
-            return new PEAR_Error("HTML_Table version " . $this->apiVersion() . " requires " .
+	        return $this->raiseError("HTML_Table version " . $this->apiVersion() . " requires " .
                 "HTML_Common version $commonVersion or greater.", 0, PEAR_ERROR_TRIGGER);
         }
         HTML_Common::HTML_Common($attributes, $tabOffset);
@@ -418,7 +418,7 @@ class HTML_Table extends HTML_Common {
     function addCol($contents = null, $attributes = null, $type = 'TD')
     {
         if (isset($contents) && !is_array($contents)) {
-            return new PEAR_Error("First parameter to HTML_Table::addCol must be an array");
+        	return $this->raiseError("First parameter to HTML_Table::addCol must be an array");
         }
         $col = $this->_cols++;
         for ($counter = 0; $counter < count($contents); $counter++) {
@@ -609,7 +609,7 @@ class HTML_Table extends HTML_Common {
             if ($this->_autoGrow) {
                 $this->_rows = $row + $rowspan;
             } else {
-                return new PEAR_Error('Invalid table row reference[' .
+				return $this->raiseError('Invalid table row reference[' .
                     $row . '] in HTML_Table::' . $method);
             }
         }
@@ -617,7 +617,7 @@ class HTML_Table extends HTML_Common {
             if ($this->_autoGrow) {
                 $this->_cols = $col + $colspan;
             } else {
-                return new PEAR_Error('Invalid table column reference[' .
+				return $this->raiseError('Invalid table column reference[' .
                     $col . '] in HTML_Table::' . $method);
             }
         }
