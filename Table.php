@@ -682,7 +682,7 @@ class HTML_Table extends HTML_Common {
     */
     function _isAttributesArray($attributes)
     {
-        if (isset($attributes[0])) {
+        if (is_array($attributes) && isset($attributes[0])) {
             if (is_array($attributes[0]) || (is_string($attributes[0]) && count($attributes) > 1)) {
                 return true;
             }
