@@ -28,6 +28,28 @@ The PEAR::HTML_Table package provides methods for easy and efficient design of H
     </maintainer>
   </maintainers>
   <release>
+    <version>1.2</version>
+    <date>2002-10-21</date>
+    <state>stable</state>
+    <notes>
+* Fixed warnings.
+* Added two examples.
+    </notes>
+    <filelist>
+      <dir name="/" baseinstalldir="HTML">
+        <file role="php">Table.php</file>
+        <dir name="docs" role="doc">
+          <file>Table_example1.php</file>
+          <file>Table_example2.php</file>
+        </dir>
+      </dir>
+    </filelist>
+   <deps>
+      <dep type="pkg" rel="ge" version="1.0">HTML_Common</dep>
+    </deps>
+  </release>
+  <changelog>
+  <release>
     <version>1.1</version>
     <date>2002-07-21</date>
     <state>stable</state>
@@ -39,16 +61,7 @@ Added new most-wanted features:
 * Can get row attributes
 * RaiseError fixes.
     </notes>
-    <filelist>
-      <dir name="/" baseinstalldir="HTML">
-        <file role="php">Table.php</file>
-      </dir>
-    </filelist>
-   <deps>
-      <dep type="pkg" rel="ge" version="1.0">HTML_Common</dep>
-    </deps>
-  </release>
-  <changelog>
+    </release>
     <release>
       <version>1.0</version>
       <date>2002-05-28</date>
