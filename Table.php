@@ -26,7 +26,7 @@ require_once "HTML/Common.php";
  * Builds an HTML table
  * @author        Adam Daniel <adaniel1@eesus.jnj.com>
  * @author        Bertrand Mansion <bmansion@mamasam.com>
- * @version       1.6
+ * @version       1.7
  * @since         PHP 4.0.3pl1
  */
 class HTML_Table extends HTML_Common {
@@ -81,7 +81,7 @@ class HTML_Table extends HTML_Common {
      */
     function HTML_Table($attributes = null, $tabOffset = 0)
     {
-        $commonVersion = 1.3;
+        $commonVersion = 1.7;
         if (HTML_Common::apiVersion() < $commonVersion) {
             return PEAR::raiseError("HTML_Table version " . $this->apiVersion() . " requires " .
                 "HTML_Common version $commonVersion or greater.", 0, PEAR_ERROR_TRIGGER);
@@ -96,7 +96,7 @@ class HTML_Table extends HTML_Common {
      */
     function apiVersion()
     {
-        return 1.6;
+        return 1.7;
     } // end func apiVersion
 
     /**
@@ -544,28 +544,30 @@ class HTML_Table extends HTML_Common {
     {
         $strHtml = '';
         $tabs = $this->_getTabs();
+        $tab = $this->_getTab();
+        $lnEnd = $this->_getLineEnd();
         if ($this->_comment) {
-            $strHtml .= $tabs . "<!-- $this->_comment -->\n";
+            $strHtml .= $tabs . "<!-- $this->_comment -->" . $lnEnd;
         }
         $strHtml .=
-            $tabs . "<table" . $this->_getAttrString($this->_attributes) . ">\n";
+            $tabs . "<table" . $this->_getAttrString($this->_attributes) . ">" . $lnEnd;
         if (!empty($this->_structure["caption"])) {
             $attr = $this->_structure["caption"]["attr"];
             $contents = $this->_structure["caption"]["contents"];
-            $strHtml .= $tabs . "\t<caption" . $this->_getAttrString($attr) . ">";
+            $strHtml .= $tabs . $tab . "<caption" . $this->_getAttrString($attr) . ">";
             if (is_array($contents)) $contents = implode(", ", $contents);
             $strHtml .= $contents;
-            $strHtml .= "</caption>\n";
+            $strHtml .= "</caption>" . $lnEnd;
         }
         for ($i = 0 ; $i < $this->_rows ; $i++) {
             if (isset($this->_structure[$i]['attr'])) {
-                $strHtml .= $tabs ."\t<tr".$this->_getAttrString($this->_structure[$i]['attr']).">\n";
+                $strHtml .= $tabs . $tab . "<tr".$this->_getAttrString($this->_structure[$i]['attr']).">" . $lnEnd;
             } else {
-                $strHtml .= $tabs ."\t<tr>\n";
+                $strHtml .= $tabs .$tab . "<tr>" . $lnEnd;
             }
             for ($j = 0 ; $j < $this->_cols ; $j++) {
                 if (isset($this -> _structure[$i][$j]) && $this->_structure[$i][$j] == "__SPANNED__") {
-                    $strHtml .= $tabs ."\t\t<!-- span -->\n";
+                    $strHtml .= $tabs . $tab . $tab ."<!-- span -->" . $lnEnd;
                     continue;
                 }
                 if (isset($this->_structure[$i][$j]["type"])) {
@@ -583,11 +585,14 @@ class HTML_Table extends HTML_Common {
                 } else {
                     $contents = "";
                 }
-                $strHtml .= $tabs . "\t\t<$type" . $this->_getAttrString($attr) . ">";
+                $strHtml .= $tabs . $tab . $tab . "<$type" . $this->_getAttrString($attr) . ">";
                 if (is_object($contents)) {
+                    // changes indent and line end settings on nested tables
                     if (is_subclass_of($contents, "html_common")) {
+                        $contents->setTab($tab);
                         $contents->setTabOffset($this->_tabOffset + 3);
                         $contents->_nestLevel = $this->_nestLevel + 1;
+                        $contents->setLineEnd($this->_getLineEnd());
                     }
                     if (method_exists($contents, "toHtml")) {
                         $contents = $contents->toHtml();
@@ -595,16 +600,18 @@ class HTML_Table extends HTML_Common {
                         $contents = $contents->toString();
                     }
                 }
-                if (is_array($contents))
+                if (is_array($contents)) {
                     $contents = implode(", ",$contents);
-                if (isset($this->_autoFill) && $contents == "")
+                }
+                if (isset($this->_autoFill) && $contents == "") {
                     $contents = $this->_autoFill;
+                }
                 $strHtml .= $contents;
-                $strHtml .= "</$type>\n";
+                $strHtml .= "</$type>" . $lnEnd;
             }
-            $strHtml .= $tabs ."\t</tr>\n";
+            $strHtml .= $tabs . $tab . "</tr>" . $lnEnd;
         }
-        $strHtml .= $tabs . "</table>\n";
+        $strHtml .= $tabs . "</table>" . $lnEnd;
         return $strHtml;
     } // end func toHtml
 
