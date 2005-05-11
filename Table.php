@@ -1,33 +1,65 @@
 <?php
-/* vim: set expandtab tabstop=4 shiftwidth=4: */
-// +----------------------------------------------------------------------+
-// | PHP Version 4                                                        |
-// +----------------------------------------------------------------------+
-// | Copyright (c) 1997 - 2005 The PHP Group                              |
-// +----------------------------------------------------------------------+
-// | This source file is subject to version 2.0 of the PHP license,       |
-// | that is bundled with this package in the file LICENSE, and is        |
-// | available at through the world-wide-web at                           |
-// | http://www.php.net/license/2_02.txt.                                 |
-// | If you did not receive a copy of the PHP license and are unable to   |
-// | obtain it through the world-wide-web, please send a note to          |
-// | license@php.net so we can mail you a copy immediately.               |
-// +----------------------------------------------------------------------+
-// | Authors: Adam Daniel <adaniel1@eesus.jnj.com>                        |
-// |          Bertrand Mansion <bmansion@mamasam.com>                     |
-// +----------------------------------------------------------------------+
-//
-// $Id$
+/* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
+/**
+ * PEAR::HTML_Table makes the design of HTML tables easy, flexible, reusable and efficient.
+ *
+ * The PEAR::HTML_Table package provides methods for easy and efficient design of HTML tables.
+ * - Lots of customization options.
+ * - Tables can be modified at any time.
+ * - The logic is the same as standard HTML editors.
+ * - Handles col and rowspans. 
+ * - PHP code is shorter, easier to read and to maintain.
+ * - Tables options can be reused.
+ *
+ * For auto filling of data and such then check out http://pear.php.net/package/HTML_Table_Matrix
+ *
+ * PHP versions 4
+ *
+ * LICENSE: This source file is subject to version 3.0 of the PHP license
+ * that is available through the world-wide-web at the following URI:
+ * http://www.php.net/license/3_0.txt.  If you did not receive a copy of
+ * the PHP License and are unable to obtain it through the web, please
+ * send a note to license@php.net so we can mail you a copy immediately.
+ *
+ * @category   HTML
+ * @package    HTML_Table
+ * @author     Adam Daniel <adaniel1@eesus.jnj.com>
+ * @author     Bertrand Mansion <bmansion@mamasam.com>
+ * @copyright  2005 The PHP Group
+ * @license    http://www.php.net/license/3_0.txt  PHP License 3.0
+ * @version    CVS: $Id$
+ * @link       http://pear.php.net/package/HTML_Table
+ */
+
+
+/**
+* Requires PEAR and HTML_Common
+*/
 require_once 'PEAR.php';
 require_once 'HTML/Common.php';
 
 /**
- * Builds an HTML table
- * @author        Adam Daniel <adaniel1@eesus.jnj.com>
- * @author        Bertrand Mansion <bmansion@mamasam.com>
- * @version       1.7
- * @since         PHP 4.0.3pl1
+ * PEAR::HTML_Table makes the design of HTML tables easy, flexible, reusable and efficient.
+ *
+ * The PEAR::HTML_Table package provides methods for easy and efficient design of HTML tables.
+ * - Lots of customization options.
+ * - Tables can be modified at any time.
+ * - The logic is the same as standard HTML editors.
+ * - Handles col and rowspans. 
+ * - PHP code is shorter, easier to read and to maintain.
+ * - Tables options can be reused.
+ *
+ * For auto filling of data and such then check out http://pear.php.net/package/HTML_Table_Matrix
+ *
+ * @category   HTML
+ * @package    HTML_Table
+ * @author     Adam Daniel <adaniel1@eesus.jnj.com>
+ * @author     Bertrand Mansion <bmansion@mamasam.com>
+ * @copyright  2005 The PHP Group
+ * @license    http://www.php.net/license/3_0.txt  PHP License 3.0
+ * @version    Release: @package_version@
+ * @link       http://pear.php.net/package/HTML_Table
  */
 class HTML_Table extends HTML_Common {
 
