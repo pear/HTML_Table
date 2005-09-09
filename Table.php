@@ -8,7 +8,7 @@
  * - Lots of customization options.
  * - Tables can be modified at any time.
  * - The logic is the same as standard HTML editors.
- * - Handles col and rowspans. 
+ * - Handles col and rowspans.
  * - PHP code is shorter, easier to read and to maintain.
  * - Tables options can be reused.
  *
@@ -26,7 +26,6 @@
  * @package    HTML_Table
  * @author     Adam Daniel <adaniel1@eesus.jnj.com>
  * @author     Bertrand Mansion <bmansion@mamasam.com>
- * @author     Mark Wiesemann <wiesemann@php.net>
  * @copyright  2005 The PHP Group
  * @license    http://www.php.net/license/3_0.txt  PHP License 3.0
  * @version    CVS: $Id$
@@ -48,7 +47,7 @@ require_once 'HTML/Table/Storage.php';
  * - Lots of customization options.
  * - Tables can be modified at any time.
  * - The logic is the same as standard HTML editors.
- * - Handles col and rowspans. 
+ * - Handles col and rowspans.
  * - PHP code is shorter, easier to read and to maintain.
  * - Tables options can be reused.
  *
@@ -58,7 +57,6 @@ require_once 'HTML/Table/Storage.php';
  * @package    HTML_Table
  * @author     Adam Daniel <adaniel1@eesus.jnj.com>
  * @author     Bertrand Mansion <bmansion@mamasam.com>
- * @author     Mark Wiesemann <wiesemann@php.net>
  * @copyright  2005 The PHP Group
  * @license    http://www.php.net/license/3_0.txt  PHP License 3.0
  * @version    Release: @package_version@
@@ -273,7 +271,7 @@ class HTML_Table extends HTML_Common {
      * If a row index is specified, the count will not take
      * the spanned cells into account in the return value.
      *
-     * @param	 int 	Row index to serve for cols count
+     * @param    int    Row index to serve for cols count
      * @access   public
      * @return   int
      */
