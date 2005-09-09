@@ -17,6 +17,29 @@ $notes = <<<EOT
 - #786, if the value was a zero, the cell content was converted to the autofill value. (Bertrand)
 - #1734, _adjustEnd added a extra empty column if there was only one column being processed
 - setHeaderContents can now accept attributes, but it's optional. request #2030
+- Added support for thead, tfoot and tbody on the courtesy of Mark Wisemann <wiesemann@php.net>
+
+Usage:
+
+- current behaviour is still available:
+\$table = new HTML_Table();
+\$table->setCellContents(...);
+echo \$table->toHtml();
+
+- new alternative with same result:
+\$table = new HTML_Table();
+\$body =& \$table->getBody();
+\$body->setCellContents(...);
+echo \$table->toHtml();
+
+- using the new grouping:
+\$table = new HTML_Table(null, null, true);
+\$head =& \$table->getHeader();
+\$foot =& \$table->getFooter();
+\$body =& \$table->getBody();
+\$head->setCellContents(...);
+\$body->setCellContents(...);
+echo \$table->toHtml();  // <tfoot> will not be rendered
 EOT;
 
 $description = <<<EOT
@@ -24,7 +47,7 @@ The PEAR::HTML_Table package provides methods for easy and efficient design of H
  - Lots of customization options.
  - Tables can be modified at any time.
  - The logic is the same as standard HTML editors.
- - Handles col and rowspans. 
+ - Handles col and rowspans.
  - PHP code is shorter, easier to read and to maintain.
  - Tables options can be reused.
 
@@ -54,9 +77,9 @@ if (PEAR::isError($result)) {
     echo $result->getMessage();
 }
 
-$package->addMaintainer('mansion',  'lead',        'Bertrand Mansion',      'bmansion@mamasam.com');
-$package->addMaintainer('thesaur',  'lead',        'Klaus Guenther',   'thesaur@php.net');
-$package->addMaintainer('dufuz',   'developer',   'Helgi Þormar',      'dufuz@php.net');
+$package->addMaintainer('mansion',  'lead',    'Bertrand Mansion',  'bmansion@mamasam.com');
+$package->addMaintainer('thesaur',  'lead',    'Klaus Guenther',    'thesaur@php.net');
+$package->addMaintainer('dufuz',    'lead',    'Helgi &#222;ormar',      'dufuz@php.net');
 
 $package->addDependency('PEAR',      false,   'has', 'pkg', false);
 $package->addDependency('HTML_Common',       '1.2.0',   'ge',  'pkg', false);

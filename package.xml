@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="ISO-8859-1" ?>
 <!DOCTYPE package SYSTEM "http://pear.php.net/dtd/package-1.0">
-<package version="1.0" packagerversion="1.4.0a1">
+<package version="1.0">
  <name>HTML_Table</name>
  <summary>PEAR::HTML_Table makes the design of HTML tables easy, flexible, reusable and efficient.</summary>
  <description>The PEAR::HTML_Table package provides methods for easy and efficient design of HTML tables.
 * Lots of customization options.
 * Tables can be modified at any time.
 * The logic is the same as standard HTML editors.
-* Handles col and rowspans. 
+* Handles col and rowspans.
 * PHP code is shorter, easier to read and to maintain.
 * Tables options can be reused.
  </description>
@@ -26,7 +26,7 @@
   </maintainer>
   <maintainer>
    <user>dufuz</user>
-   <name>Helgi &THORN;ormar</name>
+   <name>Helgi &#222;ormar</name>
    <email>dufuz@php.net</email>
    <role>developer</role>
   </maintainer>
@@ -41,6 +41,29 @@
 - #786, if the value was a zero, the cell content was converted to the autofill value. (Bertrand)
 - #1734, _adjustEnd added a extra empty column if there was only one column being processed
 - setHeaderContents can now accept attributes, but it's optional. request #2030
+- Added support for thead, tfoot and tbody on the courtesy of Mark Wisemann <wiesemann@php.net>
+
+    Usage:
+
+    - current behaviour is still available:
+    $table = new HTML_Table();
+    $table->setCellContents(...);
+    echo $table->toHtml();
+
+    - new alternative with same result:
+    $table = new HTML_Table();
+    $body =& $table->getBody();
+    $body->setCellContents(...);
+    echo $table->toHtml();
+
+    - using the new grouping:
+    $table = new HTML_Table(null, null, true);
+    $head =& $table->getHeader();
+    $foot =& $table->getFooter();
+    $body =& $table->getBody();
+    $head->setCellContents(...);
+    $body->setCellContents(...);
+    echo $table->toHtml();  // <tfoot> will not be rendered
   </notes>
   <deps>
    <dep type="pkg" rel="ge" version="1.2.0" optional="no">HTML_Common</dep>
@@ -52,6 +75,9 @@
      <file role="doc" name="Table_example1.php"/>
      <file role="doc" name="Table_example2.php"/>
     </dir> <!-- /docs -->
+    <dir name="Table">
+     <file role="php" name="Storage.php" />
+    </dir>
     <file role="php" name="Table.php"/>
    </dir> <!-- / -->
   </filelist>
@@ -67,6 +93,29 @@
 - #786, if the value was a zero, the cell content was converted to the autofill value. (Bertrand)
 - #1734, _adjustEnd added a extra empty column if there was only one column being processed
 - setHeaderContents can now accept attributes, but it's optional. request #2030
+- Added support for thead, tfoot and tbody on the courtesy of Mark Wisemann <wiesemann@php.net>
+
+Usage:
+
+    - current behaviour is still available:
+    $table = new HTML_Table();
+    $table->setCellContents(...);
+    echo $table->toHtml();
+
+    - new alternative with same result:
+    $table = new HTML_Table();
+    $body =& $table->getBody();
+    $body->setCellContents(...);
+    echo $table->toHtml();
+
+    - using the new grouping:
+    $table = new HTML_Table(null, null, true);
+    $head =& $table->getHeader();
+    $foot =& $table->getFooter();
+    $body =& $table->getBody();
+    $head->setCellContents(...);
+    $body->setCellContents(...);
+    echo $table->toHtml();  // <tfoot> will not be rendered
     </notes>
    </release>
    <release>

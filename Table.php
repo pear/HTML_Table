@@ -26,6 +26,7 @@
  * @package    HTML_Table
  * @author     Adam Daniel <adaniel1@eesus.jnj.com>
  * @author     Bertrand Mansion <bmansion@mamasam.com>
+ * @author     Mark Wiesemann <wiesemann@php.net>
  * @copyright  2005 The PHP Group
  * @license    http://www.php.net/license/3_0.txt  PHP License 3.0
  * @version    CVS: $Id$
@@ -34,10 +35,11 @@
 
 
 /**
-* Requires PEAR and HTML_Common
+* Requires PEAR, HTML_Common and HTML_Table_Storage
 */
 require_once 'PEAR.php';
 require_once 'HTML/Common.php';
+require_once 'HTML/Table/Storage.php';
 
 /**
  * PEAR::HTML_Table makes the design of HTML tables easy, flexible, reusable and efficient.
@@ -56,19 +58,13 @@ require_once 'HTML/Common.php';
  * @package    HTML_Table
  * @author     Adam Daniel <adaniel1@eesus.jnj.com>
  * @author     Bertrand Mansion <bmansion@mamasam.com>
+ * @author     Mark Wiesemann <wiesemann@php.net>
  * @copyright  2005 The PHP Group
  * @license    http://www.php.net/license/3_0.txt  PHP License 3.0
  * @version    Release: @package_version@
  * @link       http://pear.php.net/package/HTML_Table
  */
 class HTML_Table extends HTML_Common {
-
-    /**
-     * Automatically adds a new row or column if a given row or column index does not exist
-     * @var    bool
-     * @access private
-     */
-    var $_autoGrow = true;
 
     /**
      * Value to insert into empty cells
@@ -78,47 +74,62 @@ class HTML_Table extends HTML_Common {
     var $_autoFill = '&nbsp;';
 
     /**
-     * Array containing the table structure
+     * Array containing the table caption
      * @var     array
      * @access  private
      */
-    var $_structure = array();
+    var $_caption = array();
 
     /**
-     * Number of rows composing in the table
-     * @var     int
-     * @access  private
-     */
-    var $_rows = 0;
-
-    /**
-     * Number of column composing the table
-     * @var     int
-     * @access  private
-     */
-    var $_cols = 0;
-
-    /**
-     * Tracks the level of nested tables
-     * @var    int
+     * HTML_Table_Storage object for the (t)head of the table
+     * @var    object
      * @access private
      */
-    var $_nestLevel = 0;
+    var $_thead = null;
+
+    /**
+     * HTML_Table_Storage object for the (t)foot of the table
+     * @var    object
+     * @access private
+     */
+    var $_tfoot = null;
+
+    /**
+     * HTML_Table_Storage object for the (t)body of the table
+     * @var    object
+     * @access private
+     */
+    var $_tbody = null;
+
+    /**
+     * Whether to use <thead>, <tfoot> and <tbody> or not
+     * @var    bool
+     * @access private
+     */
+    var $_useTGroups = false;
 
     /**
      * Class constructor
      * @param    array    $attributes        Associative array of table tag attributes
-     * @param    int      $tabOffset
+     * @param    int      $tabOffset         Tab offset of the table
+     * @param    bool     $useTGroups        Whether to use <thead>, <tfoot> and
+     *                                       <tbody> or not
      * @access   public
      */
-    function HTML_Table($attributes = null, $tabOffset = 0)
+    function HTML_Table($attributes = null, $tabOffset = 0, $useTGroups = false)
     {
         $commonVersion = 1.7;
         if (HTML_Common::apiVersion() < $commonVersion) {
             return PEAR::raiseError('HTML_Table version ' . $this->apiVersion() . ' requires ' .
                 "HTML_Common version $commonVersion or greater.", 0, PEAR_ERROR_TRIGGER);
         }
-        HTML_Common::HTML_Common($attributes, $tabOffset);
+        HTML_Common::HTML_Common($attributes, (int)$tabOffset);
+        $this->_useTGroups = (boolean)$useTGroups;
+        $this->_tbody =& new HTML_Table_Storage($attributes, $tabOffset, $this->_useTGroups);
+        if ($this->_useTGroups) {
+            $this->_thead =& new HTML_Table_Storage($attributes, $tabOffset, $this->_useTGroups);
+            $this->_tfoot =& new HTML_Table_Storage($attributes, $tabOffset, $this->_useTGroups);
+        }
     }
 
     /**
@@ -132,6 +143,49 @@ class HTML_Table extends HTML_Common {
     }
 
     /**
+     * Returns the HTML_Table_Storage object for <thead>
+     * @access  public
+     * @return  object
+     */
+    function &getHeader()
+    {
+        if (is_null($this->_thead)) {
+            $this->_useTGroups = true;
+            $this->_thead =& new HTML_Table_Storage($this->_attributes,
+                $this->_tabOffset, $this->_useTGroups);
+            $this->_tbody->setUseTGroups(true);
+        }
+        return $this->_thead;
+    }
+
+    /**
+     * Returns the HTML_Table_Storage object for <tfoot>
+     * @access  public
+     * @return  object
+     */
+    function &getFooter()
+    {
+        if (is_null($this->_tfoot)) {
+            $this->_useTGroups = true;
+            $this->_tfoot =& new HTML_Table_Storage($this->_attributes,
+                $this->_tabOffset, $this->_useTGroups);
+            $this->_tbody->setUseTGroups(true);
+        }
+        return $this->_tfoot;
+    }
+
+    /**
+     * Returns the HTML_Table_Storage object for <tbody>
+     * (or the whole table if <t{head|foot|body> is not used)
+     * @access  public
+     * @return  object
+     */
+    function &getBody()
+    {
+        return $this->_tbody;
+    }
+
+    /**
      * Sets the table caption
      * @param   string    $caption
      * @param   mixed     $attributes        Associative array or string of table row attributes
@@ -140,7 +194,7 @@ class HTML_Table extends HTML_Common {
     function setCaption($caption, $attributes = null)
     {
         $attributes = $this->_parseAttributes($attributes);
-        $this->_structure['caption'] = array('attr' => $attributes, 'contents' => $caption);
+        $this->_caption = array('attr' => $attributes, 'contents' => $caption);
     }
 
     /**
@@ -150,7 +204,7 @@ class HTML_Table extends HTML_Common {
      */
     function setAutoFill($fill)
     {
-        $this->_autoFill = $fill;
+        $this->_tbody->setAutoFill($fill);
     }
 
     /**
@@ -160,7 +214,7 @@ class HTML_Table extends HTML_Common {
      */
     function getAutoFill()
     {
-        return $this->_autoFill;
+        return $this->_tbody->getAutoFill();
     }
 
     /**
@@ -170,7 +224,7 @@ class HTML_Table extends HTML_Common {
      */
     function setAutoGrow($grow)
     {
-        $this->_autoGrow = $grow;
+        $this->_tbody->setAutoGrow($grow);
     }
 
     /**
@@ -180,7 +234,7 @@ class HTML_Table extends HTML_Common {
      */
     function getAutoGrow()
     {
-        return $this->_autoGrow;
+        return $this->_tbody->getAutoGrow();
     }
 
     /**
@@ -190,7 +244,7 @@ class HTML_Table extends HTML_Common {
      */
     function setRowCount($rows)
     {
-        $this->_rows = $rows;
+        $this->_tbody->setRowCount($rows);
     }
 
     /**
@@ -200,7 +254,7 @@ class HTML_Table extends HTML_Common {
      */
     function setColCount($cols)
     {
-        $this->_cols = $cols;
+        $this->_tbody->setColCount($cols);
     }
 
     /**
@@ -210,7 +264,7 @@ class HTML_Table extends HTML_Common {
      */
     function getRowCount()
     {
-        return $this->_rows;
+        return $this->_tbody->getRowCount();
     }
 
     /**
@@ -225,16 +279,7 @@ class HTML_Table extends HTML_Common {
      */
     function getColCount($row = null)
     {
-        if (!is_null($row)) {
-            $count = 0;
-            foreach ($this->_structure[$row] as $cell) {
-                if (is_array($cell)) {
-                    $count++;   
-                }
-            }
-            return $count;
-        }
-        return $this->_cols;
+        return $this->_tbody->getColCount($row);
     }
 
     /**
@@ -246,9 +291,7 @@ class HTML_Table extends HTML_Common {
 
     function setRowType($row, $type)
     {
-        for ($counter = 0; $counter < $this->_cols; $counter++) {
-            $this->_structure[$row][$counter]['type'] = $type;
-        }
+        $this->_tbody->setRowType($row, $type);
     }
 
     /**
@@ -259,9 +302,7 @@ class HTML_Table extends HTML_Common {
      */
     function setColType($col, $type)
     {
-        for ($counter = 0; $counter < $this->_rows; $counter++) {
-            $this->_structure[$counter][$col]['type'] = $type;
-        }
+        $this->_tbody->setColType($col, $type);
     }
 
     /**
@@ -278,14 +319,10 @@ class HTML_Table extends HTML_Common {
      */
     function setCellAttributes($row, $col, $attributes)
     {
-        if (isset($this->_structure[$row][$col]) && $this->_structure[$row][$col] == '__SPANNED__') return;
-        $attributes = $this->_parseAttributes($attributes);
-        $err = $this->_adjustEnds($row, $col, 'setCellAttributes', $attributes);
-        if (PEAR::isError($err)) {
-            return $err;
+        $ret = $this->_tbody->setCellAttributes($row, $col, $attributes);
+        if (PEAR::isError($ret)) {
+            return $ret;
         }
-        $this->_structure[$row][$col]['attr'] = $attributes;
-        $this->_updateSpanGrid($row, $col);
     }
 
     /**
@@ -297,14 +334,10 @@ class HTML_Table extends HTML_Common {
      */
     function updateCellAttributes($row, $col, $attributes)
     {
-        if (isset($this->_structure[$row][$col]) && $this->_structure[$row][$col] == '__SPANNED__') return;
-        $attributes = $this->_parseAttributes($attributes);
-        $err = $this->_adjustEnds($row, $col, 'updateCellAttributes', $attributes);
-        if (PEAR::isError($err)) {
-            return $err;
+        $ret = $this->_tbody->updateCellAttributes($row, $col, $attributes);
+        if (PEAR::isError($ret)) {
+            return $ret;
         }
-        $this->_updateAttrArray($this->_structure[$row][$col]['attr'], $attributes);
-        $this->_updateSpanGrid($row, $col);
     }
 
     /**
@@ -316,13 +349,7 @@ class HTML_Table extends HTML_Common {
      */
     function getCellAttributes($row, $col)
     {
-        if (isset($this->_structure[$row][$col]) && $this->_structure[$row][$col] != '__SPANNED__') {
-            return $this->_structure[$row][$col]['attr'];
-        } elseif (!isset($this->_structure[$row][$col])) {
-            return PEAR::raiseError('Invalid table cell reference[' .
-                $row . '][' . $col . '] in HTML_Table::getCellAttributes');
-        }
-        return;
+        return $this->_tbody->getCellAttributes($row, $col);
     }
 
     /**
@@ -333,20 +360,20 @@ class HTML_Table extends HTML_Common {
      * error is returned.
      * @param    int      $row        Row index
      * @param    int      $col        Column index
-     * @param    mixed    $contents   May contain html or any object with a toHTML method
+     * @param    mixed    $contents   May contain html or any object with a toHTML method;
+     *                                if it is an array (with strings and/or objects), $col
+     *                                will be used as start offset and the array elements
+     *                                will be set to this and the following columns in $row
      * @param    string   $type       (optional) Cell type either 'TH' or 'TD'
      * @access   public
      * @throws   PEAR_Error
      */
     function setCellContents($row, $col, $contents, $type = 'TD')
     {
-        if(isset($this->_structure[$row][$col]) && $this->_structure[$row][$col] == '__SPANNED__') return;
-        $err = $this->_adjustEnds($row, $col, 'setCellContents');
-        if (PEAR::isError($err)) {
-            return $err;
+        $ret = $this->_tbody->setCellContents($row, $col, $contents, $type);
+        if (PEAR::isError($ret)) {
+            return $ret;
         }
-        $this->_structure[$row][$col]['contents'] = $contents;
-        $this->_structure[$row][$col]['type'] = $type;
     }
 
     /**
@@ -358,8 +385,7 @@ class HTML_Table extends HTML_Common {
      */
     function getCellContents($row, $col)
     {
-        if (isset($this->_structure[$row][$col]) && $this->_structure[$row][$col] == '__SPANNED__') return;
-        return $this->_structure[$row][$col]['contents'];
+        return $this->_tbody->getCellContents($row, $col);
     }
 
     /**
@@ -367,15 +393,12 @@ class HTML_Table extends HTML_Common {
      * @param    int     $row
      * @param    int     $col
      * @param    mixed   $contents
-     * @param   mixed  $attributes Associative array or string of table row attributes
+     * @param    mixed  $attributes Associative array or string of table row attributes
      * @access   public
      */
     function setHeaderContents($row, $col, $contents, $attributes = null)
     {
-        $this->setCellContents($row, $col, $contents, 'TH');
-        if (!is_null($attributes)) {
-            $this->updateCellAttributes($row, $col, $attributes);
-        }
+        $this->_tbody->setHeaderContents($row, $col, $contents, $attributes);
     }
 
     /**
@@ -392,22 +415,10 @@ class HTML_Table extends HTML_Common {
      */
     function addRow($contents = null, $attributes = null, $type = 'td', $inTR = false)
     {
-        if (isset($contents) && !is_array($contents)) {
-            return PEAR::raiseError('First parameter to HTML_Table::addRow must be an array');
+        $ret = $this->_tbody->addRow($contents, $attributes, $type, $inTR);
+        if (PEAR::isError($ret)) {
+            return $ret;
         }
-
-        $type = strtolower($type);
-        $row = $this->_rows++;
-        $contentCount = count($contents);
-        for ($counter = 0; $counter < $contentCount; $counter++) {
-            if ($type == 'td') {
-                $this->setCellContents($row, $counter, $contents[$counter]);
-            } elseif ($type == 'th') {
-                $this->setHeaderContents($row, $counter, $contents[$counter]);
-            }
-        }
-        $this->setRowAttributes($row, $attributes, $inTR);
-        return $row;
     }
 
     /**
@@ -423,23 +434,9 @@ class HTML_Table extends HTML_Common {
      */
     function setRowAttributes($row, $attributes, $inTR = false)
     {
-        if (!$inTR) {
-            $multiAttr = $this->_isAttributesArray($attributes);
-            for ($i = 0; $i < $this->_cols; $i++) {
-                if ($multiAttr) {
-                    $this->setCellAttributes($row, $i,
-                        $attributes[$i - ((ceil(($i + 1) / count($attributes))) - 1) * count($attributes)]);
-                } else {
-                    $this->setCellAttributes($row, $i, $attributes);
-                }
-            }
-        } else {
-            $attributes = $this->_parseAttributes($attributes);
-            $err = $this->_adjustEnds($row, 1, 'setRowAttributes', $attributes);
-            if (PEAR::isError($err)) {
-                return $err;
-            }
-            $this->_structure[$row]['attr'] = $attributes;
+        $ret = $this->_tbody->setRowAttributes($row, $attributes, $inTR);
+        if (PEAR::isError($ret)) {
+            return $ret;
         }
     }
 
@@ -454,23 +451,9 @@ class HTML_Table extends HTML_Common {
      */
     function updateRowAttributes($row, $attributes = null, $inTR = false)
     {
-        if (!$inTR) {
-            $multiAttr = $this->_isAttributesArray($attributes);
-            for ($i = 0; $i < $this->_cols; $i++) {
-                if ($multiAttr) {
-                    $this->updateCellAttributes($row, $i,
-                        $attributes[$i - ((ceil(($i + 1) / count($attributes))) - 1) * count($attributes)]);
-                } else {
-                    $this->updateCellAttributes($row, $i, $attributes);
-                }
-            }
-        } else {
-            $attributes = $this->_parseAttributes($attributes);
-            $err = $this->_adjustEnds($row, 1, 'updateRowAttributes', $attributes);
-            if (PEAR::isError($err)) {
-                return $err;
-            }
-            $this->_updateAttrArray($this->_structure[$row]['attr'], $attributes);
+        $ret = $this->_tbody->updateRowAttributes($row, $attributes, $inTR);
+        if (PEAR::isError($ret)) {
+            return $ret;
         }
     }
 
@@ -482,10 +465,7 @@ class HTML_Table extends HTML_Common {
      */
     function getRowAttributes($row)
     {
-        if (isset($this->_structure[$row]['attr'])) {
-            return $this->_structure[$row]['attr'];
-        }
-        return;
+        return $this->_tbody->getRowAttributes($row);
     }
 
     /**
@@ -499,10 +479,7 @@ class HTML_Table extends HTML_Common {
      */
     function altRowAttributes($start, $attributes1, $attributes2, $inTR = false)
     {
-        for ($row = $start ; $row < $this->_rows ; $row++) {
-            $attributes = ( ($row + $start) % 2 == 0 ) ? $attributes1 : $attributes2;
-            $this->updateRowAttributes($row, $attributes, $inTR);
-        }
+        $this->_tbody->altRowAttributes($start, $attributes1, $attributes2, $inTR);
     }
 
     /**
@@ -515,17 +492,7 @@ class HTML_Table extends HTML_Common {
      */
     function addCol($contents = null, $attributes = null, $type = 'td')
     {
-        if (isset($contents) && !is_array($contents)) {
-            return PEAR::raiseError('First parameter to HTML_Table::addCol must be an array');
-        }
-        $type = strtolower($type);
-        $col = $this->_cols++;
-        $contentCount = count($contents);
-        for ($counter = 0; $counter < $contentCount; $counter++) {
-            $this->setCellContents($counter, $col, $contents[$counter], $type);
-        }
-        $this->setColAttributes($col, $attributes);
-        return $col;
+        return $this->_tbody->updateRowAttributes($row, $attributes, $inTR);
     }
 
     /**
@@ -536,15 +503,7 @@ class HTML_Table extends HTML_Common {
      */
     function setColAttributes($col, $attributes = null)
     {
-        $multiAttr = $this->_isAttributesArray($attributes);
-        for ($i = 0; $i < $this->_rows; $i++) {
-            if ($multiAttr) {
-                $this->setCellAttributes($i, $col,
-                    $attributes[$i - ((ceil(($i + 1) / count($attributes))) - 1) * count($attributes)]);
-            } else {
-                $this->setCellAttributes($i, $col, $attributes);
-            }
-        }
+        $this->_tbody->setColAttributes($col, $attributes);
     }
 
     /**
@@ -555,15 +514,7 @@ class HTML_Table extends HTML_Common {
      */
     function updateColAttributes($col, $attributes = null)
     {
-        $multiAttr = $this->_isAttributesArray($attributes);
-        for ($i = 0; $i < $this->_rows; $i++) {
-            if ($multiAttr) {
-                $this->updateCellAttributes($i, $col,
-                    $attributes[$i - ((ceil(($i + 1) / count($attributes))) - 1) * count($attributes)]);
-            } else {
-                $this->updateCellAttributes($i, $col, $attributes);
-            }
-        }
+        $this->_tbody->updateColAttributes($col, $attributes);
     }
 
     /**
@@ -573,9 +524,7 @@ class HTML_Table extends HTML_Common {
      */
     function setAllAttributes($attributes = null)
     {
-        for ($i = 0; $i < $this->_rows; $i++) {
-            $this->setRowAttributes($i, $attributes);
-        }
+        $this->_tbody->setAllAttributes($attributes);
     }
 
     /**
@@ -585,9 +534,7 @@ class HTML_Table extends HTML_Common {
      */
     function updateAllAttributes($attributes = null)
     {
-        for ($i = 0; $i < $this->_rows; $i++) {
-            $this->updateRowAttributes($i, $attributes);
-        }
+        $this->_tbody->updateAllAttributes($attributes);
     }
 
     /**
@@ -606,9 +553,9 @@ class HTML_Table extends HTML_Common {
         }
         $strHtml .=
             $tabs . '<table' . $this->_getAttrString($this->_attributes) . '>' . $lnEnd;
-        if (!empty($this->_structure['caption'])) {
-            $attr = $this->_structure['caption']['attr'];
-            $contents = $this->_structure['caption']['contents'];
+        if (!empty($this->_caption)) {
+            $attr = $this->_caption['attr'];
+            $contents = $this->_caption['contents'];
             $strHtml .= $tabs . $tab . '<caption' . $this->_getAttrString($attr) . '>';
             if (is_array($contents)) {
                 $contents = implode(', ', $contents);
@@ -616,148 +563,34 @@ class HTML_Table extends HTML_Common {
             $strHtml .= $contents;
             $strHtml .= '</caption>' . $lnEnd;
         }
-        for ($i = 0 ; $i < $this->_rows ; $i++) {
-            $attr = '';
-            if (isset($this->_structure[$i]['attr'])) {
-                $attr = $this->_getAttrString($this->_structure[$i]['attr']);
+        if ($this->_useTGroups) {
+            $maxColCount = max($this->_thead->getColCount(),
+                               $this->_tfoot->getColCount(),
+                               $this->_tbody->getColCount());
+            $this->_thead->setColCount($maxColCount);
+            $this->_tfoot->setColCount($maxColCount);
+            $this->_tbody->setColCount($maxColCount);
+            if ($this->_thead->getRowCount() > 0) {
+                $strHtml .= $tabs . $tab . '<thead>' . $lnEnd;
+                $strHtml .= $this->_thead->toHtml();
+                $strHtml .= $tabs . $tab . '</thead>' . $lnEnd;
             }
-            $strHtml .= $tabs .$tab . '<tr'.$attr.'>' . $lnEnd;
-            for ($j = 0 ; $j < $this->_cols ; $j++) {
-                $attr     = '';
-                $contents = '';
-                $type     = 'td';
-                if (isset($this->_structure[$i][$j]) && $this->_structure[$i][$j] == '__SPANNED__') {
-                    $strHtml .= $tabs . $tab . $tab .'<!-- span -->' . $lnEnd;
-                    continue;
-                }
-                if (isset($this->_structure[$i][$j]['type'])) {
-                    $type = (strtolower($this->_structure[$i][$j]['type']) == 'th' ? 'th' : 'td');
-                }
-                if (isset($this->_structure[$i][$j]['attr'])) {
-                    $attr = $this->_structure[$i][$j]['attr'];
-                }
-                if (isset($this->_structure[$i][$j]['contents'])) {
-                    $contents = $this->_structure[$i][$j]['contents'];
-                }
-                $strHtml .= $tabs . $tab . $tab . "<$type" . $this->_getAttrString($attr) . '>';
-                if (is_object($contents)) {
-                    // changes indent and line end settings on nested tables
-                    if (is_subclass_of($contents, 'html_common')) {
-                        $contents->setTab($tab);
-                        $contents->setTabOffset($this->_tabOffset + 3);
-                        $contents->_nestLevel = $this->_nestLevel + 1;
-                        $contents->setLineEnd($this->_getLineEnd());
-                    }
-                    if (method_exists($contents, 'toHtml')) {
-                        $contents = $contents->toHtml();
-                    } elseif (method_exists($contents, 'toString')) {
-                        $contents = $contents->toString();
-                    }
-                }
-                if (is_array($contents)) {
-                    $contents = implode(', ', $contents);
-                }
-                if (isset($this->_autoFill) && $contents === '') {
-                    $contents = $this->_autoFill;
-                }
-                $strHtml .= $contents;
-                $strHtml .= "</$type>" . $lnEnd;
+            if ($this->_tfoot->getRowCount() > 0) {
+                $strHtml .= $tabs . $tab . '<tfoot>' . $lnEnd;
+                $strHtml .= $this->_tfoot->toHtml();
+                $strHtml .= $tabs . $tab . '</tfoot>' . $lnEnd;
             }
-            $strHtml .= $tabs . $tab . '</tr>' . $lnEnd;
+            if ($this->_tbody->getRowCount() > 0) {
+                $strHtml .= $tabs . $tab . '<tbody>' . $lnEnd;
+                $strHtml .= $this->_tbody->toHtml();
+                $strHtml .= $tabs . $tab . '</tbody>' . $lnEnd;
+            }
+        } else {
+            $strHtml .= $this->_tbody->toHtml();
         }
         $strHtml .= $tabs . '</table>' . $lnEnd;
         return $strHtml;
     }
 
-    /**
-     * Checks if rows or columns are spanned
-     * @param    int        $row            Row index
-     * @param    int        $col            Column index
-     * @access   private
-     */
-    function _updateSpanGrid($row, $col)
-    {
-        if (isset($this->_structure[$row][$col]['attr']['colspan'])) {
-            $colspan = $this->_structure[$row][$col]['attr']['colspan'];
-        }
-
-        if (isset($this->_structure[$row][$col]['attr']['rowspan'])) {
-            $rowspan = $this->_structure[$row][$col]['attr']['rowspan'];
-        }
-
-        if (isset($colspan)) {
-            for ($j = $col + 1; (($j < $this->_cols) && ($j <= ($col + $colspan - 1))); $j++) {
-                $this->_structure[$row][$j] = '__SPANNED__';
-            }
-        }
-
-        if (isset($rowspan)) {
-            for ($i = $row + 1; (($i < $this->_rows) && ($i <= ($row + $rowspan - 1))); $i++) {
-                $this->_structure[$i][$col] = '__SPANNED__';
-            }
-        }
-
-        if (isset($colspan) && isset($rowspan)) {
-            for ($i = $row + 1; (($i < $this->_rows) && ($i <= ($row + $rowspan - 1))); $i++) {
-                for ($j = $col + 1; (($j <= $this->_cols) && ($j <= ($col + $colspan - 1))); $j++) {
-                    $this->_structure[$i][$j] = '__SPANNED__';
-                }
-            }
-        }
-    }
-
-    /**
-    * Adjusts ends (total number of rows and columns)
-    * @param    int     $row        Row index
-    * @param    int     $col        Column index
-    * @param    string  $method     Method name of caller
-    *                               Used to populate PEAR_Error if thrown.
-    * @param    array   $attributes Assoc array of attributes
-    *                               Default is an empty array.
-    * @access   private
-    * @throws   PEAR_Error
-    */
-    function _adjustEnds($row, $col, $method, $attributes = array())
-    {
-        $colspan = isset($attributes['colspan']) ? $attributes['colspan'] : 1;
-        $rowspan = isset($attributes['rowspan']) ? $attributes['rowspan'] : 1;
-        if (($row + $rowspan - 1) >= $this->_rows) {
-            if ($this->_autoGrow) {
-                $this->_rows = $row + $rowspan;
-            } else {
-                return PEAR::raiseError('Invalid table row reference[' .
-                    $row . '] in HTML_Table::' . $method);
-            }
-        }
-
-        if (($col + $colspan - 1) >= $this->_cols) {
-            if ($this->_autoGrow) {
-                if ($col == '1') {
-                    $this_cols = $col;
-                } else {
-                    $this->_cols = $col + $colspan;
-                }
-            } else {
-                return PEAR::raiseError('Invalid table column reference[' .
-                    $col . '] in HTML_Table::' . $method);
-            }
-        }
-    }
-
-    /**
-    * Tells if the parameter is an array of attribute arrays/strings
-    * @param    mixed   $attributes Variable to test
-    * @access   private
-    * @return   bool
-    */
-    function _isAttributesArray($attributes)
-    {
-        if (is_array($attributes) && isset($attributes[0])) {
-            if (is_array($attributes[0]) || (is_string($attributes[0]) && count($attributes) > 1)) {
-                return true;
-            }
-        }
-        return false;
-    }
 }
 ?>
