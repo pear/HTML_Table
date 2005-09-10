@@ -41,7 +41,7 @@
 - #786, if the value was a zero, the cell content was converted to the autofill value. (Bertrand)
 - #1734, _adjustEnd added a extra empty column if there was only one column being processed
 - setHeaderContents can now accept attributes, but it's optional. request #2030
-- Added support for thead, tfoot and tbody on the courtesy of Mark Wisemann <wiesemann@php.net>
+- Added support for thead, tfoot and tbody on the courtesy of Mark Wiesemann <wiesemann@php.net>
 
     Usage:
 
