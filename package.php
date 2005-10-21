@@ -9,14 +9,16 @@
 require_once 'PEAR/PackageFileManager.php';
 require_once 'Console/Getopt.php';
 
-$version = '1.5.1';
+$version = '1.6.0';
 
 $notes = <<<EOT
-- td/th aren't longer case sensetive in addRow() and relative functions
+- td/th aren't longer case sensitive in addRow() and relative functions
 - Added the possibility to specify on which row the cols should be counted. (Bertrand)
 - #786, if the value was a zero, the cell content was converted to the autofill value. (Bertrand)
 - #1734, _adjustEnd added a extra empty column if there was only one column being processed
 - setHeaderContents can now accept attributes, but it's optional. request #2030
+- Request #4944: setCellContents() now accepts an array as \$contents (\$col will be used as the start column then).
+- Request #4988: addRow() accepts now array keys as column numbers.
 - Added support for thead, tfoot and tbody on the courtesy of Mark Wiesemann <wiesemann@php.net>
 
 Usage:
@@ -77,9 +79,10 @@ if (PEAR::isError($result)) {
     echo $result->getMessage();
 }
 
-$package->addMaintainer('mansion',  'lead',    'Bertrand Mansion',  'bmansion@mamasam.com');
-$package->addMaintainer('thesaur',  'lead',    'Klaus Guenther',    'thesaur@php.net');
-$package->addMaintainer('dufuz',    'lead',    'Helgi &#222;ormar',      'dufuz@php.net');
+$package->addMaintainer('mansion',   'lead',      'Bertrand Mansion',  'bmansion@mamasam.com');
+$package->addMaintainer('thesaur',   'lead',      'Klaus Guenther',    'thesaur@php.net');
+$package->addMaintainer('dufuz',     'lead',      'Helgi &#222;ormar', 'dufuz@php.net');
+$package->addMaintainer('wiesemann', 'developer', 'Mark Wiesemann',    'wiesemann@php.net');
 
 $package->addDependency('PEAR',      false,   'has', 'pkg', false);
 $package->addDependency('HTML_Common',       '1.2.0',   'ge',  'pkg', false);
