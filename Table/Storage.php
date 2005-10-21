@@ -420,12 +420,11 @@ class HTML_Table_Storage extends HTML_Common {
 
         $type = strtolower($type);
         $row = $this->_rows++;
-        $contentCount = count($contents);
-        for ($counter = 0; $counter < $contentCount; $counter++) {
+        foreach ($contents as $col => $content) {
             if ($type == 'td') {
-                $this->setCellContents($row, $counter, $contents[$counter]);
+                $this->setCellContents($row, $col, $content);
             } elseif ($type == 'th') {
-                $this->setHeaderContents($row, $counter, $contents[$counter]);
+                $this->setHeaderContents($row, $col, $content);
             }
         }
         $this->setRowAttributes($row, $attributes, $inTR);
