@@ -12,6 +12,7 @@ require_once 'Console/Getopt.php';
 $version = '1.6.0';
 
 $notes = <<<EOT
+- Mark Wieseman is now a active developer
 - td/th aren't longer case sensitive in addRow() and relative functions
 - Added the possibility to specify on which row the cols should be counted. (Bertrand)
 - #786, if the value was a zero, the cell content was converted to the autofill value. (Bertrand)
