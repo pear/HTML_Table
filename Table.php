@@ -414,9 +414,7 @@ class HTML_Table extends HTML_Common {
     function addRow($contents = null, $attributes = null, $type = 'td', $inTR = false)
     {
         $ret = $this->_tbody->addRow($contents, $attributes, $type, $inTR);
-        if (PEAR::isError($ret)) {
-            return $ret;
-        }
+        return $ret;
     }
 
     /**
