@@ -488,7 +488,7 @@ class HTML_Table extends HTML_Common {
      */
     function addCol($contents = null, $attributes = null, $type = 'td')
     {
-        return $this->_tbody->updateRowAttributes($row, $attributes, $inTR);
+        return $this->_tbody->addCol($contents, $attributes, $type);
     }
 
     /**
