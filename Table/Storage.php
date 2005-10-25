@@ -541,9 +541,12 @@ class HTML_Table_Storage extends HTML_Common {
         }
         $type = strtolower($type);
         $col = $this->_cols++;
-        $contentCount = count($contents);
-        for ($counter = 0; $counter < $contentCount; $counter++) {
-            $this->setCellContents($counter, $col, $contents[$counter], $type);
+        foreach ($contents as $row => $content) {
+            if ($type == 'td') {
+                $this->setCellContents($row, $col, $content);
+            } elseif ($type == 'th') {
+                $this->setHeaderContents($row, $col, $content);
+            }
         }
         $this->setColAttributes($col, $attributes);
         return $col;
