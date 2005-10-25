@@ -40,41 +40,15 @@ For auto filling of data and such then check out http://pear.php.net/package/HTM
   </maintainer>
   </maintainers>
  <release>
-  <version>1.6.0</version>
-  <date>2005-10-21</date>
+  <version>1.6.1</version>
+  <date>2005-10-25</date>
   <license>PHP_License</license>
   <state>stable</state>
-  <notes>- Mark Wieseman is now a active developer
-- td/th aren&apos;t longer case sensitive in addRow() and relative functions
-- Added the possibility to specify on which row the cols should be counted. (Bertrand)
-- #786, if the value was a zero, the cell content was converted to the autofill value. (Bertrand)
-- #1734, _adjustEnd added a extra empty column if there was only one column being processed
-- setHeaderContents can now accept attributes, but it&apos;s optional. request #2030
-- Request #4944: setCellContents() now accepts an array as $contents ($col will be used as the start column then).
-- Request #4988: addRow() accepts now array keys as column numbers.
-- Added support for thead, tfoot and tbody on the courtesy of Mark Wiesemann &lt;wiesemann@php.net&gt;
-
-Usage:
-
-- current behaviour is still available:
-$table = new HTML_Table();
-$table-&gt;setCellContents(...);
-echo $table-&gt;toHtml();
-
-- new alternative with same result:
-$table = new HTML_Table();
-$body =&amp; $table-&gt;getBody();
-$body-&gt;setCellContents(...);
-echo $table-&gt;toHtml();
-
-- using the new grouping:
-$table = new HTML_Table(null, null, true);
-$head =&amp; $table-&gt;getHeader();
-$foot =&amp; $table-&gt;getFooter();
-$body =&amp; $table-&gt;getBody();
-$head-&gt;setCellContents(...);
-$body-&gt;setCellContents(...);
-echo $table-&gt;toHtml();  // &lt;tfoot&gt; will not be rendered
+  <notes>- Bugfix: addCol() must not call Storage::updateRowAttributes(), but Storage::addCol()
+- Bugfix: addCol() had the same problem as in request #4988 (it did not accept array keys as row numbers)
+- Bugfix: toHtml() wrongly assumed that there are instances of $_thead and $_tfoot when $useTGroups == true
+- Bugfix: return PEAR_Error object in getCellContents when cell does not exist
+- Couple of unit tests were added, covering a lot of ground.
   </notes>
   <deps>
    <dep type="pkg" rel="ge" version="1.2.0" optional="no">HTML_Common</dep>
@@ -89,11 +63,42 @@ echo $table-&gt;toHtml();  // &lt;tfoot&gt; will not be rendered
     <dir name="Table">
      <file role="php" name="Storage.php"/>
     </dir> <!-- /Table -->
+    <dir name="tests">
+     <file role="data" name="1.phpt"/>
+     <file role="data" name="2.phpt"/>
+     <file role="data" name="3.phpt"/>
+     <file role="data" name="4.phpt"/>
+     <file role="data" name="5.phpt"/>
+     <file role="data" name="6.phpt"/>
+     <file role="data" name="7.phpt"/>
+     <file role="data" name="8.phpt"/>
+     <file role="data" name="9.phpt"/>
+     <file role="data" name="10.phpt"/>
+     <file role="data" name="11.phpt"/>
+     <file role="data" name="12.phpt"/>
+     <file role="data" name="13.phpt"/>
+     <file role="data" name="14.phpt"/>
+     <file role="data" name="15.phpt"/>
+     <file role="data" name="16.phpt"/>
+     <file role="data" name="17.phpt"/>
+    </dir> <!-- /tests -->
     <file role="php" name="Table.php"/>
    </dir> <!-- / -->
   </filelist>
  </release>
  <changelog>
+   <release>
+    <version>1.6.1</version>
+    <date>2005-10-25</date>
+    <license>PHP_License</license>
+    <state>stable</state>
+    <notes>- Bugfix: addCol() must not call Storage::updateRowAttributes(), but Storage::addCol()
+- Bugfix: addCol() had the same problem as in request #4988 (it did not accept array keys as row numbers)
+- Bugfix: toHtml() wrongly assumed that there are instances of $_thead and $_tfoot when $useTGroups == true
+- Bugfix: return PEAR_Error object in getCellContents when cell does not exist
+- Couple of unit tests were added, covering a lot of ground.
+    </notes>
+   </release>
    <release>
     <version>1.6.0</version>
     <date>2005-10-21</date>

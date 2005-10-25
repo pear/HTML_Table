@@ -16,6 +16,7 @@ $notes = <<<EOT
 - Bugfix: addCol() had the same problem as in request #4988 (it did not accept array keys as row numbers)
 - Bugfix: toHtml() wrongly assumed that there are instances of \$_thead and \$_tfoot when \$useTGroups == true
 - Bugfix: return PEAR_Error object in getCellContents when cell does not exist
+- Couple of unit tests were added, covering a lot of ground.
 EOT;
 
 $description = <<<EOT
