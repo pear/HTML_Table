@@ -381,6 +381,10 @@ class HTML_Table_Storage extends HTML_Common {
     function getCellContents($row, $col)
     {
         if (isset($this->_structure[$row][$col]) && $this->_structure[$row][$col] == '__SPANNED__') return;
+        if (!isset($this->_structure[$row][$col])) {
+            return PEAR::raiseError('Invalid table cell reference[' .
+                $row . '][' . $col . '] in HTML_Table::getCellContents');
+        }
         return $this->_structure[$row][$col]['contents'];
     }
 
