@@ -9,40 +9,12 @@
 require_once 'PEAR/PackageFileManager.php';
 require_once 'Console/Getopt.php';
 
-$version = '1.6.0';
+$version = '1.6.1';
 
 $notes = <<<EOT
-- Mark Wieseman is now a active developer
-- td/th aren't longer case sensitive in addRow() and relative functions
-- Added the possibility to specify on which row the cols should be counted. (Bertrand)
-- #786, if the value was a zero, the cell content was converted to the autofill value. (Bertrand)
-- #1734, _adjustEnd added a extra empty column if there was only one column being processed
-- setHeaderContents can now accept attributes, but it's optional. request #2030
-- Request #4944: setCellContents() now accepts an array as \$contents (\$col will be used as the start column then).
-- Request #4988: addRow() accepts now array keys as column numbers.
-- Added support for thead, tfoot and tbody on the courtesy of Mark Wiesemann <wiesemann@php.net>
-
-Usage:
-
-- current behaviour is still available:
-\$table = new HTML_Table();
-\$table->setCellContents(...);
-echo \$table->toHtml();
-
-- new alternative with same result:
-\$table = new HTML_Table();
-\$body =& \$table->getBody();
-\$body->setCellContents(...);
-echo \$table->toHtml();
-
-- using the new grouping:
-\$table = new HTML_Table(null, null, true);
-\$head =& \$table->getHeader();
-\$foot =& \$table->getFooter();
-\$body =& \$table->getBody();
-\$head->setCellContents(...);
-\$body->setCellContents(...);
-echo \$table->toHtml();  // <tfoot> will not be rendered
+- Bugfix: addCol() must not call Storage::updateAttributes(), but Storage::addCol()
+- Bugfix: addCol() had the same problem as in request #4988 (it did not accept array keys as row numbers)
+- Bugfix: toHtml() wrongly assumed that there are instances of \$_thead and \$_tfoot when \$useTGroups == true
 EOT;
 
 $description = <<<EOT
