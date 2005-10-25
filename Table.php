@@ -560,26 +560,42 @@ class HTML_Table extends HTML_Common {
             $strHtml .= '</caption>' . $lnEnd;
         }
         if ($this->_useTGroups) {
-            $maxColCount = max($this->_thead->getColCount(),
-                               $this->_tfoot->getColCount(),
-                               $this->_tbody->getColCount());
-            $this->_thead->setColCount($maxColCount);
-            $this->_tfoot->setColCount($maxColCount);
-            $this->_tbody->setColCount($maxColCount);
-            if ($this->_thead->getRowCount() > 0) {
-                $strHtml .= $tabs . $tab . '<thead>' . $lnEnd;
-                $strHtml .= $this->_thead->toHtml();
-                $strHtml .= $tabs . $tab . '</thead>' . $lnEnd;
+            $tHeadColCount = 0;
+            if ($this->_thead !== null) {
+                $tHeadColCount = $this->_thead->getColCount();
             }
-            if ($this->_tfoot->getRowCount() > 0) {
-                $strHtml .= $tabs . $tab . '<tfoot>' . $lnEnd;
-                $strHtml .= $this->_tfoot->toHtml();
-                $strHtml .= $tabs . $tab . '</tfoot>' . $lnEnd;
+            $tFootColCount = 0;
+            if ($this->_tfoot !== null) {
+                $tFootColCount = $this->_tfoot->getColCount();
             }
-            if ($this->_tbody->getRowCount() > 0) {
-                $strHtml .= $tabs . $tab . '<tbody>' . $lnEnd;
-                $strHtml .= $this->_tbody->toHtml();
-                $strHtml .= $tabs . $tab . '</tbody>' . $lnEnd;
+            $tBodyColCount = 0;
+            if ($this->_tbody !== null) {
+                $tBodyColCount = $this->_tbody->getColCount();
+            }
+            $maxColCount = max($tHeadColCount, $tFootColCount, $tBodyColCount);
+            if ($this->_thead !== null) {
+                $this->_thead->setColCount($maxColCount);
+                if ($this->_thead->getRowCount() > 0) {
+                    $strHtml .= $tabs . $tab . '<thead>' . $lnEnd;
+                    $strHtml .= $this->_thead->toHtml();
+                    $strHtml .= $tabs . $tab . '</thead>' . $lnEnd;
+                }
+            }
+            if ($this->_tfoot !== null) {
+                $this->_tfoot->setColCount($maxColCount);
+                if ($this->_tfoot->getRowCount() > 0) {
+                    $strHtml .= $tabs . $tab . '<tfoot>' . $lnEnd;
+                    $strHtml .= $this->_tfoot->toHtml();
+                    $strHtml .= $tabs . $tab . '</tfoot>' . $lnEnd;
+                }
+            }
+            if ($this->_tbody !== null) {
+                $this->_tbody->setColCount($maxColCount);
+                if ($this->_tbody->getRowCount() > 0) {
+                    $strHtml .= $tabs . $tab . '<tbody>' . $lnEnd;
+                    $strHtml .= $this->_tbody->toHtml();
+                    $strHtml .= $tabs . $tab . '</tbody>' . $lnEnd;
+                }
             }
         } else {
             $strHtml .= $this->_tbody->toHtml();
