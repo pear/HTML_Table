@@ -421,6 +421,9 @@ class HTML_Table_Storage extends HTML_Common {
         if (isset($contents) && !is_array($contents)) {
             return PEAR::raiseError('First parameter to HTML_Table::addRow must be an array');
         }
+        if (is_null($contents)) {
+          $contents = array();
+        }
 
         $type = strtolower($type);
         $row = $this->_rows++;
@@ -543,6 +546,10 @@ class HTML_Table_Storage extends HTML_Common {
         if (isset($contents) && !is_array($contents)) {
             return PEAR::raiseError('First parameter to HTML_Table::addCol must be an array');
         }
+        if (is_null($contents)) {
+          $contents = array();
+        }
+
         $type = strtolower($type);
         $col = $this->_cols++;
         foreach ($contents as $row => $content) {
