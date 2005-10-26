@@ -1,5 +1,5 @@
 --TEST--
-2.phpt: 1 row 2 column with no extra options
+2.phpt: addRow 1 row 2 column with no extra options
 --FILE--
 <?php
 // $Id$
