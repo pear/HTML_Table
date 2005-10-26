@@ -41,18 +41,19 @@ For auto filling of data and such then check out http://pear.php.net/package/HTM
   </maintainers>
  <release>
   <version>1.6.1</version>
-  <date>2005-10-25</date>
+  <date>2005-10-26</date>
   <license>PHP_License</license>
   <state>stable</state>
   <notes>- Bugfix: addCol() must not call Storage::updateRowAttributes(), but Storage::addCol()
 - Bugfix: addCol() had the same problem as in request #4988 (it did not accept array keys as row numbers)
 - Bugfix: toHtml() wrongly assumed that there are instances of $_thead and $_tfoot when $useTGroups == true
 - Bugfix: return PEAR_Error object in getCellContents when cell does not exist
+- Bug #5782: remove PHP warning if $contents == null in addCol() and addRow()
 - Couple of unit tests were added, covering a lot of ground.
   </notes>
   <deps>
-   <dep type="pkg" rel="ge" version="1.2.0" optional="no">HTML_Common</dep>
    <dep type="pkg" rel="has" optional="no">PEAR</dep>
+   <dep type="pkg" rel="ge" version="1.2.0" optional="no">HTML_Common</dep>
   </deps>
   <filelist>
    <dir name="/" baseinstalldir="/HTML">
@@ -64,23 +65,25 @@ For auto filling of data and such then check out http://pear.php.net/package/HTM
      <file role="php" name="Storage.php"/>
     </dir> <!-- /Table -->
     <dir name="tests">
-     <file role="data" name="1.phpt"/>
-     <file role="data" name="2.phpt"/>
-     <file role="data" name="3.phpt"/>
-     <file role="data" name="4.phpt"/>
-     <file role="data" name="5.phpt"/>
-     <file role="data" name="6.phpt"/>
-     <file role="data" name="7.phpt"/>
-     <file role="data" name="8.phpt"/>
-     <file role="data" name="9.phpt"/>
-     <file role="data" name="10.phpt"/>
-     <file role="data" name="11.phpt"/>
-     <file role="data" name="12.phpt"/>
-     <file role="data" name="13.phpt"/>
-     <file role="data" name="14.phpt"/>
-     <file role="data" name="15.phpt"/>
-     <file role="data" name="16.phpt"/>
-     <file role="data" name="17.phpt"/>
+     <file role="test" name="1.phpt"/>
+     <file role="test" name="2.phpt"/>
+     <file role="test" name="3.phpt"/>
+     <file role="test" name="4.phpt"/>
+     <file role="test" name="5.phpt"/>
+     <file role="test" name="6.phpt"/>
+     <file role="test" name="7.phpt"/>
+     <file role="test" name="8.phpt"/>
+     <file role="test" name="9.phpt"/>
+     <file role="test" name="10.phpt"/>
+     <file role="test" name="11.phpt"/>
+     <file role="test" name="12.phpt"/>
+     <file role="test" name="13.phpt"/>
+     <file role="test" name="14.phpt"/>
+     <file role="test" name="15.phpt"/>
+     <file role="test" name="16.phpt"/>
+     <file role="test" name="17.phpt"/>
+     <file role="test" name="18.phpt"/>
+     <file role="test" name="19.phpt"/>
     </dir> <!-- /tests -->
     <file role="php" name="Table.php"/>
    </dir> <!-- / -->
@@ -89,102 +92,15 @@ For auto filling of data and such then check out http://pear.php.net/package/HTM
  <changelog>
    <release>
     <version>1.6.1</version>
-    <date>2005-10-25</date>
+    <date>2005-10-26</date>
     <license>PHP_License</license>
     <state>stable</state>
     <notes>- Bugfix: addCol() must not call Storage::updateRowAttributes(), but Storage::addCol()
 - Bugfix: addCol() had the same problem as in request #4988 (it did not accept array keys as row numbers)
 - Bugfix: toHtml() wrongly assumed that there are instances of $_thead and $_tfoot when $useTGroups == true
 - Bugfix: return PEAR_Error object in getCellContents when cell does not exist
+- Bug #5782: remove PHP warning if $contents == null in addCol() and addRow()
 - Couple of unit tests were added, covering a lot of ground.
-    </notes>
-   </release>
-   <release>
-    <version>1.6.0</version>
-    <date>2005-10-21</date>
-    <license>PHP_License</license>
-    <state>stable</state>
-    <notes>- Mark Wieseman is now a active developer
-- td/th aren&apos;t longer case sensitive in addRow() and relative functions
-- Added the possibility to specify on which row the cols should be counted. (Bertrand)
-- #786, if the value was a zero, the cell content was converted to the autofill value. (Bertrand)
-- #1734, _adjustEnd added a extra empty column if there was only one column being processed
-- setHeaderContents can now accept attributes, but it&apos;s optional. request #2030
-- Request #4944: setCellContents() now accepts an array as $contents ($col will be used as the start column then).
-- Request #4988: addRow() accepts now array keys as column numbers.
-- Added support for thead, tfoot and tbody on the courtesy of Mark Wiesemann &lt;wiesemann@php.net&gt;
-
-Usage:
-
-- current behaviour is still available:
-$table = new HTML_Table();
-$table-&gt;setCellContents(...);
-echo $table-&gt;toHtml();
-
-- new alternative with same result:
-$table = new HTML_Table();
-$body =&amp; $table-&gt;getBody();
-$body-&gt;setCellContents(...);
-echo $table-&gt;toHtml();
-
-- using the new grouping:
-$table = new HTML_Table(null, null, true);
-$head =&amp; $table-&gt;getHeader();
-$foot =&amp; $table-&gt;getFooter();
-$body =&amp; $table-&gt;getBody();
-$head-&gt;setCellContents(...);
-$body-&gt;setCellContents(...);
-echo $table-&gt;toHtml();  // &lt;tfoot&gt; will not be rendered
-    </notes>
-   </release>
-   <release>
-    <version>1.5</version>
-    <date>2003-05-20</date>
-    <license>PHP License</license>
-    <state>stable</state>
-    <notes>* Added support for line endings and tabs set in HTML_Common (Klaus Guenther)
-* Requires HTML_Common 1.2 or higher
-    </notes>
-   </release>
-   <release>
-    <version>1.4</version>
-    <date>2003-04-10</date>
-    <state>stable</state>
-    <notes>* Fix a notice in _isAttributeArray (Tommy Ipsen).
-    </notes>
-   </release>
-   <release>
-    <version>1.3</version>
-    <date>2002-11-20</date>
-    <state>stable</state>
-    <notes>* Correct usage of raiseError.
-    </notes>
-   </release>
-   <release>
-    <version>1.2</version>
-    <date>2002-10-21</date>
-    <state>stable</state>
-    <notes>* Fixed warnings.
-* Added two examples.
-    </notes>
-   </release>
-   <release>
-    <version>1.1</version>
-    <date>2002-07-21</date>
-    <state>stable</state>
-    <notes>Added new most-wanted features:
-* Accept TR tags attributes
-* Accept alternatives for cell attributes in rows and columns
-* Can get cell attributes
-* Can get row attributes
-* RaiseError fixes.
-    </notes>
-   </release>
-   <release>
-    <version>1.0</version>
-    <date>2002-05-28</date>
-    <state>stable</state>
-    <notes>First release.
     </notes>
    </release>
  </changelog>
