@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE package SYSTEM "http://pear.php.net/dtd/package-1.0">
-<package version="1.0" packagerversion="1.4.2">
+<package version="1.0" packagerversion="1.4.8">
  <name>HTML_Table</name>
  <summary>PEAR::HTML_Table makes the design of HTML tables easy, flexible, reusable and efficient.</summary>
  <description>The PEAR::HTML_Table package provides methods for easy and efficient design of HTML tables.
@@ -41,7 +41,7 @@ For auto filling of data and such then check out http://pear.php.net/package/HTM
   </maintainers>
  <release>
   <version>1.6.1</version>
-  <date>2005-10-26</date>
+  <date>2006-04-23</date>
   <license>PHP_License</license>
   <state>stable</state>
   <notes>- Bugfix: addCol() must not call Storage::updateRowAttributes(), but Storage::addCol()
@@ -84,6 +84,15 @@ For auto filling of data and such then check out http://pear.php.net/package/HTM
      <file role="test" name="17.phpt"/>
      <file role="test" name="18.phpt"/>
      <file role="test" name="19.phpt"/>
+     <file role="test" name="20.phpt"/>
+     <file role="test" name="21.phpt"/>
+     <file role="test" name="22.phpt"/>
+     <file role="test" name="23.phpt"/>
+     <file role="test" name="24.phpt"/>
+     <file role="test" name="25.phpt"/>
+     <file role="test" name="26.phpt"/>
+     <file role="test" name="27.phpt"/>
+     <file role="test" name="28.phpt"/>
     </dir> <!-- /tests -->
     <file role="php" name="Table.php"/>
    </dir> <!-- / -->
@@ -92,7 +101,7 @@ For auto filling of data and such then check out http://pear.php.net/package/HTM
  <changelog>
    <release>
     <version>1.6.1</version>
-    <date>2005-10-26</date>
+    <date>2006-04-23</date>
     <license>PHP_License</license>
     <state>stable</state>
     <notes>- Bugfix: addCol() must not call Storage::updateRowAttributes(), but Storage::addCol()

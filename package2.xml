@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<package packagerversion="1.4.8" version="2.0" xmlns="http://pear.php.net/dtd/package-2.0" xmlns:tasks="http://pear.php.net/dtd/tasks-1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://pear.php.net/dtd/tasks-1.0
+http://pear.php.net/dtd/tasks-1.0.xsd
+http://pear.php.net/dtd/package-2.0
+http://pear.php.net/dtd/package-2.0.xsd">
+ <name>HTML_Table</name>
+ <channel>pear.php.net</channel>
+ <summary>PEAR::HTML_Table makes the design of HTML tables easy, flexible, reusable and efficient.</summary>
+ <description>The PEAR::HTML_Table package provides methods for easy and efficient design of HTML tables.
+ - Lots of customization options.
+ - Tables can be modified at any time.
+ - The logic is the same as standard HTML editors.
+ - Handles col and rowspans.
+ - PHP code is shorter, easier to read and to maintain.
+ - Tables options can be reused.
+
+For auto filling of data and such then check out http://pear.php.net/package/HTML_Table_Matrix
+
+ </description>
+ <lead>
+  <name>Bertrand Mansion</name>
+  <user>mansion</user>
+  <email>bmansion@mamasam.com</email>
+  <active>yes</active>
+ </lead>
+ <lead>
+  <name>Klaus Guenther</name>
+  <user>thesaur</user>
+  <email>thesaur@php.net</email>
+  <active>yes</active>
+ </lead>
+ <lead>
+  <name>Helgi &amp;#222;ormar</name>
+  <user>dufuz</user>
+  <email>dufuz@php.net</email>
+  <active>no</active>
+ </lead>
+ <developer>
+  <name>Mark Wiesemann</name>
+  <user>wiesemann</user>
+  <email>wiesemann@php.net</email>
+  <active>yes</active>
+ </developer>
+ <date>2006-04-23</date>
+ <time>10:21:00</time>
+ <version>
+  <release>1.6.1</release>
+  <api>1.6.1</api>
+ </version>
+ <stability>
+  <release>stable</release>
+  <api>stable</api>
+ </stability>
+ <license>PHP_License</license>
+ <notes>- Bugfix: addCol() must not call Storage::updateRowAttributes(), but Storage::addCol()
+- Bugfix: addCol() had the same problem as in request #4988 (it did not accept array keys as row numbers)
+- Bugfix: toHtml() wrongly assumed that there are instances of $_thead and $_tfoot when $useTGroups == true
+- Bugfix: return PEAR_Error object in getCellContents when cell does not exist
+- Bug #5782: remove PHP warning if $contents == null in addCol() and addRow()
+- Couple of unit tests were added, covering a lot of ground.
+
+ </notes>
+ <contents>
+  <dir name="/">
+   <dir name="docs">
+    <file baseinstalldir="/HTML" name="Table_example1.php" role="doc" />
+    <file baseinstalldir="/HTML" name="Table_example2.php" role="doc" />
+   </dir> <!-- /docs -->
+   <dir name="Table">
+    <file baseinstalldir="/HTML" name="Storage.php" role="php" />
+   </dir> <!-- /Table -->
+   <dir name="tests">
+    <file baseinstalldir="/HTML" name="1.phpt" role="test" />
+    <file baseinstalldir="/HTML" name="2.phpt" role="test" />
+    <file baseinstalldir="/HTML" name="3.phpt" role="test" />
+    <file baseinstalldir="/HTML" name="4.phpt" role="test" />
+    <file baseinstalldir="/HTML" name="5.phpt" role="test" />
+    <file baseinstalldir="/HTML" name="6.phpt" role="test" />
+    <file baseinstalldir="/HTML" name="7.phpt" role="test" />
+    <file baseinstalldir="/HTML" name="8.phpt" role="test" />
+    <file baseinstalldir="/HTML" name="9.phpt" role="test" />
+    <file baseinstalldir="/HTML" name="10.phpt" role="test" />
+    <file baseinstalldir="/HTML" name="11.phpt" role="test" />
+    <file baseinstalldir="/HTML" name="12.phpt" role="test" />
+    <file baseinstalldir="/HTML" name="13.phpt" role="test" />
+    <file baseinstalldir="/HTML" name="14.phpt" role="test" />
+    <file baseinstalldir="/HTML" name="15.phpt" role="test" />
+    <file baseinstalldir="/HTML" name="16.phpt" role="test" />
+    <file baseinstalldir="/HTML" name="17.phpt" role="test" />
+    <file baseinstalldir="/HTML" name="18.phpt" role="test" />
+    <file baseinstalldir="/HTML" name="19.phpt" role="test" />
+    <file baseinstalldir="/HTML" name="20.phpt" role="test" />
+    <file baseinstalldir="/HTML" name="21.phpt" role="test" />
+    <file baseinstalldir="/HTML" name="22.phpt" role="test" />
+    <file baseinstalldir="/HTML" name="23.phpt" role="test" />
+    <file baseinstalldir="/HTML" name="24.phpt" role="test" />
+    <file baseinstalldir="/HTML" name="25.phpt" role="test" />
+    <file baseinstalldir="/HTML" name="26.phpt" role="test" />
+    <file baseinstalldir="/HTML" name="27.phpt" role="test" />
+    <file baseinstalldir="/HTML" name="28.phpt" role="test" />
+   </dir> <!-- /tests -->
+   <file baseinstalldir="/HTML" name="Table.php" role="php" />
+  </dir> <!-- / -->
+ </contents>
+ <dependencies>
+  <required>
+   <php>
+    <min>4.0.0</min>
+   </php>
+   <pearinstaller>
+    <min>1.4.0b1</min>
+   </pearinstaller>
+   <package>
+    <name>PEAR</name>
+    <channel>pear.php.net</channel>
+   </package>
+   <package>
+    <name>HTML_Common</name>
+    <channel>pear.php.net</channel>
+    <min>1.2.0</min>
+   </package>
+  </required>
+ </dependencies>
+ <phprelease />
+ <changelog>
+  <release>
+   <version>
+    <release>1.6.1</release>
+    <api>1.6.1</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <date>2006-04-23</date>
+   <license uri="http://www.example.com">PHP_License</license>
+   <notes>- Bugfix: addCol() must not call Storage::updateRowAttributes(), but Storage::addCol()
+- Bugfix: addCol() had the same problem as in request #4988 (it did not accept array keys as row numbers)
+- Bugfix: toHtml() wrongly assumed that there are instances of $_thead and $_tfoot when $useTGroups == true
+- Bugfix: return PEAR_Error object in getCellContents when cell does not exist
+- Bug #5782: remove PHP warning if $contents == null in addCol() and addRow()
+- Couple of unit tests were added, covering a lot of ground.
+
+   </notes>
+  </release>
+ </changelog>
+</package>
