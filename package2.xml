@@ -21,13 +21,13 @@ For auto filling of data and such then check out http://pear.php.net/package/HTM
   <name>Bertrand Mansion</name>
   <user>mansion</user>
   <email>bmansion@mamasam.com</email>
-  <active>yes</active>
+  <active>no</active>
  </lead>
  <lead>
   <name>Klaus Guenther</name>
   <user>thesaur</user>
   <email>thesaur@php.net</email>
-  <active>yes</active>
+  <active>no</active>
  </lead>
  <lead>
   <name>Helgi &amp;#222;ormar</name>
@@ -35,30 +35,26 @@ For auto filling of data and such then check out http://pear.php.net/package/HTM
   <email>dufuz@php.net</email>
   <active>no</active>
  </lead>
- <developer>
+ <lead>
   <name>Mark Wiesemann</name>
   <user>wiesemann</user>
   <email>wiesemann@php.net</email>
   <active>yes</active>
- </developer>
+ </lead>
  <date>2006-04-23</date>
  <time>10:21:00</time>
  <version>
-  <release>1.6.1</release>
-  <api>1.6.1</api>
+  <release>1.7.0</release>
+  <api>1.7.0</api>
  </version>
  <stability>
   <release>stable</release>
   <api>stable</api>
  </stability>
  <license>PHP_License</license>
- <notes>- Bugfix: addCol() must not call Storage::updateRowAttributes(), but Storage::addCol()
-- Bugfix: addCol() had the same problem as in request #4988 (it did not accept array keys as row numbers)
-- Bugfix: toHtml() wrongly assumed that there are instances of $_thead and $_tfoot when $useTGroups == true
-- Bugfix: return PEAR_Error object in getCellContents when cell does not exist
-- Bug #5782: remove PHP warning if $contents == null in addCol() and addRow()
-- Couple of unit tests were added, covering a lot of ground.
-
+ <notes>- Request #6167 and request #6768: added the ability to use the
+'colgroup' feature (usable via setColGroup() method)
+(thanks to Laurent Laville for the patch)
  </notes>
  <contents>
   <dir name="/">
@@ -122,26 +118,4 @@ For auto filling of data and such then check out http://pear.php.net/package/HTM
   </required>
  </dependencies>
  <phprelease />
- <changelog>
-  <release>
-   <version>
-    <release>1.6.1</release>
-    <api>1.6.1</api>
-   </version>
-   <stability>
-    <release>stable</release>
-    <api>stable</api>
-   </stability>
-   <date>2006-04-23</date>
-   <license uri="http://www.example.com">PHP_License</license>
-   <notes>- Bugfix: addCol() must not call Storage::updateRowAttributes(), but Storage::addCol()
-- Bugfix: addCol() had the same problem as in request #4988 (it did not accept array keys as row numbers)
-- Bugfix: toHtml() wrongly assumed that there are instances of $_thead and $_tfoot when $useTGroups == true
-- Bugfix: return PEAR_Error object in getCellContents when cell does not exist
-- Bug #5782: remove PHP warning if $contents == null in addCol() and addRow()
-- Couple of unit tests were added, covering a lot of ground.
-
-   </notes>
-  </release>
- </changelog>
 </package>
