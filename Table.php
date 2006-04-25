@@ -79,6 +79,15 @@ class HTML_Table extends HTML_Common {
     var $_caption = array();
 
     /**
+     * Array containing the table column group specifications
+     *
+     * @var     array
+     * @author  Laurent Laville (pear at laurent-laville dot org)
+     * @access  private
+     */
+    var $_colgroup = array();
+
+    /**
      * HTML_Table_Storage object for the (t)head of the table
      * @var    object
      * @access private
@@ -193,6 +202,26 @@ class HTML_Table extends HTML_Common {
     {
         $attributes = $this->_parseAttributes($attributes);
         $this->_caption = array('attr' => $attributes, 'contents' => $caption);
+    }
+
+    /**
+     * Sets the table columns group specifications, or removes existing ones.
+     *
+     * @param   mixed     $colgroup         (optional) Columns attributes
+     * @param   mixed     $attributes       (optional) Associative array or string
+     *                                                 of table row attributes
+     * @author  Laurent Laville (pear at laurent-laville dot org)
+     * @access  public
+     */
+    function setColGroup($colgroup = null, $attributes = null)
+    {
+        if (isset($colgroup)) {
+            $attributes = $this->_parseAttributes($attributes);
+            $this->_colgroup[] = array('attr' => $attributes,
+                                       'contents' => $colgroup);
+        } else {
+            $this->_colgroup = array();
+        }
     }
 
     /**
@@ -558,6 +587,25 @@ class HTML_Table extends HTML_Common {
             }
             $strHtml .= $contents;
             $strHtml .= '</caption>' . $lnEnd;
+        }
+        if (!empty($this->_colgroup)) {
+            foreach ($this->_colgroup as $g => $col) {
+                $attr = $this->_colgroup[$g]['attr'];
+                $contents = $this->_colgroup[$g]['contents'];
+                $strHtml .= $tabs . $tab . '<colgroup' . $this->_getAttrString($attr) . '>';
+                if (!empty($contents)) {
+                    $strHtml .= $lnEnd;
+                    if (!is_array($contents)) {
+                        $contents = array($contents);
+                    }
+                    foreach ($contents as $a => $colAttr) {
+                        $attr = $this->_parseAttributes($colAttr);
+                        $strHtml .= $tabs . $tab . $tab . '<col' . $this->_getAttrString($attr) . '>' . $lnEnd;
+                    }
+                    $strHtml .= $tabs . $tab;
+                }
+                $strHtml .= '</colgroup>' . $lnEnd;
+            }
         }
         if ($this->_useTGroups) {
             $tHeadColCount = 0;
