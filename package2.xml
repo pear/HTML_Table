@@ -94,6 +94,9 @@ For auto filling of data and such then check out http://pear.php.net/package/HTM
     <file baseinstalldir="/HTML" name="26.phpt" role="test" />
     <file baseinstalldir="/HTML" name="27.phpt" role="test" />
     <file baseinstalldir="/HTML" name="28.phpt" role="test" />
+    <file baseinstalldir="/HTML" name="29.phpt" role="test" />
+    <file baseinstalldir="/HTML" name="30.phpt" role="test" />
+    <file baseinstalldir="/HTML" name="31.phpt" role="test" />
    </dir> <!-- /tests -->
    <file baseinstalldir="/HTML" name="Table.php" role="php" />
   </dir> <!-- / -->
