@@ -41,20 +41,19 @@ For auto filling of data and such then check out http://pear.php.net/package/HTM
   <email>wiesemann@php.net</email>
   <active>yes</active>
  </lead>
- <date>2006-04-26</date>
- <time>10:21:00</time>
+ <date>2006-06-23</date>
+ <time>18:30:00</time>
  <version>
-  <release>1.7.0</release>
-  <api>1.7.0</api>
+  <release>1.7.1</release>
+  <api>1.7.1</api>
  </version>
  <stability>
   <release>stable</release>
   <api>stable</api>
  </stability>
  <license>PHP_License</license>
- <notes>- Request #6167 and request #6768: added the ability to use the
-'colgroup' feature (usable via setColGroup() method)
-(thanks to Laurent Laville for the patch)
+ <notes>- Bug #7971: setTab() (from HTML_Common) had no effect anymore
+(thanks to Kristoffer Paro, kristoffer dot paro at gmail dot com)
  </notes>
  <contents>
   <dir name="/">

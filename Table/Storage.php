@@ -630,11 +630,15 @@ class HTML_Table_Storage extends HTML_Common {
      * @access   public
      * @return   string
      */
-    function toHtml()
+    function toHtml($tabs = null, $tab = null)
     {
         $strHtml = '';
-        $tabs = $this->_getTabs();
-        $tab = $this->_getTab();
+        if (is_null($tabs)) {
+            $tabs = $this->_getTabs();
+        }
+        if (is_null($tab)) {
+            $tab = $this->_getTab();
+        }
         $lnEnd = $this->_getLineEnd();
         if ($this->_useTGroups) {
             $extraTab = $tab;

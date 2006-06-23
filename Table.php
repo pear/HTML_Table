@@ -625,7 +625,7 @@ class HTML_Table extends HTML_Common {
                 $this->_thead->setColCount($maxColCount);
                 if ($this->_thead->getRowCount() > 0) {
                     $strHtml .= $tabs . $tab . '<thead>' . $lnEnd;
-                    $strHtml .= $this->_thead->toHtml();
+                    $strHtml .= $this->_thead->toHtml($tabs, $tab);
                     $strHtml .= $tabs . $tab . '</thead>' . $lnEnd;
                 }
             }
@@ -633,7 +633,7 @@ class HTML_Table extends HTML_Common {
                 $this->_tfoot->setColCount($maxColCount);
                 if ($this->_tfoot->getRowCount() > 0) {
                     $strHtml .= $tabs . $tab . '<tfoot>' . $lnEnd;
-                    $strHtml .= $this->_tfoot->toHtml();
+                    $strHtml .= $this->_tfoot->toHtml($tabs, $tab);
                     $strHtml .= $tabs . $tab . '</tfoot>' . $lnEnd;
                 }
             }
@@ -641,12 +641,12 @@ class HTML_Table extends HTML_Common {
                 $this->_tbody->setColCount($maxColCount);
                 if ($this->_tbody->getRowCount() > 0) {
                     $strHtml .= $tabs . $tab . '<tbody>' . $lnEnd;
-                    $strHtml .= $this->_tbody->toHtml();
+                    $strHtml .= $this->_tbody->toHtml($tabs, $tab);
                     $strHtml .= $tabs . $tab . '</tbody>' . $lnEnd;
                 }
             }
         } else {
-            $strHtml .= $this->_tbody->toHtml();
+            $strHtml .= $this->_tbody->toHtml($tabs, $tab);
         }
         $strHtml .= $tabs . '</table>' . $lnEnd;
         return $strHtml;
