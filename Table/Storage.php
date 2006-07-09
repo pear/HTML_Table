@@ -463,7 +463,7 @@ class HTML_Table_Storage extends HTML_Common {
             }
         } else {
             $attributes = $this->_parseAttributes($attributes);
-            $err = $this->_adjustEnds($row, 1, 'setRowAttributes', $attributes);
+            $err = $this->_adjustEnds($row, 0, 'setRowAttributes', $attributes);
             if (PEAR::isError($err)) {
                 return $err;
             }
@@ -494,7 +494,7 @@ class HTML_Table_Storage extends HTML_Common {
             }
         } else {
             $attributes = $this->_parseAttributes($attributes);
-            $err = $this->_adjustEnds($row, 1, 'updateRowAttributes', $attributes);
+            $err = $this->_adjustEnds($row, 0, 'updateRowAttributes', $attributes);
             if (PEAR::isError($err)) {
                 return $err;
             }

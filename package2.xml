@@ -41,10 +41,10 @@ For auto filling of data and such then check out http://pear.php.net/package/HTM
   <email>wiesemann@php.net</email>
   <active>yes</active>
  </lead>
- <date>2006-06-23</date>
- <time>18:30:00</time>
+ <date>2006-07-09</date>
+ <time>15:15:00</time>
  <version>
-  <release>1.7.1</release>
+  <release>1.7.2</release>
   <api>1.7.1</api>
  </version>
  <stability>
@@ -52,8 +52,9 @@ For auto filling of data and such then check out http://pear.php.net/package/HTM
   <api>stable</api>
  </stability>
  <license>PHP_License</license>
- <notes>- Bug #7971: setTab() (from HTML_Common) had no effect anymore
-(thanks to Kristoffer Paro, kristoffer dot paro at gmail dot com)
+ <notes>- Bug #8170: if a table has only column, a call to updateAttributes() or
+setAttributes() added a second column to the table because of a wrong reference
+(thanks to Leonid, coder at darkk dot net dot ru)
  </notes>
  <contents>
   <dir name="/">
