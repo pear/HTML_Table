@@ -656,7 +656,6 @@ class HTML_Table_Storage extends HTML_Common {
                 $contents = '';
                 $type     = 'td';
                 if (isset($this->_structure[$i][$j]) && $this->_structure[$i][$j] == '__SPANNED__') {
-                    $strHtml .= $tabs . $tab . $tab . $extraTab . '<!-- span -->' . $lnEnd;
                     continue;
                 }
                 if (isset($this->_structure[$i][$j]['type'])) {
