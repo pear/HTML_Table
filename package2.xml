@@ -41,10 +41,10 @@ For auto filling of data and such then check out http://pear.php.net/package/HTM
   <email>wiesemann@php.net</email>
   <active>yes</active>
  </lead>
- <date>2006-07-09</date>
- <time>15:15:00</time>
+ <date>2006-09-25</date>
+ <time>19:00:00</time>
  <version>
-  <release>1.7.2</release>
+  <release>1.7.3</release>
   <api>1.7.1</api>
  </version>
  <stability>
@@ -52,9 +52,10 @@ For auto filling of data and such then check out http://pear.php.net/package/HTM
   <api>stable</api>
  </stability>
  <license>PHP_License</license>
- <notes>- Bug #8170: if a table has only column, a call to updateAttributes() or
-setAttributes() added a second column to the table because of a wrong reference
-(thanks to Leonid, coder at darkk dot net dot ru)
+ <notes>- Request #8716: removed the useless output of '<!-- span -->' comment
+for each column skipped in the table by the colspan (this makes the generated
+HTML code much smaller for large tables).
+(thanks to Derek Battams, derek at battams dot ca)
  </notes>
  <contents>
   <dir name="/">
