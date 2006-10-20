@@ -41,10 +41,10 @@ For auto filling of data and such then check out http://pear.php.net/package/HTM
   <email>wiesemann@php.net</email>
   <active>yes</active>
  </lead>
- <date>2006-09-25</date>
- <time>19:00:00</time>
+ <date>?</date>
+ <time>?</time>
  <version>
-  <release>1.7.3</release>
+  <release>1.7.4</release>
   <api>1.7.1</api>
  </version>
  <stability>
@@ -52,10 +52,10 @@ For auto filling of data and such then check out http://pear.php.net/package/HTM
   <api>stable</api>
  </stability>
  <license>PHP_License</license>
- <notes>- Request #8716: removed the useless output of '<!-- span -->' comment
-for each column skipped in the table by the colspan (this makes the generated
-HTML code much smaller for large tables).
-(thanks to Derek Battams, derek at battams dot ca)
+ <notes>- Request #9102: it is now possible to set attributes for the
+&lt;thead&gt;, &lt;tfoot&gt; and &lt;tbody&gt; tags by using something like
+$thead->setAttributes(array('id' => 'example')); (similar for $foot and $tbody)
+(thanks to Pavel Dobes, dobes at lnx dot cz)
  </notes>
  <contents>
   <dir name="/">
