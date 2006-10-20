@@ -96,15 +96,14 @@ class HTML_Table_Storage extends HTML_Common {
 
     /**
      * Class constructor
-     * @param    array    $attributes        Associative array of table tag attributes
      * @param    int      $tabOffset
      * @param    bool     $useTGroups        Whether to use <thead>, <tfoot> and
      *                                       <tbody> or not
      * @access   public
      */
-    function HTML_Table_Storage($attributes = null, $tabOffset = 0, $useTGroups = false)
+    function HTML_Table_Storage($tabOffset = 0, $useTGroups = false)
     {
-        HTML_Common::HTML_Common($attributes, (int)$tabOffset);
+        HTML_Common::HTML_Common(null, (int)$tabOffset);
         $this->_useTGroups = (boolean)$useTGroups;
     }
 
@@ -393,7 +392,8 @@ class HTML_Table_Storage extends HTML_Common {
      * @param    int     $row
      * @param    int     $col
      * @param    mixed   $contents
-     * @param    mixed  $attributes Associative array or string of table row attributes
+     * @param    mixed   $attributes  Associative array or string of table row
+     *                                attributes
      * @access   public
      */
     function setHeaderContents($row, $col, $contents, $attributes = null)

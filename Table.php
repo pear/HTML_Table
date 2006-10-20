@@ -132,10 +132,10 @@ class HTML_Table extends HTML_Common {
         }
         HTML_Common::HTML_Common($attributes, (int)$tabOffset);
         $this->_useTGroups = (boolean)$useTGroups;
-        $this->_tbody =& new HTML_Table_Storage($attributes, $tabOffset, $this->_useTGroups);
+        $this->_tbody =& new HTML_Table_Storage($tabOffset, $this->_useTGroups);
         if ($this->_useTGroups) {
-            $this->_thead =& new HTML_Table_Storage($attributes, $tabOffset, $this->_useTGroups);
-            $this->_tfoot =& new HTML_Table_Storage($attributes, $tabOffset, $this->_useTGroups);
+            $this->_thead =& new HTML_Table_Storage($tabOffset, $this->_useTGroups);
+            $this->_tfoot =& new HTML_Table_Storage($tabOffset, $this->_useTGroups);
         }
     }
 
@@ -158,8 +158,8 @@ class HTML_Table extends HTML_Common {
     {
         if (is_null($this->_thead)) {
             $this->_useTGroups = true;
-            $this->_thead =& new HTML_Table_Storage($this->_attributes,
-                $this->_tabOffset, $this->_useTGroups);
+            $this->_thead =& new HTML_Table_Storage($this->_tabOffset,
+                                                    $this->_useTGroups);
             $this->_tbody->setUseTGroups(true);
         }
         return $this->_thead;
@@ -174,8 +174,8 @@ class HTML_Table extends HTML_Common {
     {
         if (is_null($this->_tfoot)) {
             $this->_useTGroups = true;
-            $this->_tfoot =& new HTML_Table_Storage($this->_attributes,
-                $this->_tabOffset, $this->_useTGroups);
+            $this->_tfoot =& new HTML_Table_Storage($this->_tabOffset,
+                                                    $this->_useTGroups);
             $this->_tbody->setUseTGroups(true);
         }
         return $this->_tfoot;
@@ -624,7 +624,9 @@ class HTML_Table extends HTML_Common {
             if ($this->_thead !== null) {
                 $this->_thead->setColCount($maxColCount);
                 if ($this->_thead->getRowCount() > 0) {
-                    $strHtml .= $tabs . $tab . '<thead>' . $lnEnd;
+                    $strHtml .= $tabs . $tab . '<thead' .
+                                $this->_getAttrString($this->_thead->_attributes) .
+                                '>' . $lnEnd;
                     $strHtml .= $this->_thead->toHtml($tabs, $tab);
                     $strHtml .= $tabs . $tab . '</thead>' . $lnEnd;
                 }
@@ -632,7 +634,9 @@ class HTML_Table extends HTML_Common {
             if ($this->_tfoot !== null) {
                 $this->_tfoot->setColCount($maxColCount);
                 if ($this->_tfoot->getRowCount() > 0) {
-                    $strHtml .= $tabs . $tab . '<tfoot>' . $lnEnd;
+                    $strHtml .= $tabs . $tab . '<tfoot' .
+                                $this->_getAttrString($this->_tfoot->_attributes) .
+                                '>' . $lnEnd;
                     $strHtml .= $this->_tfoot->toHtml($tabs, $tab);
                     $strHtml .= $tabs . $tab . '</tfoot>' . $lnEnd;
                 }
@@ -640,7 +644,9 @@ class HTML_Table extends HTML_Common {
             if ($this->_tbody !== null) {
                 $this->_tbody->setColCount($maxColCount);
                 if ($this->_tbody->getRowCount() > 0) {
-                    $strHtml .= $tabs . $tab . '<tbody>' . $lnEnd;
+                    $strHtml .= $tabs . $tab . '<tbody' .
+                                $this->_getAttrString($this->_tbody->_attributes) .
+                                '>' . $lnEnd;
                     $strHtml .= $this->_tbody->toHtml($tabs, $tab);
                     $strHtml .= $tabs . $tab . '</tbody>' . $lnEnd;
                 }
