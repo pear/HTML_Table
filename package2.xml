@@ -41,8 +41,8 @@ For auto filling of data and such then check out http://pear.php.net/package/HTM
   <email>wiesemann@php.net</email>
   <active>yes</active>
  </lead>
- <date>?</date>
- <time>?</time>
+ <date>2006-10-20</date>
+ <time>22:35:00</time>
  <version>
   <release>1.7.4</release>
   <api>1.7.1</api>
@@ -51,11 +51,12 @@ For auto filling of data and such then check out http://pear.php.net/package/HTM
   <release>stable</release>
   <api>stable</api>
  </stability>
- <license>PHP_License</license>
+ <license>New BSD</license>
  <notes>- Request #9102: it is now possible to set attributes for the
 &lt;thead&gt;, &lt;tfoot&gt; and &lt;tbody&gt; tags by using something like
 $thead->setAttributes(array('id' => 'example')); (similar for $foot and $tbody)
 (thanks to Pavel Dobes, dobes at lnx dot cz)
+- this package is now licensed under the New BSD license
  </notes>
  <contents>
   <dir name="/">
@@ -99,6 +100,7 @@ $thead->setAttributes(array('id' => 'example')); (similar for $foot and $tbody)
     <file baseinstalldir="/HTML" name="30.phpt" role="test" />
     <file baseinstalldir="/HTML" name="31.phpt" role="test" />
    </dir> <!-- /tests -->
+   <file baseinstalldir="/HTML" name="LICENSE" role="doc" />
    <file baseinstalldir="/HTML" name="Table.php" role="php" />
   </dir> <!-- / -->
  </contents>
