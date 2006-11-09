@@ -128,11 +128,6 @@ class HTML_Table extends HTML_Common {
      */
     function HTML_Table($attributes = null, $tabOffset = 0, $useTGroups = false)
     {
-        $commonVersion = 1.7;
-        if (HTML_Common::apiVersion() < $commonVersion) {
-            return PEAR::raiseError('HTML_Table version ' . $this->apiVersion() . ' requires ' .
-                "HTML_Common version $commonVersion or greater.", 0, PEAR_ERROR_TRIGGER);
-        }
         HTML_Common::HTML_Common($attributes, (int)$tabOffset);
         $this->_useTGroups = (boolean)$useTGroups;
         $this->_tbody =& new HTML_Table_Storage($tabOffset, $this->_useTGroups);
@@ -146,6 +141,7 @@ class HTML_Table extends HTML_Common {
      * Returns the API version
      * @access  public
      * @return  double
+     * @deprecated
      */
     function apiVersion()
     {
