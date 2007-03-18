@@ -542,17 +542,23 @@ class HTML_Table_Storage extends HTML_Common {
 
     /**
      * Alternates the row attributes starting at $start
-     * @param    int      $start          Row index of row in which alternating begins
-     * @param    mixed    $attributes1    Associative array or string of table row attributes
-     * @param    mixed    $attributes2    Associative array or string of table row attributes
-     * @param    bool     $inTR           false if attributes are to be applied in TD tags
-     *                                    true if attributes are to be applied in TR tag
+     * @param    int      $start            Row index of row in which alternating begins
+     * @param    mixed    $attributes1      Associative array or string of table row attributes
+     * @param    mixed    $attributes2      Associative array or string of table row attributes
+     * @param    bool     $inTR             false if attributes are to be applied in TD tags
+     *                                      true if attributes are to be applied in TR tag
+     * @param    int      $firstAttributes  (optional) Which attributes should be applied to the first row, 1 or 2.
      * @access   public
      */
-    function altRowAttributes($start, $attributes1, $attributes2, $inTR = false)
+    function altRowAttributes($start, $attributes1, $attributes2, $inTR = false,
+        $firstAttributes)
     {
-        for ($row = $start ; $row < $this->_rows ; $row++) {
-            $attributes = ( ($row + $start) % 2 == 0 ) ? $attributes1 : $attributes2;
+        for ($row = $start; $row < $this->_rows; $row++) {
+            if (($row + $start + ($firstAttributes - 1)) % 2 == 0) {
+                $attributes = $attributes1;
+            } else {
+                $attributes = $attributes2;
+            }
             $this->updateRowAttributes($row, $attributes, $inTR);
         }
     }

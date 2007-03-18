@@ -90,11 +90,19 @@ require_once 'HTML/Table/Storage.php';
 class HTML_Table extends HTML_Common {
 
     /**
-     * Value to insert into empty cells
+     * Value to insert into empty cells. This is used as a default for newly-created tbodies.
      * @var    string
      * @access private
      */
     var $_autoFill = '&nbsp;';
+
+    /**
+     * Automatically adds a new row or column if a given row or column index does not exist.
+     * This is used as a default for newly-created tbodies.
+     * @var    bool
+     * @access private
+     */
+    var $_autoGrow = true;
 
     /**
      * Array containing the table caption
@@ -131,7 +139,7 @@ class HTML_Table extends HTML_Common {
      * @var    object
      * @access private
      */
-    var $_tbody = null;
+    var $_tbodies = array();
 
     /**
      * Whether to use <thead>, <tfoot> and <tbody> or not
@@ -146,13 +154,14 @@ class HTML_Table extends HTML_Common {
      * @param    int      $tabOffset         Tab offset of the table
      * @param    bool     $useTGroups        Whether to use <thead>, <tfoot> and
      *                                       <tbody> or not
+     * @param    mixed    $tbody             (optional) The index of the initial body.
      * @access   public
      */
-    function HTML_Table($attributes = null, $tabOffset = 0, $useTGroups = false)
+    function HTML_Table($attributes = null, $tabOffset = 0, $useTGroups = false, $tbody = 0)
     {
         HTML_Common::HTML_Common($attributes, (int)$tabOffset);
         $this->_useTGroups = (boolean)$useTGroups;
-        $this->_tbody =& new HTML_Table_Storage($tabOffset, $this->_useTGroups);
+        $this->_tbodies[$tbody] =& new HTML_Table_Storage($tabOffset, $this->_useTGroups);
         if ($this->_useTGroups) {
             $this->_thead =& new HTML_Table_Storage($tabOffset, $this->_useTGroups);
             $this->_tfoot =& new HTML_Table_Storage($tabOffset, $this->_useTGroups);
@@ -181,7 +190,9 @@ class HTML_Table extends HTML_Common {
             $this->_useTGroups = true;
             $this->_thead =& new HTML_Table_Storage($this->_tabOffset,
                                                     $this->_useTGroups);
-            $this->_tbody->setUseTGroups(true);
+            foreach (array_keys($this->_tbodies) as $tbody) {
+                $this->_tbodies[$tbody]->setUseTGroups(true);
+            }
         }
         return $this->_thead;
     }
@@ -197,20 +208,34 @@ class HTML_Table extends HTML_Common {
             $this->_useTGroups = true;
             $this->_tfoot =& new HTML_Table_Storage($this->_tabOffset,
                                                     $this->_useTGroups);
-            $this->_tbody->setUseTGroups(true);
+            foreach (array_keys($this->_tbodies) as $tbody) {
+                $this->_tbodies[$tbody]->setUseTGroups(true);
+            }
         }
         return $this->_tfoot;
     }
 
     /**
      * Returns the HTML_Table_Storage object for <tbody>
-     * (or the whole table if <t{head|foot|body> is not used)
+     * (or the whole table if <t{head|foot|body}> is not used)
+     * @param   mixed     $tbody             (optional) The index of the body to return.
      * @access  public
      * @return  object
      */
-    function &getBody()
+    function &getBody($tbody = 0)
     {
-        return $this->_tbody;
+        if (!isset($this->_tbodies[$tbody])) {
+            if (!$this->_useTGroups) {
+                foreach (array_keys($this->_tbodies) as $tbodyEach) {
+                    $this->_tbodies[$tbodyEach]->setUseTGroups(true);
+                }
+            }
+            $this->_useTGroups = true;
+            $this->_tbodies[$tbody] =& new HTML_Table_Storage($this->_tabOffset,
+                                                              $this->_useTGroups);
+            $this->_tbodies[$tbody]->setAutoFill($this->_autoFill);
+        }
+        return $this->_tbodies[$tbody];
     }
 
     /**
@@ -248,71 +273,113 @@ class HTML_Table extends HTML_Common {
     /**
      * Sets the autoFill value
      * @param   mixed   $fill
+     * @param   mixed   $tbody             (optional) The index of the body to set.
+     *                                     Pass null to set for all bodies.
      * @access  public
      */
-    function setAutoFill($fill)
+    function setAutoFill($fill, $tbody = null)
     {
-        $this->_tbody->setAutoFill($fill);
+        if (!is_null($tbody)) {
+            $this->_tbodies[$tbody]->setAutoFill($fill);
+        } else {
+            $this->_autoFill = $fill;
+            foreach (array_keys($this->_tbodies) as $tbody) {
+                $this->_tbodies[$tbody]->setAutoFill($fill);
+            }
+        }
     }
 
     /**
      * Returns the autoFill value
+     * @param    mixed       $tbody  (optional) The index of the body to get.
+     *                               Pass null to get the default for new bodies.
      * @access   public
      * @return   mixed
      */
-    function getAutoFill()
+    function getAutoFill($tbody = null)
     {
-        return $this->_tbody->getAutoFill();
+        if (!is_null($tbody)) {
+            return $this->_tbodies[$tbody]->getAutoFill();
+        } else {
+            return $this->_autoFill;
+        }
     }
 
     /**
      * Sets the autoGrow value
-     * @param    bool   $fill
+     * @param    bool   $grow
+     * @param    mixed  $tbody             (optional) The index of the body to set.
+     *                                     Pass null to set for all bodies.
      * @access   public
      */
-    function setAutoGrow($grow)
+    function setAutoGrow($grow, $tbody = null)
     {
-        $this->_tbody->setAutoGrow($grow);
+        if (!is_null($tbody)) {
+            $this->_tbodies[$tbody]->setAutoGrow($grow);
+        } else {
+            $this->_autoGrow = $grow;
+            foreach (array_keys($this->_tbodies) as $tbody) {
+                $this->_tbodies[$tbody]->setAutoGrow($grow);
+            }
+        }
     }
 
     /**
      * Returns the autoGrow value
+     * @param    mixed       $tbody          (optional) The index of the body to get.
+     *                                       Pass null to get the default for new bodies.
      * @access   public
      * @return   mixed
      */
-    function getAutoGrow()
+    function getAutoGrow($tbody = null)
     {
-        return $this->_tbody->getAutoGrow();
+        if (!is_null($tbody)) {
+            return $this->_tbodies[$tbody]->getAutoGrow();
+        } else {
+            return $this->_autoGrow;
+        }
     }
 
     /**
-     * Sets the number of rows in the table
+     * Sets the number of rows in the table body
      * @param    int     $rows
+     * @param    mixed   $tbody              (optional) The index of the body to set.
      * @access   public
      */
-    function setRowCount($rows)
+    function setRowCount($rows, $tbody = 0)
     {
-        $this->_tbody->setRowCount($rows);
+        $this->_tbodies[$tbody]->setRowCount($rows);
     }
 
     /**
      * Sets the number of columns in the table
      * @param    int     $cols
+     * @param    mixed   $tbody       (optional) The index of the body to set.
      * @access   public
      */
-    function setColCount($cols)
+    function setColCount($cols, $tbody = 0)
     {
-        $this->_tbody->setColCount($cols);
+        $this->_tbodies[$tbody]->setColCount($cols);
     }
 
     /**
      * Returns the number of rows in the table
+     * @param    mixed       $tbody          (optional) The index of the body to get.
+     *                                       Pass null to get the total number of rows in all bodies.
      * @access   public
      * @return   int
      */
-    function getRowCount()
+    function getRowCount($tbody = null)
     {
-        return $this->_tbody->getRowCount();
+        if (!is_null($tbody)) {
+            return $this->_tbodies[$tbody]->getRowCount();
+        } else {
+            $rowCount = 0;
+            foreach (array_keys($this->_tbodies) as $tbody) {
+                $rowCount += $this->_tbodies[$tbody];
+            }
+            return $rowCount;
+        }
     }
 
     /**
@@ -321,36 +388,46 @@ class HTML_Table extends HTML_Common {
      * If a row index is specified, the count will not take
      * the spanned cells into account in the return value.
      *
-     * @param    int    Row index to serve for cols count
+     * @param    int    $row         Row index to serve for cols count
+     * @param    mixed  $tbody       (optional) The index of the body to get.
      * @access   public
      * @return   int
      */
-    function getColCount($row = null)
+    function getColCount($row = null, $tbody = 0)
     {
-        return $this->_tbody->getColCount($row);
+        return $this->_tbodies[$tbody]->getColCount($row);
     }
 
     /**
      * Sets a rows type 'TH' or 'TD'
      * @param    int         $row    Row index
      * @param    string      $type   'TH' or 'TD'
+     * @param    mixed       $tbody  (optional) The index of the body to set.
      * @access   public
      */
 
-    function setRowType($row, $type)
+    function setRowType($row, $type, $tbody = 0)
     {
-        $this->_tbody->setRowType($row, $type);
+        $this->_tbodies[$tbody]->setRowType($row, $type);
     }
 
     /**
      * Sets a columns type 'TH' or 'TD'
      * @param    int         $col    Column index
      * @param    string      $type   'TH' or 'TD'
+     * @param    mixed       $tbody  (optional) The index of the body to set.
+     *                               Pass null to set for all bodies.
      * @access   public
      */
-    function setColType($col, $type)
+    function setColType($col, $type, $tbody = null)
     {
-        $this->_tbody->setColType($col, $type);
+        if (!is_null($tbody)) {
+            $this->_tbodies[$tbody]->setColType($col, $type);
+        } else {
+            foreach (array_keys($this->_tbodies) as $tbody) {
+                $this->_tbodies[$tbody]->setColType($col, $type);
+            }
+        }
     }
 
     /**
@@ -362,27 +439,29 @@ class HTML_Table extends HTML_Common {
      * @param    int        $row         Row index
      * @param    int        $col         Column index
      * @param    mixed      $attributes  Associative array or string of table row attributes
+     * @param    mixed      $tbody       (optional) The index of the body to set.
      * @access   public
      * @throws   PEAR_Error
      */
-    function setCellAttributes($row, $col, $attributes)
+    function setCellAttributes($row, $col, $attributes, $tbody = 0)
     {
-        $ret = $this->_tbody->setCellAttributes($row, $col, $attributes);
+        $ret = $this->_tbodies[$tbody]->setCellAttributes($row, $col, $attributes);
         if (PEAR::isError($ret)) {
             return $ret;
         }
     }
 
     /**
-     * Updates the cell attributes passed but leaves other existing attributes in tact
+     * Updates the cell attributes passed but leaves other existing attributes intact
      * @param    int     $row         Row index
      * @param    int     $col         Column index
      * @param    mixed   $attributes  Associative array or string of table row attributes
+     * @param    mixed   $tbody       (optional) The index of the body to set.
      * @access   public
      */
-    function updateCellAttributes($row, $col, $attributes)
+    function updateCellAttributes($row, $col, $attributes, $tbody = 0)
     {
-        $ret = $this->_tbody->updateCellAttributes($row, $col, $attributes);
+        $ret = $this->_tbodies[$tbody]->updateCellAttributes($row, $col, $attributes);
         if (PEAR::isError($ret)) {
             return $ret;
         }
@@ -392,12 +471,13 @@ class HTML_Table extends HTML_Common {
      * Returns the attributes for a given cell
      * @param    int     $row         Row index
      * @param    int     $col         Column index
+     * @param    mixed   $tbody       (optional) The index of the body to get.
      * @return   array
      * @access   public
      */
-    function getCellAttributes($row, $col)
+    function getCellAttributes($row, $col, $tbody = 0)
     {
-        return $this->_tbody->getCellAttributes($row, $col);
+        return $this->_tbodies[$tbody]->getCellAttributes($row, $col);
     }
 
     /**
@@ -413,12 +493,13 @@ class HTML_Table extends HTML_Common {
      *                                will be used as start offset and the array elements
      *                                will be set to this and the following columns in $row
      * @param    string   $type       (optional) Cell type either 'TH' or 'TD'
+     * @param    mixed    $tbody      (optional) The index of the body to set.
      * @access   public
      * @throws   PEAR_Error
      */
-    function setCellContents($row, $col, $contents, $type = 'TD')
+    function setCellContents($row, $col, $contents, $type = 'TD', $tbody = 0)
     {
-        $ret = $this->_tbody->setCellContents($row, $col, $contents, $type);
+        $ret = $this->_tbodies[$tbody]->setCellContents($row, $col, $contents, $type);
         if (PEAR::isError($ret)) {
             return $ret;
         }
@@ -428,12 +509,13 @@ class HTML_Table extends HTML_Common {
      * Returns the cell contents for an existing cell
      * @param    int        $row    Row index
      * @param    int        $col    Column index
+     * @param    mixed      $tbody  (optional) The index of the body to get.
      * @access   public
      * @return   mixed
      */
-    function getCellContents($row, $col)
+    function getCellContents($row, $col, $tbody = 0)
     {
-        return $this->_tbody->getCellContents($row, $col);
+        return $this->_tbodies[$tbody]->getCellContents($row, $col);
     }
 
     /**
@@ -441,12 +523,13 @@ class HTML_Table extends HTML_Common {
      * @param    int     $row
      * @param    int     $col
      * @param    mixed   $contents
-     * @param    mixed  $attributes Associative array or string of table row attributes
+     * @param    mixed   $attributes  Associative array or string of table row attributes
+     * @param    mixed   $tbody       (optional) The index of the body to set.
      * @access   public
      */
-    function setHeaderContents($row, $col, $contents, $attributes = null)
+    function setHeaderContents($row, $col, $contents, $attributes = null, $tbody = 0)
     {
-        $this->_tbody->setHeaderContents($row, $col, $contents, $attributes);
+        $this->_tbodies[$tbody]->setHeaderContents($row, $col, $contents, $attributes);
     }
 
     /**
@@ -456,14 +539,15 @@ class HTML_Table extends HTML_Common {
      *                                This can also be an array of attributes, in which case the attributes
      *                                will be repeated in a loop.
      * @param    string   $type       (optional) Cell type either 'th' or 'td'
-     * @param    bool     $inTR           false if attributes are to be applied in TD tags
-     *                                    true if attributes are to be applied in TR tag
+     * @param    bool     $inTR       false if attributes are to be applied in TD tags
+     *                                true if attributes are to be applied in TR tag
+     * @param    mixed    $tbody      (optional) The index of the body to use.
      * @return   int
      * @access   public
      */
-    function addRow($contents = null, $attributes = null, $type = 'td', $inTR = false)
+    function addRow($contents = null, $attributes = null, $type = 'td', $inTR = false, $tbody = 0)
     {
-        $ret = $this->_tbody->addRow($contents, $attributes, $type, $inTR);
+        $ret = $this->_tbodies[$tbody]->addRow($contents, $attributes, $type, $inTR);
         return $ret;
     }
 
@@ -475,12 +559,13 @@ class HTML_Table extends HTML_Common {
      *                                    will be repeated in a loop.
      * @param    bool     $inTR           false if attributes are to be applied in TD tags
      *                                    true if attributes are to be applied in TR tag
+     * @param    mixed    $tbody          (optional) The index of the body to set.
      * @access   public
      * @throws   PEAR_Error
      */
-    function setRowAttributes($row, $attributes, $inTR = false)
+    function setRowAttributes($row, $attributes, $inTR = false, $tbody = 0)
     {
-        $ret = $this->_tbody->setRowAttributes($row, $attributes, $inTR);
+        $ret = $this->_tbodies[$tbody]->setRowAttributes($row, $attributes, $inTR);
         if (PEAR::isError($ret)) {
             return $ret;
         }
@@ -492,12 +577,13 @@ class HTML_Table extends HTML_Common {
      * @param    mixed    $attributes     Associative array or string of table row attributes
      * @param    bool     $inTR           false if attributes are to be applied in TD tags
      *                                    true if attributes are to be applied in TR tag
+     * @param    mixed    $tbody          (optional) The index of the body to set.
      * @access   public
      * @throws   PEAR_Error
      */
-    function updateRowAttributes($row, $attributes = null, $inTR = false)
+    function updateRowAttributes($row, $attributes = null, $inTR = false, $tbody = 0)
     {
-        $ret = $this->_tbody->updateRowAttributes($row, $attributes, $inTR);
+        $ret = $this->_tbodies[$tbody]->updateRowAttributes($row, $attributes, $inTR);
         if (PEAR::isError($ret)) {
             return $ret;
         }
@@ -506,26 +592,46 @@ class HTML_Table extends HTML_Common {
     /**
      * Returns the attributes for a given row as contained in the TR tag
      * @param    int     $row         Row index
+     * @param    mixed   $tbody       (optional) The index of the body to get.
      * @return   array
      * @access   public
      */
-    function getRowAttributes($row)
+    function getRowAttributes($row, $tbody = 0)
     {
-        return $this->_tbody->getRowAttributes($row);
+        return $this->_tbodies[$tbody]->getRowAttributes($row);
     }
 
     /**
      * Alternates the row attributes starting at $start
-     * @param    int      $start          Row index of row in which alternating begins
-     * @param    mixed    $attributes1    Associative array or string of table row attributes
-     * @param    mixed    $attributes2    Associative array or string of table row attributes
-     * @param    bool     $inTR           false if attributes are to be applied in TD tags
-     *                                    true if attributes are to be applied in TR tag
+     * @param    int      $start            Row index of row in which alternating begins
+     * @param    mixed    $attributes1      Associative array or string of table row attributes
+     * @param    mixed    $attributes2      Associative array or string of table row attributes
+     * @param    bool     $inTR             false if attributes are to be applied in TD tags
+     *                                      true if attributes are to be applied in TR tag
+     * @param    int      $firstAttributes  (optional) Which attributes should be
+     *                                      applied to the first row, 1 or 2.
+     * @param    mixed    $tbody            (optional) The index of the body to set.
+     *                                      Pass null to set for all bodies.
      * @access   public
      */
-    function altRowAttributes($start, $attributes1, $attributes2, $inTR = false)
+    function altRowAttributes($start, $attributes1, $attributes2, $inTR = false,
+        $firstAttributes = 1, $tbody = null)
     {
-        $this->_tbody->altRowAttributes($start, $attributes1, $attributes2, $inTR);
+        if (!is_null($tbody)) {
+            $this->_tbodies[$tbody]->altRowAttributes($start, $attributes1,
+                $attributes2, $inTR, $firstAttributes);
+        } else {
+            foreach (array_keys($this->_tbodies) as $tbody) {
+                $this->_tbodies[$tbody]->altRowAttributes($start, $attributes1,
+                    $attributes2, $inTR, $firstAttributes);
+                // if the tbody's row count is odd, toggle $firstAttributes to
+                // prevent the next tbody's first row from having the same
+                // attributes as this tbody's last row.
+                if ($this->_tbodies[$tbody]->getRowCount() % 2) {
+                    $firstAttributes ^= 3;
+                }
+            }
+        }
     }
 
     /**
@@ -533,54 +639,87 @@ class HTML_Table extends HTML_Common {
      * @param    array    $contents   (optional) Must be a indexed array of valid cell contents
      * @param    mixed    $attributes (optional) Associative array or string of table row attributes
      * @param    string   $type       (optional) Cell type either 'th' or 'td'
+     * @param    mixed    $tbody      (optional) The index of the body to use.
      * @return   int
      * @access   public
      */
-    function addCol($contents = null, $attributes = null, $type = 'td')
+    function addCol($contents = null, $attributes = null, $type = 'td', $tbody = 0)
     {
-        return $this->_tbody->addCol($contents, $attributes, $type);
+        return $this->_tbodies[$tbody]->addCol($contents, $attributes, $type);
     }
 
     /**
      * Sets the column attributes for an existing column
      * @param    int      $col            Column index
      * @param    mixed    $attributes     (optional) Associative array or string of table row attributes
+     * @param   mixed     $tbody          (optional) The index of the body to set.
+     *                                    Pass null to set for all bodies.
      * @access   public
      */
-    function setColAttributes($col, $attributes = null)
+    function setColAttributes($col, $attributes = null, $tbody = null)
     {
-        $this->_tbody->setColAttributes($col, $attributes);
+        if (!is_null($tbody)) {
+            $this->_tbodies[$tbody]->setColAttributes($col, $attributes);
+        } else {
+            foreach (array_keys($this->_tbodies) as $tbody) {
+                $this->_tbodies[$tbody]->setColAttribute($col, $attributes);
+            }
+        }
     }
 
     /**
      * Updates the column attributes for an existing column
      * @param    int      $col            Column index
      * @param    mixed    $attributes     (optional) Associative array or string of table row attributes
+     * @param    mixed    $tbody          (optional) The index of the body to set.
+     *                                    Pass null to set for all bodies.
      * @access   public
      */
-    function updateColAttributes($col, $attributes = null)
+    function updateColAttributes($col, $attributes = null, $tbody = null)
     {
-        $this->_tbody->updateColAttributes($col, $attributes);
+        if (!is_null($tbody)) {
+            $this->_tbodies[$tbody]->updateColAttributes($col, $attributes);
+        } else {
+            foreach (array_keys($this->_tbodies) as $tbody) {
+                $this->_tbodies[$tbody]->updateColAttributes($col, $attributes);
+            }
+        }
     }
 
     /**
      * Sets the attributes for all cells
      * @param    mixed    $attributes        (optional) Associative array or string of table row attributes
+     * @param    mixed    $tbody             (optional) The index of the body to set.
+     *                                       Pass null to set for all bodies.
      * @access   public
      */
-    function setAllAttributes($attributes = null)
+    function setAllAttributes($attributes = null, $tbody = null)
     {
-        $this->_tbody->setAllAttributes($attributes);
+        if (!is_null($tbody)) {
+            $this->_tbodies[$tbody]->setAllAttributes($attributes);
+        } else {
+            foreach (array_keys($this->_tbodies) as $tbody) {
+                $this->_tbodies[$tbody]->setAllAttributes($attributes);
+            }
+        }
     }
 
     /**
      * Updates the attributes for all cells
      * @param    mixed    $attributes        (optional) Associative array or string of table row attributes
+     * @param    mixed    $tbody             (optional) The index of the body to set.
+     *                                       Pass null to set for all bodies.
      * @access   public
      */
-    function updateAllAttributes($attributes = null)
+    function updateAllAttributes($attributes = null, $tbody = null)
     {
-        $this->_tbody->updateAllAttributes($attributes);
+        if (!is_null($tbody)) {
+            $this->_tbodies[$tbody]->updateAllAttributes($attributes);
+        } else {
+            foreach (array_keys($this->_tbodies) as $tbody) {
+                $this->_tbodies[$tbody]->updateAllAttributes($attributes);
+            }
+        }
     }
 
     /**
@@ -637,11 +776,15 @@ class HTML_Table extends HTML_Common {
             if ($this->_tfoot !== null) {
                 $tFootColCount = $this->_tfoot->getColCount();
             }
-            $tBodyColCount = 0;
-            if ($this->_tbody !== null) {
-                $tBodyColCount = $this->_tbody->getColCount();
+            $tBodyColCounts = array();
+            foreach ($this->_tbodies as $tbody) {
+                $tBodyColCounts[] = $tbody->getColCount();
             }
-            $maxColCount = max($tHeadColCount, $tFootColCount, $tBodyColCount);
+            $tBodyMaxColCount = 0;
+            if (count($tBodyColCounts) > 0) {
+                $tBodyMaxColCount = max($tBodyColCounts);
+            }
+            $maxColCount = max($tHeadColCount, $tFootColCount, $tBodyMaxColCount);
             if ($this->_thead !== null) {
                 $this->_thead->setColCount($maxColCount);
                 if ($this->_thead->getRowCount() > 0) {
@@ -662,18 +805,20 @@ class HTML_Table extends HTML_Common {
                     $strHtml .= $tabs . $tab . '</tfoot>' . $lnEnd;
                 }
             }
-            if ($this->_tbody !== null) {
-                $this->_tbody->setColCount($maxColCount);
-                if ($this->_tbody->getRowCount() > 0) {
+            foreach ($this->_tbodies as $tbody) {
+                $tbody->setColCount($maxColCount);
+                if ($tbody->getRowCount() > 0) {
                     $strHtml .= $tabs . $tab . '<tbody' .
-                                $this->_getAttrString($this->_tbody->_attributes) .
+                                $this->_getAttrString($tbody->_attributes) .
                                 '>' . $lnEnd;
-                    $strHtml .= $this->_tbody->toHtml($tabs, $tab);
+                    $strHtml .= $tbody->toHtml($tabs, $tab);
                     $strHtml .= $tabs . $tab . '</tbody>' . $lnEnd;
                 }
             }
         } else {
-            $strHtml .= $this->_tbody->toHtml($tabs, $tab);
+            foreach ($this->_tbodies as $tbody) {
+                $strHtml .= $tbody->toHtml($tabs, $tab);
+            }
         }
         $strHtml .= $tabs . '</table>' . $lnEnd;
         return $strHtml;
