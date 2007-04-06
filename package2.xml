@@ -41,11 +41,11 @@ For auto filling of data and such then check out http://pear.php.net/package/HTM
   <email>wiesemann@php.net</email>
   <active>yes</active>
  </lead>
- <date>2006-11-09</date>
- <time>21:50:00</time>
+ <date>2007-03-??</date>
+ <time>??:??:??</time>
  <version>
-  <release>1.7.5</release>
-  <api>1.7.5</api>
+  <release>1.8.0</release>
+  <api>1.8.0</api>
  </version>
  <stability>
   <release>stable</release>
@@ -53,8 +53,7 @@ For auto filling of data and such then check out http://pear.php.net/package/HTM
  </stability>
  <license>New BSD</license>
  <notes>
-- removed unneeded check of HTML_Common version from the constructor
-- marked apiVersion() as deprecated
+- (support for multiple tbody parts)
  </notes>
  <contents>
   <dir name="/">

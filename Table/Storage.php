@@ -675,53 +675,55 @@ class HTML_Table_Storage extends HTML_Common {
         } else {
             $extraTab = '';
         }
-        for ($i = 0 ; $i < $this->_rows ; $i++) {
-            $attr = '';
-            if (isset($this->_structure[$i]['attr'])) {
-                $attr = $this->_getAttrString($this->_structure[$i]['attr']);
-            }
-            $strHtml .= $tabs .$tab . $extraTab . '<tr'.$attr.'>' . $lnEnd;
-            for ($j = 0 ; $j < $this->_cols ; $j++) {
-                $attr     = '';
-                $contents = '';
-                $type     = 'td';
-                if (isset($this->_structure[$i][$j]) && $this->_structure[$i][$j] == '__SPANNED__') {
-                    continue;
+        if ($this->_cols > 0) {
+            for ($i = 0 ; $i < $this->_rows ; $i++) {
+                $attr = '';
+                if (isset($this->_structure[$i]['attr'])) {
+                    $attr = $this->_getAttrString($this->_structure[$i]['attr']);
                 }
-                if (isset($this->_structure[$i][$j]['type'])) {
-                    $type = (strtolower($this->_structure[$i][$j]['type']) == 'th' ? 'th' : 'td');
-                }
-                if (isset($this->_structure[$i][$j]['attr'])) {
-                    $attr = $this->_structure[$i][$j]['attr'];
-                }
-                if (isset($this->_structure[$i][$j]['contents'])) {
-                    $contents = $this->_structure[$i][$j]['contents'];
-                }
-                $strHtml .= $tabs . $tab . $tab . $extraTab . "<$type" . $this->_getAttrString($attr) . '>';
-                if (is_object($contents)) {
-                    // changes indent and line end settings on nested tables
-                    if (is_subclass_of($contents, 'html_common')) {
-                        $contents->setTab($tab . $extraTab);
-                        $contents->setTabOffset($this->_tabOffset + 3);
-                        $contents->_nestLevel = $this->_nestLevel + 1;
-                        $contents->setLineEnd($this->_getLineEnd());
+                $strHtml .= $tabs .$tab . $extraTab . '<tr'.$attr.'>' . $lnEnd;
+                for ($j = 0 ; $j < $this->_cols ; $j++) {
+                    $attr     = '';
+                    $contents = '';
+                    $type     = 'td';
+                    if (isset($this->_structure[$i][$j]) && $this->_structure[$i][$j] == '__SPANNED__') {
+                        continue;
                     }
-                    if (method_exists($contents, 'toHtml')) {
-                        $contents = $contents->toHtml();
-                    } elseif (method_exists($contents, 'toString')) {
-                        $contents = $contents->toString();
+                    if (isset($this->_structure[$i][$j]['type'])) {
+                        $type = (strtolower($this->_structure[$i][$j]['type']) == 'th' ? 'th' : 'td');
                     }
+                    if (isset($this->_structure[$i][$j]['attr'])) {
+                        $attr = $this->_structure[$i][$j]['attr'];
+                    }
+                    if (isset($this->_structure[$i][$j]['contents'])) {
+                        $contents = $this->_structure[$i][$j]['contents'];
+                    }
+                    $strHtml .= $tabs . $tab . $tab . $extraTab . "<$type" . $this->_getAttrString($attr) . '>';
+                    if (is_object($contents)) {
+                        // changes indent and line end settings on nested tables
+                        if (is_subclass_of($contents, 'html_common')) {
+                            $contents->setTab($tab . $extraTab);
+                            $contents->setTabOffset($this->_tabOffset + 3);
+                            $contents->_nestLevel = $this->_nestLevel + 1;
+                            $contents->setLineEnd($this->_getLineEnd());
+                        }
+                        if (method_exists($contents, 'toHtml')) {
+                            $contents = $contents->toHtml();
+                        } elseif (method_exists($contents, 'toString')) {
+                            $contents = $contents->toString();
+                        }
+                    }
+                    if (is_array($contents)) {
+                        $contents = implode(', ', $contents);
+                    }
+                    if (isset($this->_autoFill) && $contents === '') {
+                        $contents = $this->_autoFill;
+                    }
+                    $strHtml .= $contents;
+                    $strHtml .= "</$type>" . $lnEnd;
                 }
-                if (is_array($contents)) {
-                    $contents = implode(', ', $contents);
-                }
-                if (isset($this->_autoFill) && $contents === '') {
-                    $contents = $this->_autoFill;
-                }
-                $strHtml .= $contents;
-                $strHtml .= "</$type>" . $lnEnd;
+                $strHtml .= $tabs . $tab . $extraTab . '</tr>' . $lnEnd;
             }
-            $strHtml .= $tabs . $tab . $extraTab . '</tr>' . $lnEnd;
         }
         return $strHtml;
     }
