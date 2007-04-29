@@ -41,19 +41,20 @@ For auto filling of data and such then check out http://pear.php.net/package/HTM
   <email>wiesemann@php.net</email>
   <active>yes</active>
  </lead>
- <date>2007-03-??</date>
- <time>??:??:??</time>
+ <date>2007-04-29</date>
+ <time>18:30:00</time>
  <version>
-  <release>1.8.0</release>
+  <release>1.8.0RC1</release>
   <api>1.8.0</api>
  </version>
  <stability>
-  <release>stable</release>
-  <api>stable</api>
+  <release>beta</release>
+  <api>beta</api>
  </stability>
  <license>New BSD</license>
  <notes>
-- (support for multiple tbody parts)
+- added support for multiple tbody parts in tables
+  (using patches by Kristofer Nelson)
  </notes>
  <contents>
   <dir name="/">
@@ -103,19 +104,15 @@ For auto filling of data and such then check out http://pear.php.net/package/HTM
  <dependencies>
   <required>
    <php>
-    <min>4.0.0</min>
+    <min>4.3.0</min>
    </php>
    <pearinstaller>
-    <min>1.4.0b1</min>
+    <min>1.5.0</min>
    </pearinstaller>
-   <package>
-    <name>PEAR</name>
-    <channel>pear.php.net</channel>
-   </package>
    <package>
     <name>HTML_Common</name>
     <channel>pear.php.net</channel>
-    <min>1.2.0</min>
+    <min>1.2.3</min>
    </package>
   </required>
  </dependencies>

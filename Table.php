@@ -2,9 +2,11 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * PEAR::HTML_Table makes the design of HTML tables easy, flexible, reusable and efficient.
+ * PEAR::HTML_Table makes the design of HTML tables easy, flexible, reusable and
+ * efficient.
  *
- * The PEAR::HTML_Table package provides methods for easy and efficient design of HTML tables.
+ * The PEAR::HTML_Table package provides methods for easy and efficient design
+ * of HTML tables.
  * - Lots of customization options.
  * - Tables can be modified at any time.
  * - The logic is the same as standard HTML editors.
@@ -12,7 +14,8 @@
  * - PHP code is shorter, easier to read and to maintain.
  * - Tables options can be reused.
  *
- * For auto filling of data and such then check out http://pear.php.net/package/HTML_Table_Matrix
+ * For auto filling of data and such then check out
+ * http://pear.php.net/package/HTML_Table_Matrix
  *
  * PHP versions 4 and 5
  *
@@ -68,7 +71,8 @@ require_once 'HTML/Table/Storage.php';
 /**
  * PEAR::HTML_Table makes the design of HTML tables easy, flexible, reusable and efficient.
  *
- * The PEAR::HTML_Table package provides methods for easy and efficient design of HTML tables.
+ * The PEAR::HTML_Table package provides methods for easy and efficient design
+ * of HTML tables.
  * - Lots of customization options.
  * - Tables can be modified at any time.
  * - The logic is the same as standard HTML editors.
@@ -76,7 +80,8 @@ require_once 'HTML/Table/Storage.php';
  * - PHP code is shorter, easier to read and to maintain.
  * - Tables options can be reused.
  *
- * For auto filling of data and such then check out http://pear.php.net/package/HTML_Table_Matrix
+ * For auto filling of data and such then check out
+ * http://pear.php.net/package/HTML_Table_Matrix
  *
  * @category   HTML
  * @package    HTML_Table
@@ -90,14 +95,16 @@ require_once 'HTML/Table/Storage.php';
 class HTML_Table extends HTML_Common {
 
     /**
-     * Value to insert into empty cells. This is used as a default for newly-created tbodies.
+     * Value to insert into empty cells. This is used as a default for
+     * newly-created tbodies.
      * @var    string
      * @access private
      */
     var $_autoFill = '&nbsp;';
 
     /**
-     * Automatically adds a new row, column, or body if a given row, column, or body index does not exist.
+     * Automatically adds a new row, column, or body if a given row, column, or
+     * body index does not exist.
      * This is used as a default for newly-created tbodies.
      * @var    bool
      * @access private
@@ -157,7 +164,8 @@ class HTML_Table extends HTML_Common {
 
     /**
      * Class constructor
-     * @param    array    $attributes        Associative array of table tag attributes
+     * @param    array    $attributes        Associative array of table tag
+     *                                       attributes
      * @param    int      $tabOffset         Tab offset of the table
      * @param    bool     $useTGroups        Whether to use <thead>, <tfoot> and
      *                                       <tbody> or not
@@ -224,7 +232,8 @@ class HTML_Table extends HTML_Common {
     /**
      * Returns the HTML_Table_Storage object for the specified <tbody>
      * (or the whole table if <t{head|foot|body}> is not used)
-     * @param   int       $body              (optional) The index of the body to return.
+     * @param   int       $body              (optional) The index of the body to
+     *                                       return.
      * @access  public
      * @return  object
      * @throws  PEAR_Error
@@ -240,7 +249,8 @@ class HTML_Table extends HTML_Common {
 
     /**
      * Adds a table body and returns the body identifier
-     * @param   mixed        $attributes     (optional) Associative array or string of table body attributes
+     * @param   mixed        $attributes     (optional) Associative array or
+     *                                       string of table body attributes
      * @access  public
      * @return  int
      */
@@ -264,8 +274,7 @@ class HTML_Table extends HTML_Common {
     /**
      * Adjusts the number of bodies
      * @param   int          $body           Body index
-     * @param   string       $method         Method name of caller
-                                             Used to populate PEAR_Error if thrown.
+     * @param   string       $method         Name of calling method
      * @access  private
      * @throws  PEAR_Error
      */
@@ -284,7 +293,8 @@ class HTML_Table extends HTML_Common {
     /**
      * Sets the table caption
      * @param   string    $caption
-     * @param   mixed     $attributes        Associative array or string of table row attributes
+     * @param   mixed     $attributes        Associative array or string of
+     *                                       table row attributes
      * @access  public
      */
     function setCaption($caption, $attributes = null)
@@ -296,8 +306,8 @@ class HTML_Table extends HTML_Common {
     /**
      * Sets the table columns group specifications, or removes existing ones.
      *
-     * @param   mixed     $colgroup          (optional) Columns attributes
-     * @param   mixed     $attributes        (optional) Associative array or string
+     * @param   mixed     $colgroup        (optional) Columns attributes
+     * @param   mixed     $attributes      (optional) Associative array or string
      *                                                  of table row attributes
      * @author  Laurent Laville (pear at laurent-laville dot org)
      * @access  public
@@ -315,9 +325,9 @@ class HTML_Table extends HTML_Common {
 
     /**
      * Sets the autoFill value
-     * @param   mixed   $fill
-     * @param   int     $body                (optional) The index of the body to set.
-     *                                       Pass null to set for all bodies.
+     * @param   mixed   $fill          Whether autoFill should be enabled or not
+     * @param   int     $body          (optional) The index of the body to set.
+     *                                 Pass null to set for all bodies.
      * @access  public
      * @throws  PEAR_Error
      */
@@ -360,9 +370,9 @@ class HTML_Table extends HTML_Common {
 
     /**
      * Sets the autoGrow value
-     * @param    bool        $grow
-     * @param    int         $body           (optional) The index of the body to set.
-     *                                       Pass null to set for all bodies.
+     * @param    bool     $grow        Whether autoGrow should be enabled or not
+     * @param    int      $body        (optional) The index of the body to set.
+     *                                 Pass null to set for all bodies.
      * @access   public
      * @throws   PEAR_Error
      */
@@ -384,8 +394,8 @@ class HTML_Table extends HTML_Common {
 
     /**
      * Returns the autoGrow value
-     * @param    int         $body           (optional) The index of the body to get.
-     *                                       Pass null to get the default for new bodies.
+     * @param    int     $body       (optional) The index of the body to get.
+     *                               Pass null to get the default for new bodies.
      * @access   public
      * @return   mixed
      * @throws   PEAR_Error
@@ -405,8 +415,8 @@ class HTML_Table extends HTML_Common {
 
     /**
      * Sets the number of rows in the table body
-     * @param    int         $rows
-     * @param    int         $body           (optional) The index of the body to set.
+     * @param    int       $rows       The number of rows
+     * @param    int       $body       (optional) The index of the body to set.
      * @access   public
      * @throws   PEAR_Error
      */
@@ -421,8 +431,8 @@ class HTML_Table extends HTML_Common {
 
     /**
      * Sets the number of columns in the table
-     * @param    int         $cols
-     * @param    int         $body           (optional) The index of the body to set.
+     * @param    int         $cols      The number of columns
+     * @param    int         $body      (optional) The index of the body to set.
      * @access   public
      * @throws   PEAR_Error
      */
@@ -437,8 +447,9 @@ class HTML_Table extends HTML_Common {
 
     /**
      * Returns the number of rows in the table
-     * @param    int         $body           (optional) The index of the body to get.
-     *                                       Pass null to get the total number of rows in all bodies.
+     * @param    int    $body           (optional) The index of the body to get.
+     *                                  Pass null to get the total number of
+     *                                  rows in all bodies.
      * @access   public
      * @return   int
      * @throws   PEAR_Error
@@ -466,8 +477,8 @@ class HTML_Table extends HTML_Common {
      * If a row index is specified, the count will not take
      * the spanned cells into account in the return value.
      *
-     * @param    int         $row            Row index to serve for cols count
-     * @param    int         $body           (optional) The index of the body to get.
+     * @param    int      $row          Row index to serve for cols count
+     * @param    int      $body         (optional) The index of the body to get.
      * @access   public
      * @return   int
      * @throws   PEAR_Error
@@ -489,7 +500,6 @@ class HTML_Table extends HTML_Common {
      * @access   public
      * @throws   PEAR_Error
      */
-
     function setRowType($row, $type, $body = 0)
     {
         $ret = $this->_adjustTbodyCount($body, 'setRowType');
@@ -529,10 +539,11 @@ class HTML_Table extends HTML_Common {
      * If the given indices do not exist and autoGrow is true then the given
      * row and/or col is automatically added.  If autoGrow is false then an
      * error is returned.
-     * @param    int         $row            Row index
-     * @param    int         $col            Column index
-     * @param    mixed       $attributes     Associative array or string of table row attributes
-     * @param    int         $body           (optional) The index of the body to set.
+     * @param    int     $row          Row index
+     * @param    int     $col          Column index
+     * @param    mixed   $attributes   Associative array or string of
+     *                                 table row attributes
+     * @param    int     $body         (optional) The index of the body to set.
      * @access   public
      * @throws   PEAR_Error
      */
@@ -549,11 +560,13 @@ class HTML_Table extends HTML_Common {
     }
 
     /**
-     * Updates the cell attributes passed but leaves other existing attributes intact
-     * @param    int         $row            Row index
-     * @param    int         $col            Column index
-     * @param    mixed       $attributes     Associative array or string of table row attributes
-     * @param    int         $body           (optional) The index of the body to set.
+     * Updates the cell attributes passed but leaves other existing attributes
+     * intact
+     * @param    int      $row          Row index
+     * @param    int      $col          Column index
+     * @param    mixed    $attributes   Associative array or string of table row
+     *                                  attributes
+     * @param    int      $body         (optional) The index of the body to set.
      * @access   public
      * @throws   PEAR_Error
      */
@@ -571,9 +584,9 @@ class HTML_Table extends HTML_Common {
 
     /**
      * Returns the attributes for a given cell
-     * @param    int         $row            Row index
-     * @param    int         $col            Column index
-     * @param    int         $body           (optional) The index of the body to get.
+     * @param    int         $row        Row index
+     * @param    int         $col        Column index
+     * @param    int         $body       (optional) The index of the body to get.
      * @return   array
      * @access   public
      * @throws   PEAR_Error
@@ -593,14 +606,16 @@ class HTML_Table extends HTML_Common {
      * If the given indices do not exist and autoGrow is true then the given
      * row and/or col is automatically added.  If autoGrow is false then an
      * error is returned.
-     * @param    int         $row            Row index
-     * @param    int         $col            Column index
-     * @param    mixed       $contents       May contain html or any object with a toHTML method;
-     *                                       if it is an array (with strings and/or objects), $col
-     *                                       will be used as start offset and the array elements
-     *                                       will be set to this and the following columns in $row
-     * @param    string      $type           (optional) Cell type either 'TH' or 'TD'
-     * @param    int         $body           (optional) The index of the body to set.
+     * @param    int      $row         Row index
+     * @param    int      $col         Column index
+     * @param    mixed    $contents    May contain html or any object with a
+     *                                 toHTML() method; it is an array (with
+     *                                 strings and/or objects), $col will be
+     *                                 used as start offset and the array
+     *                                 elements will be set to this and the
+     *                                 following columns in $row
+     * @param    string   $type        (optional) Cell type either 'TH' or 'TD'
+     * @param    int      $body        (optional) The index of the body to set.
      * @access   public
      * @throws   PEAR_Error
      */
@@ -636,15 +651,17 @@ class HTML_Table extends HTML_Common {
 
     /**
      * Sets the contents of a header cell
-     * @param    int         $row
-     * @param    int         $col
-     * @param    mixed       $contents
-     * @param    mixed       $attributes     Associative array or string of table row attributes
-     * @param    int         $body           (optional) The index of the body to set.
+     * @param    int      $row
+     * @param    int      $col
+     * @param    mixed    $contents
+     * @param    mixed    $attributes   Associative array or string of
+     *                                  table row attributes
+     * @param    int      $body         (optional) The index of the body to set.
      * @access   public
      * @throws   PEAR_Error
      */
-    function setHeaderContents($row, $col, $contents, $attributes = null, $body = 0)
+    function setHeaderContents($row, $col, $contents, $attributes = null,
+        $body = 0)
     {
         $ret = $this->_adjustTbodyCount($body, 'setHeaderContents');
         if (PEAR::isError($ret)) {
@@ -655,19 +672,24 @@ class HTML_Table extends HTML_Common {
 
     /**
      * Adds a table row and returns the row identifier
-     * @param    array       $contents       (optional) Must be a indexed array of valid cell contents
-     * @param    mixed       $attributes     (optional) Associative array or string of table row attributes
-     *                                       This can also be an array of attributes, in which case the attributes
-     *                                       will be repeated in a loop.
-     * @param    string      $type           (optional) Cell type either 'th' or 'td'
-     * @param    bool        $inTR           false if attributes are to be applied in TD tags
-     *                                       true if attributes are to be applied in TR tag
-     * @param    int         $body           (optional) The index of the body to use.
+     * @param    array     $contents     (optional) Must be a indexed array of
+     *                                   valid cell contents
+     * @param    mixed     $attributes   (optional) Associative array or string
+     *                                   of table row attributes. This can also
+     *                                   be an array of attributes, in which
+     *                                   case the attributes will be repeated
+     *                                   in a loop.
+     * @param    string    $type         (optional) Cell type either 'th' or 'td'
+     * @param    bool      $inTR         false if attributes are to be applied
+     *                                   in TD tags; true if attributes are to
+     *                                  ´be applied in TR tag
+     * @param    int       $body         (optional) The index of the body to use.
      * @return   int
      * @access   public
      * @throws   PEAR_Error
      */
-    function addRow($contents = null, $attributes = null, $type = 'td', $inTR = false, $body = 0)
+    function addRow($contents = null, $attributes = null, $type = 'td',
+        $inTR = false, $body = 0)
     {
         $ret = $this->_adjustTbodyCount($body, 'addRow');
         if (PEAR::isError($ret)) {
@@ -679,13 +701,15 @@ class HTML_Table extends HTML_Common {
 
     /**
      * Sets the row attributes for an existing row
-     * @param    int         $row            Row index
-     * @param    mixed       $attributes     Associative array or string of table row attributes
-     *                                       This can also be an array of attributes, in which case the attributes
-     *                                       will be repeated in a loop.
-     * @param    bool        $inTR           false if attributes are to be applied in TD tags
-     *                                       true if attributes are to be applied in TR tag
-     * @param    int         $body           (optional) The index of the body to set.
+     * @param    int      $row          Row index
+     * @param    mixed    $attributes   Associative array or string of table row
+     *                                  attributes. This can also be an array of
+     *                                  attributes, in which case the attributes
+     *                                  will be repeated in a loop.
+     * @param    bool     $inTR         false if attributes are to be applied in
+     *                                  TD tags; true if attributes are to be
+     *                                  applied in TR tag
+     * @param    int      $body         (optional) The index of the body to set.
      * @access   public
      * @throws   PEAR_Error
      */
@@ -703,15 +727,18 @@ class HTML_Table extends HTML_Common {
 
     /**
      * Updates the row attributes for an existing row
-     * @param    int         $row            Row index
-     * @param    mixed       $attributes     Associative array or string of table row attributes
-     * @param    bool        $inTR           false if attributes are to be applied in TD tags
-     *                                       true if attributes are to be applied in TR tag
-     * @param    int         $body           (optional) The index of the body to set.
+     * @param    int      $row          Row index
+     * @param    mixed    $attributes   Associative array or string of table row
+     *                                  attributes
+     * @param    bool     $inTR         false if attributes are to be applied in
+     *                                  TD tags; true if attributes are to be
+     *                                  applied in TR tag
+     * @param    int      $body         (optional) The index of the body to set.
      * @access   public
      * @throws   PEAR_Error
      */
-    function updateRowAttributes($row, $attributes = null, $inTR = false, $body = 0)
+    function updateRowAttributes($row, $attributes = null, $inTR = false,
+        $body = 0)
     {
         $ret = $this->_adjustTbodyCount($body, 'updateRowAttributes');
         if (PEAR::isError($ret)) {
@@ -725,8 +752,8 @@ class HTML_Table extends HTML_Common {
 
     /**
      * Returns the attributes for a given row as contained in the TR tag
-     * @param    int         $row            Row index
-     * @param    int         $body           (optional) The index of the body to get.
+     * @param    int      $row       Row index
+     * @param    int      $body      (optional) The index of the body to get.
      * @return   array
      * @access   public
      * @throws   PEAR_Error
@@ -742,17 +769,21 @@ class HTML_Table extends HTML_Common {
 
     /**
      * Alternates the row attributes starting at $start
-     * @param    int         $start            Row index of row in which alternating begins
-     * @param    mixed       $attributes1      Associative array or string of table row attributes
-     * @param    mixed       $attributes2      Associative array or string of table row attributes
-     * @param    bool        $inTR             false if attributes are to be applied in TD tags
-     *                                         true if attributes are to be applied in TR tag
-     * @param    int         $firstAttributes  (optional) Which attributes should be
-     *                                         applied to the first row, 1 or 2.
-     * @param    int         $body             (optional) The index of the body to set.
-     *                                         Pass null to set for all bodies.
-     * @access   public
-     * @throws   PEAR_Error
+     * @param   int     $start            Row index of row in which alternating
+     *                                    begins
+     * @param   mixed   $attributes1      Associative array or string of table
+     *                                    row attributes
+     * @param   mixed   $attributes2      Associative array or string of table
+     *                                    row attributes
+     * @param   bool    $inTR             false if attributes are to be applied
+     *                                    in TD tags; true if attributes are to
+     *                                    be applied in TR tag
+     * @param   int     $firstAttributes  (optional) Which attributes should be
+     *                                    applied to the first row, 1 or 2.
+     * @param   int     $body             (optional) The index of the body to set.
+     *                                    Pass null to set for all bodies.
+     * @access  public
+     * @throws  PEAR_Error
      */
     function altRowAttributes($start, $attributes1, $attributes2, $inTR = false,
         $firstAttributes = 1, $body = null)
@@ -780,10 +811,12 @@ class HTML_Table extends HTML_Common {
 
     /**
      * Adds a table column and returns the column identifier
-     * @param    array       $contents       (optional) Must be a indexed array of valid cell contents
-     * @param    mixed       $attributes     (optional) Associative array or string of table row attributes
-     * @param    string      $type           (optional) Cell type either 'th' or 'td'
-     * @param    int         $body           (optional) The index of the body to use.
+     * @param    array     $contents     (optional) Must be a indexed array of
+     *                                   valid cell contents
+     * @param    mixed     $attributes   (optional) Associative array or string
+     *                                   of table row attributes
+     * @param    string    $type         (optional) Cell type either 'th' or 'td'
+     * @param    int       $body         (optional) The index of the body to use.
      * @return   int
      * @access   public
      * @throws   PEAR_Error
@@ -799,10 +832,11 @@ class HTML_Table extends HTML_Common {
 
     /**
      * Sets the column attributes for an existing column
-     * @param    int         $col            Column index
-     * @param    mixed       $attributes     (optional) Associative array or string of table row attributes
-     * @param    int         $body           (optional) The index of the body to set.
-     *                                       Pass null to set for all bodies.
+     * @param    int       $col          Column index
+     * @param    mixed     $attributes   (optional) Associative array or string
+     *                                   of table row attributes
+     * @param    int       $body         (optional) The index of the body to set.
+     *                                   Pass null to set for all bodies.
      * @access   public
      * @throws   PEAR_Error
      */
@@ -823,10 +857,11 @@ class HTML_Table extends HTML_Common {
 
     /**
      * Updates the column attributes for an existing column
-     * @param    int         $col            Column index
-     * @param    mixed       $attributes     (optional) Associative array or string of table row attributes
-     * @param    int         $body           (optional) The index of the body to set.
-     *                                       Pass null to set for all bodies.
+     * @param    int       $col          Column index
+     * @param    mixed     $attributes   (optional) Associative array or
+     *                                   string of table row attributes
+     * @param    int       $body         (optional) The index of the body to set.
+     *                                   Pass null to set for all bodies.
      * @access   public
      * @throws   PEAR_Error
      */
@@ -847,9 +882,10 @@ class HTML_Table extends HTML_Common {
 
     /**
      * Sets the attributes for all cells
-     * @param    mixed       $attributes        (optional) Associative array or string of table row attributes
-     * @param    int         $body              (optional) The index of the body to set.
-     *                                          Pass null to set for all bodies.
+     * @param    mixed    $attributes    (optional) Associative array or
+     *                                   string of table row attributes
+     * @param    int      $body          (optional) The index of the body to set.
+     *                                   Pass null to set for all bodies.
      * @access   public
      * @throws   PEAR_Error
      */
@@ -870,9 +906,10 @@ class HTML_Table extends HTML_Common {
 
     /**
      * Updates the attributes for all cells
-     * @param    mixed       $attributes        (optional) Associative array or string of table row attributes
-     * @param    int         $body              (optional) The index of the body to set.
-     *                                          Pass null to set for all bodies.
+     * @param    mixed    $attributes   (optional) Associative array or string
+     *                                  of table row attributes
+     * @param    int      $body         (optional) The index of the body to set.
+     *                                  Pass null to set for all bodies.
      * @access   public
      * @throws   PEAR_Error
      */
