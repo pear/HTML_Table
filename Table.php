@@ -281,7 +281,7 @@ class HTML_Table extends HTML_Common {
     function _adjustTbodyCount($body, $method)
     {
         if ($this->_autoGrow) {
-            while ($this->_tbodyCount <= $body) {
+            while ($this->_tbodyCount <= (int)$body) {
                 $this->addBody();
             }
         } else {
