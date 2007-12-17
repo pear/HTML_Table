@@ -41,10 +41,10 @@ For auto filling of data and such then check out http://pear.php.net/package/HTM
   <email>wiesemann@php.net</email>
   <active>yes</active>
  </lead>
- <date>2007-06-25</date>
- <time>18:45:00</time>
+ <date>2007-12-17</date>
+ <time>21:45:00</time>
  <version>
-  <release>1.8.1</release>
+  <release>1.8.2</release>
   <api>1.8.0</api>
  </version>
  <stability>
@@ -53,10 +53,8 @@ For auto filling of data and such then check out http://pear.php.net/package/HTM
  </stability>
  <license>New BSD</license>
  <notes>
-- minor internal correction to avoid a non-terminating loop when users
-  pass a boolean instead of a numeric value for $body (new parameter in
-  various methods that indicates the number of &lt;tbody&gt; part since
-  version 1.8.0)
+- Bug #12705: the &lt;col&gt; tag is now XHTML compliant
+  (thanks to Denny Shimkoski)
  </notes>
  <contents>
   <dir name="/">

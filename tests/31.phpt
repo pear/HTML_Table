@@ -54,13 +54,13 @@ echo $table->toHTML();
 --EXPECT--
 <table>
 	<colgroup span="3" class="group1">
-		<col style="font-size:120%;">
-		<col class="col2">
-		<col align="right">
+		<col style="font-size:120%;" />
+		<col class="col2" />
+		<col align="right" />
 	</colgroup>
 	<colgroup span="2" class="group2">
-		<col class="col4">
-		<col class="col5">
+		<col class="col4" />
+		<col class="col5" />
 	</colgroup>
 	<tr>
 		<td>Foo</td>

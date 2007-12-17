@@ -975,7 +975,7 @@ class HTML_Table extends HTML_Common {
                         }
                         foreach ($contents as $a => $colAttr) {
                             $attr = $this->_parseAttributes($colAttr);
-                            $strHtml .= $tabs . $tab . $tab . '<col' . $this->_getAttrString($attr) . '>' . $lnEnd;
+                            $strHtml .= $tabs . $tab . $tab . '<col' . $this->_getAttrString($attr) . ' />' . $lnEnd;
                         }
                         $strHtml .= $tabs . $tab;
                     }
