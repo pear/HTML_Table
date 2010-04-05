@@ -44,8 +44,8 @@ For auto filling of data and such then check out http://pear.php.net/package/HTM
  <date>2007-12-17</date>
  <time>21:45:00</time>
  <version>
-  <release>1.8.2</release>
-  <api>1.8.0</api>
+  <release>1.8.3</release>
+  <api>1.8.1</api>
  </version>
  <stability>
   <release>stable</release>
@@ -53,8 +53,11 @@ For auto filling of data and such then check out http://pear.php.net/package/HTM
  </stability>
  <license>New BSD</license>
  <notes>
-- Bug #12705: the &lt;col&gt; tag is now XHTML compliant
-  (thanks to Denny Shimkoski)
+- Request #16984: added a __toString() method, i.e. "echo $table;"
+  is now possible
+  (thanks to Andreas Sjöberg)
+- Bug #17073: enhanced E_STRICT compatibility
+  (thanks to Andrea Bakker and Daniel O'Connor)
  </notes>
  <contents>
   <dir name="/">

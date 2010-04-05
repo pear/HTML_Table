@@ -4,7 +4,7 @@
 <?php
 // $Id$
 require_once 'HTML/Table.php';
-$table =& new HTML_Table('width="400"');
+$table = new HTML_Table('width="400"');
 
 $data[0][] = 'Foo';
 $data[0][] = 'Bar';

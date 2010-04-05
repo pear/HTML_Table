@@ -4,7 +4,7 @@
 <?php
 // $Id$
 require_once 'HTML/Table.php';
-$table =& new HTML_Table();
+$table = new HTML_Table();
 
 $data[0][3] = 'Test';
 $data[1][2] = 'Test';

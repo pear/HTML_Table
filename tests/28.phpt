@@ -4,7 +4,7 @@
 <?php
 // $Id$
 require_once 'HTML/Table.php';
-$table =& new HTML_Table(null, null, false);
+$table = new HTML_Table(null, null, false);
 
 $thead =& $table->getHeader();
 $tfoot =& $table->getFooter();

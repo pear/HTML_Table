@@ -7,7 +7,7 @@
 // $Id$
 
 require_once 'HTML/Table.php';
-$table =& new HTML_Table('width = "400"');
+$table = new HTML_Table('width = "400"');
 
 $data[0][] = 'i am';
 $data[0][] = 'i think';
@@ -25,8 +25,8 @@ $data[2][] = 'i think';
 $data[2][] = 'i think';
 
 foreach($data as $key => $value) {
-	$table->addRow($data[$key], array(array('bgcolor' => 'blue', 'align' => 'center'), 
-                                                           array('bgcolor' => 'green'), 
+	$table->addRow($data[$key], array(array('bgcolor' => 'blue', 'align' => 'center'),
+                                                           array('bgcolor' => 'green'),
                                                            array('bgcolor' => 'red')));
 }
 

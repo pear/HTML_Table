@@ -8,7 +8,7 @@
 
 require_once 'HTML/Table.php';
 
-$table =& new HTML_Table('width = "100%"');
+$table = new HTML_Table('width = "100%"');
 $table->setCaption('256 colors table');
 $i = $j = 0;
 for ($R = 0; $R <= 255; $R += 51) {

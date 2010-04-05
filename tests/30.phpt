@@ -4,7 +4,7 @@
 <?php
 // $Id$
 require_once 'HTML/Table.php';
-$table =& new HTML_Table();
+$table = new HTML_Table();
 
 $colgroup = array('style="font-size: 120%;"', 'class="col2"', 'align="right"');
 $attributes = 'span="3" class="group1"';
