@@ -1,0 +1,43 @@
+{
+    "authors": [
+        {
+            "email": "bmansion@mamasam.com",
+            "name": "Bertrand Mansion",
+            "role": "Lead"
+        },
+        {
+            "email": "thesaur@php.net",
+            "name": "Klaus Guenther",
+            "role": "Lead"
+        },
+        {
+            "email": "dufuz@php.net",
+            "name": "Helgi &#222;ormar",
+            "role": "Lead"
+        },
+        {
+            "email": "wiesemann@php.net",
+            "name": "Mark Wiesemann",
+            "role": "Lead"
+        }
+    ],
+    "autoload": {
+        "classmap": [
+            "./"
+        ]
+    },
+    "description": "More info available on: http://pear.php.net/package/HTML_Table",
+    "license": "New BSD",
+    "name": "pear/html_table",
+    "support": {
+        "issues": "http://pear.php.net/bugs/search.php?cmd=display&package_name[]=HTML_Table",
+        "source": "https://github.com/pear/HTML_Table"
+    },
+    "type": "library",
+    "require": {
+        "pear/pear_exception": "*"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "*"
+    }
+}
