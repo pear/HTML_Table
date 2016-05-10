@@ -171,7 +171,7 @@ class HTML_Table extends HTML_Common {
      *                                       <tbody> or not
      * @access   public
      */
-    function HTML_Table($attributes = null, $tabOffset = 0, $useTGroups = false)
+    function __construct($attributes = null, $tabOffset = 0, $useTGroups = false)
     {
         HTML_Common::HTML_Common($attributes, (int)$tabOffset);
         $this->_useTGroups = (boolean)$useTGroups;
@@ -180,6 +180,19 @@ class HTML_Table extends HTML_Common {
             $this->_thead = new HTML_Table_Storage($tabOffset, $this->_useTGroups);
             $this->_tfoot = new HTML_Table_Storage($tabOffset, $this->_useTGroups);
         }
+    }
+
+    /**
+     * PHP4 constructor for backwards compatibility
+     *
+     * @param array $attributes Associative array of table tag attributes
+     * @param int   $tabOffset  Tab offset of the table
+     * @param bool  $useTGroups Whether to use <thead>, <tfoot> and
+     *                          <tbody> or not
+     */
+    function HTML_Table($attributes = null, $tabOffset = 0, $useTGroups = false)
+    {
+        self::__construct($attributes, $tabOffset, $useTGroups);
     }
 
     /**

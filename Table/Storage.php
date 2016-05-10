@@ -11,7 +11,7 @@
  * PHP versions 4 and 5
  *
  * LICENSE:
- * 
+ *
  * Copyright (c) 2005-2007, Adam Daniel <adaniel1@eesus.jnj.com>,
  *                          Bertrand Mansion <bmansion@mamasam.com>,
  *                          Mark Wiesemann <wiesemann@php.net>
@@ -24,9 +24,9 @@
  *    * Redistributions of source code must retain the above copyright
  *      notice, this list of conditions and the following disclaimer.
  *    * Redistributions in binary form must reproduce the above copyright
- *      notice, this list of conditions and the following disclaimer in the 
+ *      notice, this list of conditions and the following disclaimer in the
  *      documentation and/or other materials provided with the distribution.
- *    * The names of the authors may not be used to endorse or promote products 
+ *    * The names of the authors may not be used to endorse or promote products
  *      derived from this software without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
@@ -121,15 +121,28 @@ class HTML_Table_Storage extends HTML_Common {
 
     /**
      * Class constructor
+     *
      * @param    int      $tabOffset
      * @param    bool     $useTGroups        Whether to use <thead>, <tfoot> and
      *                                       <tbody> or not
      * @access   public
      */
-    function HTML_Table_Storage($tabOffset = 0, $useTGroups = false)
+    function __construct($tabOffset = 0, $useTGroups = false)
     {
         HTML_Common::HTML_Common(null, (int)$tabOffset);
         $this->_useTGroups = (boolean)$useTGroups;
+    }
+
+    /**
+     * PHP4 constructor for backwards compatibility
+     *
+     * @param int  $tabOffset
+     * @param bool $useTGroups Whether to use <thead>, <tfoot> and
+     *                         <tbody> or not
+     */
+    function HTML_Table_Storage($tabOffset = 0, $useTGroups = false)
+    {
+        self::__construct($tabOffset, $useTGroups);
     }
 
     /**
