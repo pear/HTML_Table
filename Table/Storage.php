@@ -126,10 +126,18 @@ class HTML_Table_Storage extends HTML_Common {
      *                                       <tbody> or not
      * @access   public
      */
-    function HTML_Table_Storage($tabOffset = 0, $useTGroups = false)
+    function __construct($tabOffset = 0, $useTGroups = false)
     {
         HTML_Common::HTML_Common(null, (int)$tabOffset);
         $this->_useTGroups = (boolean)$useTGroups;
+    }
+    
+    /**
+     * php4 constructor as alias for the new constructor
+     */
+    function HTML_Table_Storage($tabOffset = 0, $useTGroups = false)
+    {
+        $this->__construct($tabOffset, $useTGroups);
     }
 
     /**
