@@ -61,48 +61,50 @@ For auto filling of data and such then check out http://pear.php.net/package/HTM
  </notes>
  <contents>
   <dir name="/">
+   <dir name="HTML">
+    <dir name="Table">
+     <file name="Storage.php" role="php" />
+    </dir> <!-- /Table -->
+    <file name="Table.php" role="php" />
+   </dir><!-- /HTML -->
    <dir name="docs">
-    <file baseinstalldir="/HTML" name="Table_example1.php" role="doc" />
-    <file baseinstalldir="/HTML" name="Table_example2.php" role="doc" />
+    <file name="Table_example1.php" role="doc" />
+    <file name="Table_example2.php" role="doc" />
    </dir> <!-- /docs -->
-   <dir name="Table">
-    <file baseinstalldir="/HTML" name="Storage.php" role="php" />
-   </dir> <!-- /Table -->
    <dir name="tests">
-    <file baseinstalldir="/HTML" name="1.phpt" role="test" />
-    <file baseinstalldir="/HTML" name="2.phpt" role="test" />
-    <file baseinstalldir="/HTML" name="3.phpt" role="test" />
-    <file baseinstalldir="/HTML" name="4.phpt" role="test" />
-    <file baseinstalldir="/HTML" name="5.phpt" role="test" />
-    <file baseinstalldir="/HTML" name="6.phpt" role="test" />
-    <file baseinstalldir="/HTML" name="7.phpt" role="test" />
-    <file baseinstalldir="/HTML" name="8.phpt" role="test" />
-    <file baseinstalldir="/HTML" name="9.phpt" role="test" />
-    <file baseinstalldir="/HTML" name="10.phpt" role="test" />
-    <file baseinstalldir="/HTML" name="11.phpt" role="test" />
-    <file baseinstalldir="/HTML" name="12.phpt" role="test" />
-    <file baseinstalldir="/HTML" name="13.phpt" role="test" />
-    <file baseinstalldir="/HTML" name="14.phpt" role="test" />
-    <file baseinstalldir="/HTML" name="15.phpt" role="test" />
-    <file baseinstalldir="/HTML" name="16.phpt" role="test" />
-    <file baseinstalldir="/HTML" name="17.phpt" role="test" />
-    <file baseinstalldir="/HTML" name="18.phpt" role="test" />
-    <file baseinstalldir="/HTML" name="19.phpt" role="test" />
-    <file baseinstalldir="/HTML" name="20.phpt" role="test" />
-    <file baseinstalldir="/HTML" name="21.phpt" role="test" />
-    <file baseinstalldir="/HTML" name="22.phpt" role="test" />
-    <file baseinstalldir="/HTML" name="23.phpt" role="test" />
-    <file baseinstalldir="/HTML" name="24.phpt" role="test" />
-    <file baseinstalldir="/HTML" name="25.phpt" role="test" />
-    <file baseinstalldir="/HTML" name="26.phpt" role="test" />
-    <file baseinstalldir="/HTML" name="27.phpt" role="test" />
-    <file baseinstalldir="/HTML" name="28.phpt" role="test" />
-    <file baseinstalldir="/HTML" name="29.phpt" role="test" />
-    <file baseinstalldir="/HTML" name="30.phpt" role="test" />
-    <file baseinstalldir="/HTML" name="31.phpt" role="test" />
+    <file name="1.phpt" role="test" />
+    <file name="2.phpt" role="test" />
+    <file name="3.phpt" role="test" />
+    <file name="4.phpt" role="test" />
+    <file name="5.phpt" role="test" />
+    <file name="6.phpt" role="test" />
+    <file name="7.phpt" role="test" />
+    <file name="8.phpt" role="test" />
+    <file name="9.phpt" role="test" />
+    <file name="10.phpt" role="test" />
+    <file name="11.phpt" role="test" />
+    <file name="12.phpt" role="test" />
+    <file name="13.phpt" role="test" />
+    <file name="14.phpt" role="test" />
+    <file name="15.phpt" role="test" />
+    <file name="16.phpt" role="test" />
+    <file name="17.phpt" role="test" />
+    <file name="18.phpt" role="test" />
+    <file name="19.phpt" role="test" />
+    <file name="20.phpt" role="test" />
+    <file name="21.phpt" role="test" />
+    <file name="22.phpt" role="test" />
+    <file name="23.phpt" role="test" />
+    <file name="24.phpt" role="test" />
+    <file name="25.phpt" role="test" />
+    <file name="26.phpt" role="test" />
+    <file name="27.phpt" role="test" />
+    <file name="28.phpt" role="test" />
+    <file name="29.phpt" role="test" />
+    <file name="30.phpt" role="test" />
+    <file name="31.phpt" role="test" />
    </dir> <!-- /tests -->
-   <file baseinstalldir="/HTML" name="Table.php" role="php" />
-  </dir> <!-- / -->
+  </dir>
  </contents>
  <dependencies>
   <required>
