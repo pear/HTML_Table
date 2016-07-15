@@ -352,7 +352,11 @@ class HTML_Table_Storage extends HTML_Common {
         if (   isset($this->_structure[$row][$col])
             && $this->_structure[$row][$col] != '__SPANNED__'
            ) {
-            return $this->_structure[$row][$col]['attr'];
+            if (isset($this->_structure[$row][$col]['attr'])) {
+                return $this->_structure[$row][$col]['attr'];
+            } else {
+                return array();
+            }
         } elseif (!isset($this->_structure[$row][$col])) {
             return PEAR::raiseError('Invalid table cell reference[' .
                 $row . '][' . $col . '] in HTML_Table::getCellAttributes');
