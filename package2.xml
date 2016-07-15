@@ -41,11 +41,11 @@ For auto filling of data and such then check out http://pear.php.net/package/HTM
   <email>wiesemann@php.net</email>
   <active>yes</active>
  </lead>
- <date>2010-04-05</date>
- <time>22:15:00</time>
+ <date>2016-07-15</date>
+ <time>07:42:00</time>
  <version>
-  <release>1.8.3</release>
-  <api>1.8.1</api>
+  <release>1.8.4</release>
+  <api>1.8.4</api>
  </version>
  <stability>
   <release>stable</release>
@@ -53,12 +53,10 @@ For auto filling of data and such then check out http://pear.php.net/package/HTM
  </stability>
  <license>BSD-3-Clause</license>
  <notes>
-- Request #16984: added a __toString() method, i.e. "echo $table;"
-  is now possible
-  (thanks to Andreas Sjöberg)
-- Bug #17073: enhanced E_STRICT compatibility
-  (thanks to Andrea Bakker and Daniel O'Connor)
+  - Add PHP5-style constructors
+  - Fix #20546: Undefined index: attr when calling getCellAttributes on cell without attributes
  </notes>
+
  <contents>
   <dir name="/">
    <dir name="HTML">
@@ -103,9 +101,11 @@ For auto filling of data and such then check out http://pear.php.net/package/HTM
     <file name="29.phpt" role="test" />
     <file name="30.phpt" role="test" />
     <file name="31.phpt" role="test" />
+    <file name="bug20546.phpt" role="test" />
    </dir> <!-- /tests -->
   </dir>
  </contents>
+
  <dependencies>
   <required>
    <php>
@@ -121,5 +121,46 @@ For auto filling of data and such then check out http://pear.php.net/package/HTM
    </package>
   </required>
  </dependencies>
+
  <phprelease />
+
+ <changelog>
+
+  <release>
+   <date>2010-04-05</date>
+   <version>
+    <release>1.8.3</release>
+    <api>1.8.1</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <license>BSD-3-Clause</license>
+   <notes>
+    - Request #16984: added a __toString() method, i.e. "echo $table;"
+      is now possible (thanks to Andreas Sjöberg)
+    - Bug #17073: enhanced E_STRICT compatibility
+      (thanks to Andrea Bakker and Daniel O'Connor)
+   </notes>
+  </release>
+
+  <release>
+   <date>2016-07-15</date>
+   <version>
+    <release>1.8.4</release>
+    <api>1.8.4</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <license>BSD-3-Clause</license>
+   <notes>
+    - Add PHP5-style constructors
+    - Fix #20546: Undefined index: attr when calling getCellAttributes on cell without attributes
+   </notes>
+  </release>
+
+ </changelog>
 </package>
