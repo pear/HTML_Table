@@ -1,4 +1,9 @@
 {
+    "name": "pear/html_table",
+    "description": "Create complex HTML tables from PHP",
+    "type": "library",
+    "homepage": "http://pear.php.net/package/HTML_Table",
+    "license": "BSD-3-Clause",
     "authors": [
         {
             "email": "bmansion@mamasam.com",
@@ -26,19 +31,15 @@
             "./"
         ]
     },
-    "description": "More info available on: http://pear.php.net/package/HTML_Table",
-    "license": "New BSD",
-    "name": "pear/html_table",
     "support": {
         "issues": "http://pear.php.net/bugs/search.php?cmd=display&package_name[]=HTML_Table",
         "source": "https://github.com/pear/HTML_Table"
     },
-    "type": "library",
     "require": {
-        "pear/pear_exception": "*",
-        "pear/html_common": "*"
+        "pear/pear-core-minimal": "^1.10.0",
+        "pear/html_common": "^1.2.5"
     },
     "require-dev": {
-        "phpunit/phpunit": "*"
+        "pear/pear-core": "*"
     }
 }
